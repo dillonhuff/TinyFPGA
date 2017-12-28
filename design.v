@@ -150,6 +150,8 @@ module switch_block(
                      input        top_in6,
                      input        top_in7,
 
+                     input       func_block_out, 
+
                      output       right_in0,
                      output       right_in1,
                      output       right_in2,
@@ -167,7 +169,7 @@ module switch_block(
                      output       bottom_in5,
                      output       bottom_in6,
                      output       bottom_in7,
-                     
+
                      input        clk,
                      input        config_en,
                      input [5:0]  config_addr,
@@ -218,5 +220,35 @@ module tile(
                      input [5:0]  config_addr,
 
                      input [0:(80 + 3 + 3 + 2 - 1)] config_data);
+
+   parameter [5:0] address = 0;
+   
+   wire                                             compute_out;
+   
+   compute_block cb(bottom_in0,
+                    bottom_in1,
+                    bottom_in2,
+                    bottom_in3,
+                    bottom_in4,
+                    bottom_in5,
+                    bottom_in6,
+                    bottom_in7,
+
+                    top_in0,
+                    top_in1,
+                    top_in2,
+                    top_in3,
+                    top_in4,
+                    top_in5,
+                    top_in6,
+                    top_in7,
+
+                    clk,
+                    config_en,
+                    address,
+                    config_data [0:(3 + 3 + 2 - 1)],
+                    compute_out);
+
+
 endmodule // tile
 
