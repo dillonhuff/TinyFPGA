@@ -127,7 +127,53 @@ module compute_block(input left_in0,
                          should_config,
                          clk,
                          out);
+
+endmodule // compute_block
+
+
+module switch_block(
+                     input        left_in0,
+                     input        left_in1,
+                     input        left_in2,
+                     input        left_in3,
+                     input        left_in4,
+                     input        left_in5,
+                     input        left_in6,
+                     input        left_in7,
+
+                     input        top_in0,
+                     input        top_in1,
+                     input        top_in2,
+                     input        top_in3,
+                     input        top_in4,
+                     input        top_in5,
+                     input        top_in6,
+                     input        top_in7,
+
+                     output       right_in0,
+                     output       right_in1,
+                     output       right_in2,
+                     output       right_in3,
+                     output       right_in4,
+                     output       right_in5,
+                     output       right_in6,
+                     output       right_in7,
+
+                     output       bottom_in0,
+                     output       bottom_in1,
+                     output       bottom_in2,
+                     output       bottom_in3,
+                     output       bottom_in4,
+                     output       bottom_in5,
+                     output       bottom_in6,
+                     output       bottom_in7,
+                     
+                     input        clk,
+                     input        config_en,
+                     input [5:0]  config_addr,
+                     // Need 3 bits for each connect block and 2 bits to select operation
+                     input [0:79] config_data);
    
-   
-   
-endmodule
+endmodule // switch_block
+
+
