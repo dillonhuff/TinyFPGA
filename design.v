@@ -12,7 +12,8 @@ module function_block(input in0,
 endmodule
 
 // Block that selects which input will be used
-module connect_block(input in0,
+module connect_block(input [7:0] in,
+                     input in0,
                      input       in1,
                      input       in2,
                      input       in3,
