@@ -19,8 +19,10 @@ module switch_box(
                   output       bottom_2,
                   input        bottom_3,
 
+                  input clb_result,
+
                   input [15:0] config_data,
-                  input config_enable,
+                  input        config_enable,
                   input        clk
                   );
 
@@ -66,33 +68,35 @@ module switch_box(
           2'd0: top_1 = bottom_1;
           2'd1: top_1 = right_0;
           
-          default: top_1 = bottom_1;
+          default: top_1 = clb_result;
         endcase
 
         case (config_top_3)
           2'd0: top_3 = bottom_3;
 
-          default: top_3 = bottom_3;
+          default: top_3 = clb_result;
+          
         endcase
 
         case (config_right_1)
           2'd0: right_1 = left_1;
 
-          default: right_1 = left_1;
+          default: right_1 = clb_result;
+          
         endcase
 
         case (config_right_3)
           2'd0: right_3 = left_3;
           
-          default: right_3 = left_3;
+          default: right_3 = clb_result;
+          
         endcase
         
         case (config_left_0)
           2'd0: left_0 = right_0;
           2'd1: left_0 = top_0;
           2'd2: left_0 = bottom_1;
-
-          default: left_0 = right_0;
+          2'd3: left_0 = clb_result;
           
         endcase
 
@@ -101,8 +105,7 @@ module switch_box(
           2'd0: left_2 = right_2;
           2'd1: left_2 = top_2;
           2'd2: left_2 = bottom_3;
-
-          default: left_2 = right_2;
+          2'd3: left_2 = clb_result;
           
         endcase
 
@@ -110,8 +113,7 @@ module switch_box(
           2'd0: bottom_0 = top_0;
           2'd1: bottom_0 = left_1;
           2'd2: bottom_0 = right_0;
-
-          default: bottom_0 = top_0;
+          2'd3: bottom_0 = clb_result;
           
         endcase
 
@@ -119,8 +121,7 @@ module switch_box(
           2'd0: bottom_2 = top_2;
           2'd1: bottom_2 = left_3;
           2'd2: bottom_2 = right_2;
-
-          default: bottom_2 = top_2;
+          2'd3: bottom_2 = clb_result;
           
         endcase
         
