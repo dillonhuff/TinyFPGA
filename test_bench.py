@@ -1,3 +1,3 @@
 import os
 
-os.system("echo hello");
+os.system("echo hello")
