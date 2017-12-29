@@ -23,6 +23,8 @@ int main(int argc, char** argv) {
 
   top->eval();
 
+  top->clk = 0;
+
   top->config_enable = 0;
 
   top->left_1 = 1;
@@ -42,9 +44,6 @@ int main(int argc, char** argv) {
   top->eval();
 
   assert(top->left_0 == top->top_0);
-  // assert(top->and_out == 0);
-  // assert(top->or_out == 1);
-  // assert(top->xor_out == 1);
 
   top->final();
 
