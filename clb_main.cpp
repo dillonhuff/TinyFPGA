@@ -21,4 +21,6 @@ int main(int argc, char** argv) {
   assert(top->xor_out == 1);
 
   top->final();
+
+  cout << "$$$$ clb tests pass" << endl;
 }
