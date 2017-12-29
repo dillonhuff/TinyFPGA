@@ -62,38 +62,24 @@ module switch_box(
    always @(*)
      begin
 
-        
-        // // Configure left_0
-        // if (config_data_reg[1:0] == 2'd0)
-        //   begin
-        //      left_0 <= right_0;
-        //   end
+        case (config_left_0)
+          2'd0: left_0 = right_0;
+          2'd1: left_0 = top_0;
+          2'd2: left_0 = bottom_1;
 
-        // if (config_data_reg[3:2] == 2'd1)
-        //   begin
-        //      left_0 <= top_0;
-        //   end
+          default: left_0 = right_0;
+          
+        endcase
 
-        // if (config_data_reg[5:4] == 2'd3)
-        //   begin
-        //      left_0 <= bottom_1;
-        //   end
+        case (config_left_2)
 
-        // // Configure left_2
-        // if (config_data_reg[] == 2'd0)
-        //   begin
-        //      left_2 <= right_0;
-        //   end
+          2'd0: left_2 = right_2;
+          2'd1: left_2 = top_2;
+          2'd2: left_2 = bottom_3;
 
-        // if (config_data_reg[8:7] == 2'd1)
-        //   begin
-        //      left_2 <= top_0;
-        //   end
-
-        // if (config_data_reg[10:9] == 2'd3)
-        //   begin
-        //      left_2 <= bottom_1;
-        //   end
+          default: left_2 = right_2;
+          
+        endcase
 
      end
    
