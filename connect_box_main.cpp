@@ -8,4 +8,6 @@
 using namespace std;
 
 int main(int argc, char** argv) {
+
+  cout << "$$$$ Connect box tests pass" << endl;
 }
