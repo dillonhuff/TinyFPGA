@@ -1,3 +1,7 @@
+`include "clb.v"
+`include "connect_box.v"
+`include "switch_box.v"
+
 module pe_tile(
                
                input                          clk,
@@ -11,6 +15,24 @@ module pe_tile(
 
    parameter [7:0] address = 0;
 
+   wire                                       configure_this_tile;
+
+   wire [1:0]                                       cb0_config;
+   wire [1:0]                                       cb1_config;
    
+
+   assign configure_this_tile = config_addr == address ? 1 : 0;
+
+   assign cb0_config = config_data[1:0];
+   assign cb1_config = config_data[3:2];
+
+   always @(posedge clk)
+     begin
+        if (config_en && configure_this_tile)
+          begin
+             
+          end
+     end
+
    
 endmodule
