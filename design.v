@@ -13,15 +13,7 @@ endmodule
 
 // Block that selects which input will be used
 module connect_block(input [7:0] in,
-                     input in0,
-                     input       in1,
-                     input       in2,
-                     input       in3,
-                     input       in4,
-                     input       in5,
-                     input       in6,
-                     input       in7,
-                     output      reg out,
+                     output      out,
                      input [2:0] config_data,
                      input       config_en,
                      input       clk);
@@ -32,20 +24,22 @@ module connect_block(input [7:0] in,
      if (config_en)
        config_data_reg <= config_data;
 
-   always @(*) begin
-      case (config_data_reg)
+   assign out = in[config_data_reg];
+   
+   // always @(*) begin
+   //    case (config_data_reg)
 
-        3'd0: out = in0;
-        3'd1: out = in1;
-        3'd2: out = in2;
-        3'd3: out = in3;
-        3'd4: out = in4;
-        3'd5: out = in5;
-        3'd6: out = in6;
-        3'd7: out = in7;
+   //      3'd0: out = in0;
+   //      3'd1: out = in1;
+   //      3'd2: out = in2;
+   //      3'd3: out = in3;
+   //      3'd4: out = in4;
+   //      3'd5: out = in5;
+   //      3'd6: out = in6;
+   //      3'd7: out = in7;
         
-      endcase
-   end
+   //    endcase
+   // end
 
 endmodule // connect_block
 
@@ -113,9 +107,9 @@ module compute_block(input left_in0,
    wire                                        left_input;
    wire                                        right_input;
    
-   connect_block left_cb(left_in0, left_in1, left_in2, left_in3, left_in4, left_in5, left_in6, left_in7, left_input, config_data[0:2], should_config, clk);
+   //connect_block left_cb(left_in0, left_in1, left_in2, left_in3, left_in4, left_in5, left_in6, left_in7, left_input, config_data[0:2], should_config, clk);
 
-   connect_block right_cb(right_in0, right_in1, right_in2, right_in3, right_in4, right_in5, right_in6, right_in7, right_input, config_data[3:5], should_config, clk);
+   //connect_block right_cb(right_in0, right_in1, right_in2, right_in3, right_in4, right_in5, right_in6, right_in7, right_input, config_data[3:5], should_config, clk);
 
    wire                                        and_out, or_out, xor_out;
    
