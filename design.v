@@ -70,23 +70,25 @@ module output_select(input and_out,
 endmodule // output_select
 
 // The full compute block
-module compute_block(input left_in0,
-                     input                     left_in1,
-                     input                     left_in2,
-                     input                     left_in3,
-                     input                     left_in4,
-                     input                     left_in5,
-                     input                     left_in6,
-                     input                     left_in7,
+module compute_block(input [7:0] left_in,
+                     input [7:0] right_in,
+                     // input                     left_in0,
+                     // input                     left_in1,
+                     // input                     left_in2,
+                     // input                     left_in3,
+                     // input                     left_in4,
+                     // input                     left_in5,
+                     // input                     left_in6,
+                     // input                     left_in7,
 
-                     input                     right_in0,
-                     input                     right_in1,
-                     input                     right_in2,
-                     input                     right_in3,
-                     input                     right_in4,
-                     input                     right_in5,
-                     input                     right_in6,
-                     input                     right_in7,
+                     // input                     right_in0,
+                     // input                     right_in1,
+                     // input                     right_in2,
+                     // input                     right_in3,
+                     // input                     right_in4,
+                     // input                     right_in5,
+                     // input                     right_in6,
+                     // input                     right_in7,
 
                      input                     clk,
                      input                     config_en,
@@ -106,10 +108,10 @@ module compute_block(input left_in0,
 
    wire                                        left_input;
    wire                                        right_input;
-   
-   //connect_block left_cb(left_in0, left_in1, left_in2, left_in3, left_in4, left_in5, left_in6, left_in7, left_input, config_data[0:2], should_config, clk);
 
-   //connect_block right_cb(right_in0, right_in1, right_in2, right_in3, right_in4, right_in5, right_in6, right_in7, right_input, config_data[3:5], should_config, clk);
+   connect_block left_cb(left_in, left_input, config_data[0:2], should_config, clk);
+
+   connect_block right_cb(right_in, right_input, config_data[3:5], should_config, clk);
 
    wire                                        and_out, or_out, xor_out;
    
@@ -220,23 +222,23 @@ module tile(
    
    wire                                             compute_out;
    
-   compute_block cb(bottom_in0,
+   compute_block cb({bottom_in0,
                     bottom_in1,
                     bottom_in2,
                     bottom_in3,
                     bottom_in4,
                     bottom_in5,
                     bottom_in6,
-                    bottom_in7,
+                    bottom_in7},
 
-                    top_in0,
+                    {top_in0,
                     top_in1,
                     top_in2,
                     top_in3,
                     top_in4,
                     top_in5,
                     top_in6,
-                    top_in7,
+                    top_in7},
 
                     clk,
                     config_en,
