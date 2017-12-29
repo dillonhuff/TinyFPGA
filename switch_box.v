@@ -62,6 +62,18 @@ module switch_box(
    always @(*)
      begin
 
+        case (config_top_1)
+        endcase
+
+        case (config_top_3)
+        endcase
+
+        case (config_bottom_0)
+        endcase
+
+        case (config_bottom_2)
+        endcase
+        
         case (config_left_0)
           2'd0: left_0 = right_0;
           2'd1: left_0 = top_0;
