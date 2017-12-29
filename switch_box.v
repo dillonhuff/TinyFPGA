@@ -81,13 +81,21 @@ module switch_box(
           
         endcase
 
-
         case (config_bottom_0)
-          2'd0: bottom_0 = right_0;
-          2'd1: bottom_0 = top_0;
-          2'd2: bottom_0 = bottom_1;
+          2'd0: bottom_0 = top_0;
+          2'd1: bottom_0 = left_1;
+          2'd2: bottom_0 = right_0;
 
-          default: bottom_0 = right_0;
+          default: bottom_0 = top_0;
+          
+        endcase
+
+        case (config_bottom_2)
+          2'd0: bottom_2 = top_2;
+          2'd1: bottom_2 = left_3;
+          2'd2: bottom_2 = right_2;
+
+          default: bottom_2 = top_2;
           
         endcase
         
