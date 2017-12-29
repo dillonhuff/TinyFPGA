@@ -26,21 +26,6 @@ module connect_block(input [7:0] in,
 
    assign out = in[config_data_reg];
    
-   // always @(*) begin
-   //    case (config_data_reg)
-
-   //      3'd0: out = in0;
-   //      3'd1: out = in1;
-   //      3'd2: out = in2;
-   //      3'd3: out = in3;
-   //      3'd4: out = in4;
-   //      3'd5: out = in5;
-   //      3'd6: out = in6;
-   //      3'd7: out = in7;
-        
-   //    endcase
-   // end
-
 endmodule // connect_block
 
 // Selects which output of the function_block will be output
@@ -72,23 +57,6 @@ endmodule // output_select
 // The full compute block
 module compute_block(input [7:0] left_in,
                      input [7:0] right_in,
-                     // input                     left_in0,
-                     // input                     left_in1,
-                     // input                     left_in2,
-                     // input                     left_in3,
-                     // input                     left_in4,
-                     // input                     left_in5,
-                     // input                     left_in6,
-                     // input                     left_in7,
-
-                     // input                     right_in0,
-                     // input                     right_in1,
-                     // input                     right_in2,
-                     // input                     right_in3,
-                     // input                     right_in4,
-                     // input                     right_in5,
-                     // input                     right_in6,
-                     // input                     right_in7,
 
                      input                     clk,
                      input                     config_en,
@@ -102,6 +70,7 @@ module compute_block(input [7:0] left_in,
 
    wire                                        should_config;
 
+   // TODO: Move this to tile module
    // Only allow configuration when config_en is set and the block being configured
    // is this one
    assign should_config = config_en ? config_addr == address : 0;
@@ -129,123 +98,47 @@ endmodule // compute_block
 
 
 module switch_block(
-                     input        left_in0,
-                     input        left_in1,
-                     input        left_in2,
-                     input        left_in3,
-                     input        left_in4,
-                     input        left_in5,
-                     input        left_in6,
-                     input        left_in7,
+                    input [7:0]  left_in,
+                    output [7:0]  right_in,
+                    input [7:0]  top_in,
+                    output [7:0] bottom_in,
 
-                     input        top_in0,
-                     input        top_in1,
-                     input        top_in2,
-                     input        top_in3,
-                     input        top_in4,
-                     input        top_in5,
-                     input        top_in6,
-                     input        top_in7,
+                    input        func_block_out, 
 
-                     input       func_block_out, 
-
-                     output       right_in0,
-                     output       right_in1,
-                     output       right_in2,
-                     output       right_in3,
-                     output       right_in4,
-                     output       right_in5,
-                     output       right_in6,
-                     output       right_in7,
-
-                     output       bottom_in0,
-                     output       bottom_in1,
-                     output       bottom_in2,
-                     output       bottom_in3,
-                     output       bottom_in4,
-                     output       bottom_in5,
-                     output       bottom_in6,
-                     output       bottom_in7,
-
-                     input        clk,
-                     input        config_en,
-                     input [5:0]  config_addr,
-                     input [0:79] config_data);
+                    input        clk,
+                    input        config_en,
+                    input [5:0]  config_addr,
+                    input [0:79] config_data);
    
+
 endmodule // switch_block
 
 
 module tile(
-                     input        left_in0,
-                     input        left_in1,
-                     input        left_in2,
-                     input        left_in3,
-                     input        left_in4,
-                     input        left_in5,
-                     input        left_in6,
-                     input        left_in7,
-
-                     input        top_in0,
-                     input        top_in1,
-                     input        top_in2,
-                     input        top_in3,
-                     input        top_in4,
-                     input        top_in5,
-                     input        top_in6,
-                     input        top_in7,
-
-                     output       right_in0,
-                     output       right_in1,
-                     output       right_in2,
-                     output       right_in3,
-                     output       right_in4,
-                     output       right_in5,
-                     output       right_in6,
-                     output       right_in7,
-
-                     output       bottom_in0,
-                     output       bottom_in1,
-                     output       bottom_in2,
-                     output       bottom_in3,
-                     output       bottom_in4,
-                     output       bottom_in5,
-                     output       bottom_in6,
-                     output       bottom_in7,
+            input [7:0]                    left_in,
+            output [7:0]                   right_in,
+            input [7:0]                    top_in,
+            output [7:0]                   bottom_in,
                      
-                     input        clk,
-                     input        config_en,
-                     input [5:0]  config_addr,
+            input                          clk,
+            input                          config_en,
+            input [5:0]                    config_addr,
 
-                     input [0:(80 + 3 + 3 + 2 - 1)] config_data);
+            input [0:(80 + 3 + 3 + 2 - 1)] config_data);
 
    parameter [5:0] address = 0;
    
    wire                                             compute_out;
-   
-   compute_block cb({bottom_in0,
-                    bottom_in1,
-                    bottom_in2,
-                    bottom_in3,
-                    bottom_in4,
-                    bottom_in5,
-                    bottom_in6,
-                    bottom_in7},
 
-                    {top_in0,
-                    top_in1,
-                    top_in2,
-                    top_in3,
-                    top_in4,
-                    top_in5,
-                    top_in6,
-                    top_in7},
+   compute_block cb(left_in,
+                    top_in,
 
                     clk,
                     config_en,
                     address,
                     config_data [0:(3 + 3 + 2 - 1)],
                     compute_out);
-
+   
 
 endmodule // tile
 
