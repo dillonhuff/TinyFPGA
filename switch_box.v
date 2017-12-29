@@ -19,12 +19,12 @@ module switch_box(
                   output       bottom_2,
                   input        bottom_3,
 
-                  input [31:0] config_data,
+                  input [15:0] config_data,
                   input config_enable,
                   input        clk
                   );
 
-   reg [31:0]                  config_data_reg;
+   reg [15:0]                  config_data_reg;
 
    // Set configuration data
    always @(posedge clk)
@@ -63,15 +63,28 @@ module switch_box(
      begin
 
         case (config_top_1)
+          2'd0: top_1 = bottom_1;
+          2'd1: top_1 = right_0;
+          
+          default: top_1 = bottom_1;
         endcase
 
         case (config_top_3)
+          2'd0: top_3 = bottom_3;
+
+          default: top_3 = bottom_3;
         endcase
 
-        case (config_bottom_0)
+        case (config_right_1)
+          2'd0: right_1 = left_1;
+
+          default: right_1 = left_1;
         endcase
 
-        case (config_bottom_2)
+        case (config_right_3)
+          2'd0: right_3 = left_3;
+          
+          default: right_3 = left_3;
         endcase
         
         case (config_left_0)
