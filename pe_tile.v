@@ -53,10 +53,14 @@ module pe_tile(
    assign sb_config = config_data[21:6];
    
 
+   wire                                             cb0_out;
+   wire                                             cb1_out;
+   
    connect_box cb0(right_0,
                    right_2,
                    
                    // Add input / output wires
+                   cb0_out
                    configure_this_tile,
                    cb0_config,
                    clk
@@ -66,15 +70,16 @@ module pe_tile(
                    bottom_2,
                    
                    // Add input / output wires
+                   cb1_out,
                    configure_this_tile,
-                   cb0_config,
+                   cb1_config,
                    clk
                    );
 
    wire                                             compute_out;
    
-   clb compute_block(cb0.block_out,
-                     cb1.block_out,
+   clb compute_block(cb0_out,
+                     cb1_out,
                      compute_out,
 
                      clk,
