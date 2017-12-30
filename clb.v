@@ -32,4 +32,4 @@ module clb(input in0,
         endcase
      end
    
-endmodule; // clb
+endmodule // clb
