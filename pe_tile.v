@@ -26,13 +26,11 @@ module pe_tile(
    assign cb0_config = config_data[1:0];
    assign cb1_config = config_data[3:2];
 
-   always @(posedge clk)
-     begin
-        if (config_en && configure_this_tile)
-          begin
-             
-          end
-     end
+   // clb compute_block();
 
+   // connect_box cb0();
+   // connect_box cb1();
+
+   // switch_box sb
    
 endmodule
