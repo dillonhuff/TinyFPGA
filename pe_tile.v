@@ -45,29 +45,53 @@ module pe_tile(
    
    
 
-   assign configure_this_tile = config_addr == address ? 1 : 0;
+   assign configure_this_tile = (config_en && (config_addr == address)) ? 1 : 0;
 
    assign cb0_config = config_data[1:0];
    assign cb1_config = config_data[3:2];
    assign clb_config = config_data[5:4];
    assign sb_config = config_data[21:6];
    
-
    wire                                             cb0_out;
    wire                                             cb1_out;
+
+   wire                                             bottom_tmp_0;
+   wire                                             bottom_tmp_1;
+   wire                                             bottom_tmp_2;
+   wire                                             bottom_tmp_3;
+
+   wire                                             right_tmp_0;
+   wire                                             right_tmp_1;
+   wire                                             right_tmp_2;
+   wire                                             right_tmp_3;
    
-   connect_box cb0(right_0,
+   
+   connect_box cb0(right_tmp_3,
+                   right_tmp_1,
                    right_2,
+                   right_0,
+
+                   right_3,
+                   right_1,
+                   right_tmp_2,
+                   right_tmp_0,
                    
                    // Add input / output wires
-                   cb0_out
+                   cb0_out,
                    configure_this_tile,
                    cb0_config,
                    clk
                    );
    connect_box cb1(
+                   bottom_tmp_0,
+                   bottom_tmp_2,
+                   bottom_1,
+                   bottom_3,
+
                    bottom_0,
                    bottom_2,
+                   bottom_tmp_1,
+                   bottom_tmp_3,
                    
                    // Add input / output wires
                    cb1_out,
@@ -94,20 +118,30 @@ module pe_tile(
                  left_2,
                  left_3,
 
-                 right_0,
-                 right_1,
-                 right_2,
-                 right_3,
+                 right_tmp_0,
+                 right_tmp_1,
+                 right_tmp_2,
+                 right_tmp_3,
+
+                 // right_0,
+                 // right_1,
+                 // right_2,
+                 // right_3,
 
                  top_0,
                  top_1,
                  top_2,
                  top_3,
 
-                 bottom_0,
-                 bottom_1,
-                 bottom_2,
-                 bottom_3,
+                 bottom_tmp_0,
+                 bottom_tmp_1,
+                 bottom_tmp_2,
+                 bottom_tmp_3,
+
+                 // bottom_0,
+                 // bottom_1,
+                 // bottom_2,
+                 // bottom_3,
 
                  compute_out,
 
