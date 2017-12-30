@@ -4,8 +4,8 @@ def is_input(port):
 def is_output(port):
     return (port[1] % 2) == 1
 
-num_sides = 4
-num_ins = 2;
+num_sides = 5
+num_ins = 3
 
 sides = []
 # Print all sides
