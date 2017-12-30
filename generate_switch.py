@@ -4,8 +4,8 @@ def is_input(port):
 def is_output(port):
     return (port[1] % 2) == 1
 
-num_sides = 5
-num_ins = 3
+num_sides = 4
+num_ins = 2
 
 sides = []
 # Print all sides
@@ -45,7 +45,20 @@ for conn in connections:
     assert(is_input(conn[0]))
     assert(is_output(conn[1]))
 
+outputs_to_inputs = {}
+for conn in connections:
+    if conn[1] in outputs_to_inputs:
+        outputs_to_inputs[conn[1]].append(conn[0])
+    else:
+        outputs_to_inputs[conn[1]] = []
+        outputs_to_inputs[conn[1]].append(conn[0])
+
+    print 'Added ', conn[1], ' as key'
+    assert(conn[1] in outputs_to_inputs)
+
+print 'Connections receiver by each output'
+for out in outputs_to_inputs:
+    print out, ' <--- ', outputs_to_inputs[out]
 #assert(len(connections) == (num_sides - 1)*12)
                 
 #assert(len(sides) == num_sides*num_ins*2)
-
