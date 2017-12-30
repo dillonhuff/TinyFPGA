@@ -4,32 +4,32 @@
 
 module pe_tile(
 
-                  output       left_0,
-                  input        left_1,
-                  output       left_2,
-                  input        left_3,
+               output                         left_0,
+               input                          left_1,
+               output                         left_2,
+               input                          left_3,
 
-                  input        right_0,
-                  output       right_1,
-                  input        right_2,
-                  output       right_3,
+               input                          right_0,
+               output                         right_1,
+               input                          right_2,
+               output                         right_3,
 
-                  input        top_0,
-                  output       top_1,
-                  input        top_2,
-                  output       top_3,
-                  
-                  output       bottom_0,
-                  input        bottom_1,
-                  output       bottom_2,
-                  input        bottom_3,
-               
+               input                          top_0,
+               output                         top_1,
+               input                          top_2,
+               output                         top_3,
+   
+               output                         bottom_0,
+               input                          bottom_1,
+               output                         bottom_2,
+               input                          bottom_3,
+   
                input                          clk,
                input                          config_en,
-               // The address of the block being configured
+                  // The address of the block being configured
                input [7:0]                    config_addr,
-               // Config data: 2 bits for CLB, 2 bits for each CB, 16 bits for
-               // the switch block
+                  // Config data: 2 bits for CLB, 2 bits for each CB, 16 bits for
+                  // the switch block
                input [(2 + 2 + 2 + 16 - 1):0] config_data);
 
 
@@ -53,7 +53,6 @@ module pe_tile(
    assign sb_config = config_data[21:6];
    
 
-   
    connect_box cb0();
    connect_box cb1();
 
