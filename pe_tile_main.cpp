@@ -82,5 +82,7 @@ int main(int argc, char** argv) {
 
   top->config_data = config;
 
+  top->eval();
+
   cout << "$$$$ PE tile tests pass" << endl;
 }
