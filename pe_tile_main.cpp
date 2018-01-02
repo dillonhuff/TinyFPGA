@@ -8,6 +8,12 @@
 
 using namespace std;
 
+enum clb_func {
+  CLB_FUNC_AND,
+  CLB_FUNC_OR,
+  CLB_FUNC_XOR,
+};
+
 uint32_t set_cb0(const uint8_t track_no, const uint32_t config) {
   uint32_t new_config = config;
   new_config = new_config | ((((1 << 2) - 1) & track_no));
@@ -26,7 +32,22 @@ uint32_t set_cb1(const uint8_t track_no, const uint32_t config) {
   return new_config;
 }
 
-uint32_t set_clb(const uint8_t func_no, const uint32_t config) {
+uint32_t set_clb(const clb_func func, const uint32_t config) {
+  uint32_t func_no = 0;
+  switch (func) {
+  case CLB_FUNC_AND:
+    func_no = 0;
+    break;
+  case CLB_FUNC_OR:
+    func_no = 1;
+    break;
+  case CLB_FUNC_XOR:
+    func_no = 2;
+    break;
+  default:
+    assert(false);
+  }
+
   uint32_t new_config = config;
   new_config = new_config | ((((1 << 2) - 1) & func_no) << 4);
 
@@ -52,9 +73,11 @@ int main(int argc, char** argv) {
   config = config;
 
   cout << "config = " << bitset<32>(config) << endl;
-  config = set_cb0(0, config);
+  config = set_cb0(3, config);
   cout << "config = " << bitset<32>(config) << endl;
   config = set_cb1(1, config);
+  cout << "config = " << bitset<32>(config) << endl;
+  config = set_clb(CLB_FUNC_XOR, config);
   cout << "config = " << bitset<32>(config) << endl;
 
   top->config_data = config;
