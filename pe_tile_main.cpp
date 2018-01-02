@@ -84,5 +84,13 @@ int main(int argc, char** argv) {
 
   top->eval();
 
+  // Set args
+  top->right_0 = 1;
+  top->bottom_1 = 1;
+
+  top->eval();
+
+  assert(top->top_1 == 1);
+
   cout << "$$$$ PE tile tests pass" << endl;
 }
