@@ -22,13 +22,18 @@ module clb(input in0,
    assign or_out = in0 | in1;
    assign xor_out = in0 ^ in1;
 
+   reg                 reg_out;
+   always @(posedge clk) begin
+      reg_out <= in0;
+   end
+
    always @(*)
      begin
         case (config_data_reg)
           2'd0: out = and_out;
           2'd1: out = or_out;
           2'd2: out = xor_out;
-          default: out = and_out;
+          2'd3: out = reg_out;
         endcase
      end
    
