@@ -1,6 +1,7 @@
 import os
 
 from gen_switch_box import build_mod_str
+from gen_pe_tile import build_pe_tile_str
 
 def build_module(mod_name):
     v_command = "verilator -Wall -Wno-DECLFILENAME --cc " + mod_name + ".v --exe " + mod_name + "_main.cpp --top-module " + mod_name + " -CFLAGS -O3 -CFLAGS -march=native"
@@ -28,4 +29,4 @@ build_module("switch_box")
 #build_module("io1_pad")
 build_module("connect_box")
 build_module("clb")
-#build_module("pe_tile")
+build_module("pe_tile")
