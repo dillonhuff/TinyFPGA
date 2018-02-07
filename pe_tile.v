@@ -72,7 +72,6 @@ module pe_tile(
    assign right_tmp_0 = 1'b0;
    assign right_tmp_2 = 1'b0;
    
-   
    wire                                             right_tmp_0;
    /* verilator lint_off UNOPTFLAT */
    wire                                             right_tmp_1;
