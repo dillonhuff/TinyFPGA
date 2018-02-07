@@ -42,7 +42,7 @@ def build_mod_str(n_sides, n_wires_per_side):
 
             for i in range(0, n_wires_per_side - 1):
                 
-                mod_str += '\t\t\t2\'d' + str(i) + ': ' + 'out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = in_wire_' + str(i) + '_0;\n'
+                mod_str += '\t\t\t2\'d' + str(i) + ': ' + 'out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str(0) + ';\n'
 
             mod_str += '\t\t\t2\'d3: out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = pe_output_0;\n'
             mod_str += '\t\tendcase\n'

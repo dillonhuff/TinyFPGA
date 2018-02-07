@@ -67,99 +67,99 @@ module switch_box(
 
 	always @(*) begin
 		case (config_data_reg[1:0])
-			2'd0: out_wire_0_0_i = in_wire_0_0;
-			2'd1: out_wire_0_0_i = in_wire_0_0;
-			2'd2: out_wire_0_0_i = in_wire_0_0;
+			2'd0: out_wire_0_0_i = in_wire_1_0;
+			2'd1: out_wire_0_0_i = in_wire_2_0;
+			2'd2: out_wire_0_0_i = in_wire_3_0;
 			2'd3: out_wire_0_0_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_0_1_i = in_wire_0_0;
-			2'd1: out_wire_0_1_i = in_wire_0_0;
-			2'd2: out_wire_0_1_i = in_wire_0_0;
+			2'd0: out_wire_0_1_i = in_wire_1_0;
+			2'd1: out_wire_0_1_i = in_wire_2_0;
+			2'd2: out_wire_0_1_i = in_wire_3_0;
 			2'd3: out_wire_0_1_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_0_2_i = in_wire_0_0;
-			2'd1: out_wire_0_2_i = in_wire_0_0;
-			2'd2: out_wire_0_2_i = in_wire_0_0;
+			2'd0: out_wire_0_2_i = in_wire_1_0;
+			2'd1: out_wire_0_2_i = in_wire_2_0;
+			2'd2: out_wire_0_2_i = in_wire_3_0;
 			2'd3: out_wire_0_2_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_0_3_i = in_wire_0_0;
-			2'd1: out_wire_0_3_i = in_wire_0_0;
-			2'd2: out_wire_0_3_i = in_wire_0_0;
+			2'd0: out_wire_0_3_i = in_wire_1_0;
+			2'd1: out_wire_0_3_i = in_wire_2_0;
+			2'd2: out_wire_0_3_i = in_wire_3_0;
 			2'd3: out_wire_0_3_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_1_0_i = in_wire_0_0;
-			2'd1: out_wire_1_0_i = in_wire_0_0;
+			2'd0: out_wire_1_0_i = in_wire_2_0;
+			2'd1: out_wire_1_0_i = in_wire_3_0;
 			2'd2: out_wire_1_0_i = in_wire_0_0;
 			2'd3: out_wire_1_0_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_1_1_i = in_wire_0_0;
-			2'd1: out_wire_1_1_i = in_wire_0_0;
+			2'd0: out_wire_1_1_i = in_wire_2_0;
+			2'd1: out_wire_1_1_i = in_wire_3_0;
 			2'd2: out_wire_1_1_i = in_wire_0_0;
 			2'd3: out_wire_1_1_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_1_2_i = in_wire_0_0;
-			2'd1: out_wire_1_2_i = in_wire_0_0;
+			2'd0: out_wire_1_2_i = in_wire_2_0;
+			2'd1: out_wire_1_2_i = in_wire_3_0;
 			2'd2: out_wire_1_2_i = in_wire_0_0;
 			2'd3: out_wire_1_2_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_1_3_i = in_wire_0_0;
-			2'd1: out_wire_1_3_i = in_wire_0_0;
+			2'd0: out_wire_1_3_i = in_wire_2_0;
+			2'd1: out_wire_1_3_i = in_wire_3_0;
 			2'd2: out_wire_1_3_i = in_wire_0_0;
 			2'd3: out_wire_1_3_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_2_0_i = in_wire_0_0;
+			2'd0: out_wire_2_0_i = in_wire_3_0;
 			2'd1: out_wire_2_0_i = in_wire_0_0;
-			2'd2: out_wire_2_0_i = in_wire_0_0;
+			2'd2: out_wire_2_0_i = in_wire_1_0;
 			2'd3: out_wire_2_0_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_2_1_i = in_wire_0_0;
+			2'd0: out_wire_2_1_i = in_wire_3_0;
 			2'd1: out_wire_2_1_i = in_wire_0_0;
-			2'd2: out_wire_2_1_i = in_wire_0_0;
+			2'd2: out_wire_2_1_i = in_wire_1_0;
 			2'd3: out_wire_2_1_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_2_2_i = in_wire_0_0;
+			2'd0: out_wire_2_2_i = in_wire_3_0;
 			2'd1: out_wire_2_2_i = in_wire_0_0;
-			2'd2: out_wire_2_2_i = in_wire_0_0;
+			2'd2: out_wire_2_2_i = in_wire_1_0;
 			2'd3: out_wire_2_2_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
-			2'd0: out_wire_2_3_i = in_wire_0_0;
+			2'd0: out_wire_2_3_i = in_wire_3_0;
 			2'd1: out_wire_2_3_i = in_wire_0_0;
-			2'd2: out_wire_2_3_i = in_wire_0_0;
+			2'd2: out_wire_2_3_i = in_wire_1_0;
 			2'd3: out_wire_2_3_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
 			2'd0: out_wire_3_0_i = in_wire_0_0;
-			2'd1: out_wire_3_0_i = in_wire_0_0;
-			2'd2: out_wire_3_0_i = in_wire_0_0;
+			2'd1: out_wire_3_0_i = in_wire_1_0;
+			2'd2: out_wire_3_0_i = in_wire_2_0;
 			2'd3: out_wire_3_0_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
 			2'd0: out_wire_3_1_i = in_wire_0_0;
-			2'd1: out_wire_3_1_i = in_wire_0_0;
-			2'd2: out_wire_3_1_i = in_wire_0_0;
+			2'd1: out_wire_3_1_i = in_wire_1_0;
+			2'd2: out_wire_3_1_i = in_wire_2_0;
 			2'd3: out_wire_3_1_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
 			2'd0: out_wire_3_2_i = in_wire_0_0;
-			2'd1: out_wire_3_2_i = in_wire_0_0;
-			2'd2: out_wire_3_2_i = in_wire_0_0;
+			2'd1: out_wire_3_2_i = in_wire_1_0;
+			2'd2: out_wire_3_2_i = in_wire_2_0;
 			2'd3: out_wire_3_2_i = pe_output_0;
 		endcase
 		case (config_data_reg[1:0])
 			2'd0: out_wire_3_3_i = in_wire_0_0;
-			2'd1: out_wire_3_3_i = in_wire_0_0;
-			2'd2: out_wire_3_3_i = in_wire_0_0;
+			2'd1: out_wire_3_3_i = in_wire_1_0;
+			2'd2: out_wire_3_3_i = in_wire_2_0;
 			2'd3: out_wire_3_3_i = pe_output_0;
 		endcase
 	end
