@@ -27,14 +27,13 @@ module clb(input in0,
       reg_out <= in0;
    end
 
-   always @(*)
-     begin
-        case (config_data_reg)
-          2'd0: out = and_out;
-          2'd1: out = or_out;
-          2'd2: out = xor_out;
-          2'd3: out = reg_out;
-        endcase
-     end
+   always @(*) begin
+      case (config_data_reg)
+        2'd0: out = and_out;
+        2'd1: out = or_out;
+        2'd2: out = xor_out;
+        2'd3: out = reg_out;
+      endcase
+   end
    
 endmodule // clb
