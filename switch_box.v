@@ -48,6 +48,23 @@ module switch_box(
 	end
 
 
+	reg out_wire_0_0_i;
+	reg out_wire_0_1_i;
+	reg out_wire_0_2_i;
+	reg out_wire_0_3_i;
+	reg out_wire_1_0_i;
+	reg out_wire_1_1_i;
+	reg out_wire_1_2_i;
+	reg out_wire_1_3_i;
+	reg out_wire_2_0_i;
+	reg out_wire_2_1_i;
+	reg out_wire_2_2_i;
+	reg out_wire_2_3_i;
+	reg out_wire_3_0_i;
+	reg out_wire_3_1_i;
+	reg out_wire_3_2_i;
+	reg out_wire_3_3_i;
+
 	always @(*) begin
 		case (config_data_reg[1:0])
 			2'd0: out_wire_0_0_i = in_wire_0_0;
@@ -146,5 +163,23 @@ module switch_box(
 			2'd3: out_wire_3_3_i = pe_output_0;
 		endcase
 	end
+
+
+	assign out_wire_0_0 = out_wire_0_0_i;
+	assign out_wire_0_1 = out_wire_0_1_i;
+	assign out_wire_0_2 = out_wire_0_2_i;
+	assign out_wire_0_3 = out_wire_0_3_i;
+	assign out_wire_1_0 = out_wire_1_0_i;
+	assign out_wire_1_1 = out_wire_1_1_i;
+	assign out_wire_1_2 = out_wire_1_2_i;
+	assign out_wire_1_3 = out_wire_1_3_i;
+	assign out_wire_2_0 = out_wire_2_0_i;
+	assign out_wire_2_1 = out_wire_2_1_i;
+	assign out_wire_2_2 = out_wire_2_2_i;
+	assign out_wire_2_3 = out_wire_2_3_i;
+	assign out_wire_3_0 = out_wire_3_0_i;
+	assign out_wire_3_1 = out_wire_3_1_i;
+	assign out_wire_3_2 = out_wire_3_2_i;
+	assign out_wire_3_3 = out_wire_3_3_i;
 
 endmodule

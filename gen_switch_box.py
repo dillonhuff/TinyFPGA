@@ -27,6 +27,12 @@ def build_mod_str(n_sides, n_wires_per_side):
     mod_str += '\t\tend\n'
     mod_str += '\tend\n\n\n'
 
+    for side_no in range(0, n_sides):
+        for wire_no in range(0, n_wires_per_side):
+            mod_str += '\treg out_wire_' + str(side_no) + '_' + str(wire_no) + '_i;\n';
+
+    mod_str += '\n'
+
     mod_str += '\talways @(*) begin\n'
     
     for side_no in range(0, n_sides):
@@ -43,6 +49,14 @@ def build_mod_str(n_sides, n_wires_per_side):
 
     mod_str += '\tend\n\n'
 
+    mod_str += '\n'
+
+    for side_no in range(0, n_sides):
+        for wire_no in range(0, n_wires_per_side):
+            mod_str += '\tassign out_wire_' + str(side_no) + '_' + str(wire_no) + ' = out_wire_' + str(side_no) + '_' + str(wire_no) + '_i;\n';
+
+    mod_str += '\n'
+    
     mod_str += 'endmodule'
     return mod_str
 
