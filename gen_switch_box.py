@@ -33,16 +33,20 @@ def build_mod_str(n_sides, n_wires_per_side):
 
     mod_str += '\n'
 
+    data_reg_start = 0
+
     mod_str += '\talways @(*) begin\n'
     
     for side_no in range(0, n_sides):
         for wire_no in range(0, n_wires_per_side):
 
-            mod_str += '\t\tcase (config_data_reg[1:0])\n'
+            mod_str += '\t\tcase (config_data_reg[' + str(data_reg_start + 1) + ':' + str(data_reg_start) + '])\n'
+
+            data_reg_start += 2
 
             for i in range(0, n_wires_per_side - 1):
                 
-                mod_str += '\t\t\t2\'d' + str(i) + ': ' + 'out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str(0) + ';\n'
+                mod_str += '\t\t\t2\'d' + str(i) + ': ' + 'out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str((side_no + wire_no + i) % n_wires_per_side) + ';\n'
 
             mod_str += '\t\t\t2\'d3: out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = pe_output_0;\n'
             mod_str += '\t\tendcase\n'
