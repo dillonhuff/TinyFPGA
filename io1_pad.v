@@ -2,8 +2,8 @@ module io1_pad(input clk,
                input        reset,
 
                inout        pad,
-               input        f2p,
-               output       p2f,
+               input        leaving_chip,
+               output       entering_chip,
 
                /* verilator lint_off UNUSED */
                input [31:0] config_data,
@@ -22,7 +22,9 @@ module io1_pad(input clk,
       end
    end
 
-   assign pad = (io_mode == 1'b1) ? f2p : 1'bz;
-   assign p2f = pad;
+   assign pad = (io_mode == 1'b1) ? leaving_chip : 1'bz;
+   
+ //1'bz;
+   assign entering_chip = pad;
 
 endmodule; // io1_pad
