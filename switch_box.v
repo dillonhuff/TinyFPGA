@@ -57,7 +57,7 @@ module switch_box(
 
    assign config_top_1 = config_data_reg[9:8];
    assign config_top_3 = config_data_reg[11:10];
-   
+
    assign config_bottom_0 = config_data_reg[13:12];
    assign config_bottom_2 = config_data_reg[15:14];
 

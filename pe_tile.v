@@ -73,11 +73,6 @@ module pe_tile(
                    right_2,
                    right_0,
 
-                   right_3,
-                   right_1,
-                   right_tmp_2,
-                   right_tmp_0,
-                   
                    // Add input / output wires
                    cb0_out,
                    configure_this_tile,
@@ -90,11 +85,6 @@ module pe_tile(
                    bottom_1,
                    bottom_3,
 
-                   bottom_0,
-                   bottom_2,
-                   bottom_tmp_1,
-                   bottom_tmp_3,
-                   
                    // Add input / output wires
                    cb1_out,
                    configure_this_tile,
