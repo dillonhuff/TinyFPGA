@@ -44,5 +44,35 @@ module pe_tile(
 	);
 
 
+	wire op_0;
+	wire op_1;
+
+	connect_box cb0(
+		.track0_in(in_wire_0_0),
+		.track1_in(in_wire_0_1),
+		.track2_in(in_wire_0_2),
+		.track3_in(in_wire_0_3),
+		.block_out(op_0),
+		.config_en(1'b0),
+		.config_data(2'b0),
+		.clk(clk)
+	);
+
+	connect_box cb1(
+		.track0_in(in_wire_1_0),
+		.track1_in(in_wire_1_1),
+		.track2_in(in_wire_1_2),
+		.track3_in(in_wire_1_3),
+		.block_out(op_1),
+		.config_en(1'b0),
+		.config_data(2'b0),
+		.clk(clk)
+	);
+
+	switch_box sb();
+
+	clb compute_block();
+
+
 
 endmodule

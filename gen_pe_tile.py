@@ -31,8 +31,41 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
     for side in range(0, n_sides):
         for wire in range(0, n_wires_per_side):
             ports.append('output out_wire_' + str(side) + '_' + str(wire))
-            
-    body = ''
+
+    body = '\n'
+    body += '\twire op_0;\n'
+    body += '\twire op_1;\n\n'
+
+    body += '\tconnect_box cb0(\n'
+
+    for wire in range(0, n_wires_per_side):
+        body += '\t\t.track' + str(wire) + '_in(in_wire_0_' + str(wire) + '),\n'
+
+    body += '\t\t.block_out(op_0),\n'
+    # Replace this dummy
+    body += '\t\t.config_en(1\'b0),\n'
+    # Replace this dummy
+    body += '\t\t.config_data(2\'b0),\n'
+    body += '\t\t.clk(clk)\n'
+    body += '\t);\n\n'
+
+    body += '\tconnect_box cb1(\n'
+
+    for wire in range(0, n_wires_per_side):
+        body += '\t\t.track' + str(wire) + '_in(in_wire_1_' + str(wire) + '),\n'
+
+    body += '\t\t.block_out(op_1),\n'
+    # Replace this dummy
+    body += '\t\t.config_en(1\'b0),\n'
+    # Replace this dummy
+    body += '\t\t.config_data(2\'b0),\n'
+    body += '\t\t.clk(clk)\n'
+    body += '\t);\n\n'
+
+    body += '\tswitch_box sb();\n\n'
+
+    body += '\tclb compute_block();\n\n'
+
     return module_string(['clb.v', 'connect_box.v', 'switch_box.v'],
                          'pe_tile',
                          ports,
