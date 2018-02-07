@@ -24,7 +24,6 @@ module io1_pad(input clk,
 
    assign pad = (io_mode == 1'b1) ? leaving_chip : 1'bz;
    
- //1'bz;
    assign entering_chip = pad;
 
 endmodule; // io1_pad
