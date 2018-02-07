@@ -1,4 +1,5 @@
 module switch_box(
+                  // Change this to be 
                   output       left_0,
                   input        left_1,
                   output       left_2,
@@ -19,7 +20,7 @@ module switch_box(
                   output       bottom_2,
                   input        bottom_3,
 
-                  input clb_result,
+                  input        clb_result,
 
                   input [15:0] config_data,
                   input        config_enable,

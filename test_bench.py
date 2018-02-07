@@ -22,6 +22,7 @@ def build_module(mod_name):
         print 'ERROR: ' + mod_name + ' tests failed'
         assert(False)
 
+build_module("io1_pad")
 build_module("switch_box")
 build_module("connect_box")
 build_module("clb")
