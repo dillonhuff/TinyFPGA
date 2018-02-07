@@ -69,9 +69,53 @@ module pe_tile(
 		.clk(clk)
 	);
 
-	switch_box sb();
+	switch_box sb(
+		.in_wire_0_0(in_wire_0_0),
+		.in_wire_0_1(in_wire_0_1),
+		.in_wire_0_2(in_wire_0_2),
+		.in_wire_0_3(in_wire_0_3),
+		.in_wire_1_0(in_wire_1_0),
+		.in_wire_1_1(in_wire_1_1),
+		.in_wire_1_2(in_wire_1_2),
+		.in_wire_1_3(in_wire_1_3),
+		.in_wire_2_0(in_wire_2_0),
+		.in_wire_2_1(in_wire_2_1),
+		.in_wire_2_2(in_wire_2_2),
+		.in_wire_2_3(in_wire_2_3),
+		.in_wire_3_0(in_wire_3_0),
+		.in_wire_3_1(in_wire_3_1),
+		.in_wire_3_2(in_wire_3_2),
+		.in_wire_3_3(in_wire_3_3),
+		.out_wire_0_0(out_wire_0_0),
+		.out_wire_0_1(out_wire_0_1),
+		.out_wire_0_2(out_wire_0_2),
+		.out_wire_0_3(out_wire_0_3),
+		.out_wire_1_0(out_wire_1_0),
+		.out_wire_1_1(out_wire_1_1),
+		.out_wire_1_2(out_wire_1_2),
+		.out_wire_1_3(out_wire_1_3),
+		.out_wire_2_0(out_wire_2_0),
+		.out_wire_2_1(out_wire_2_1),
+		.out_wire_2_2(out_wire_2_2),
+		.out_wire_2_3(out_wire_2_3),
+		.out_wire_3_0(out_wire_3_0),
+		.out_wire_3_1(out_wire_3_1),
+		.out_wire_3_2(out_wire_3_2),
+		.out_wire_3_3(out_wire_3_3),
+		.pe_output_0(compute_block.out),
+		.config_data(config_data),
+		.config_en(1'b0),
+		.clk(clk),
+		.reset(reset)
+		);
 
-	clb compute_block();
+	clb compute_block(
+		.in0(op_0),
+		.in1(op_1),
+		.clk(clk),
+		.config_enable(1'b0),
+		.config_data(2'b0)
+		);
 
 
 
