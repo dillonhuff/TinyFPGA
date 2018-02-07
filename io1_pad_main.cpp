@@ -42,5 +42,4 @@ int main() {
   pad->eval();
 
   assert(pad->entering_chip == 1);
-  
 }
