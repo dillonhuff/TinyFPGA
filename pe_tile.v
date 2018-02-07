@@ -35,6 +35,12 @@ module pe_tile(
 
    parameter [7:0] address = 0;
 
+   assign right_1 = 1'b0;
+   assign right_3 = 1'b0;
+   
+   assign bottom_0 = 1'b0;
+   assign bottom_2 = 1'b0;
+
    wire                                       configure_this_tile;
 
    wire [1:0]                                       cb0_config;
@@ -60,12 +66,20 @@ module pe_tile(
    wire                                             bottom_tmp_2;
    wire                                             bottom_tmp_3;
 
+   assign bottom_tmp_1 = 1'b0;
+   assign bottom_tmp_3 = 1'b0;
+
+   assign right_tmp_0 = 1'b0;
+   assign right_tmp_2 = 1'b0;
+   
+   
    wire                                             right_tmp_0;
    /* verilator lint_off UNOPTFLAT */
    wire                                             right_tmp_1;
    wire                                             right_tmp_2;
    /* verilator lint_off UNOPTFLAT */
    wire                                             right_tmp_3;
+
    
    
    connect_box cb0(right_tmp_3,
