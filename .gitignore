@@ -3,3 +3,4 @@ a.out
 obj_dir/
 *.json
 test1.log
+*.pyc
