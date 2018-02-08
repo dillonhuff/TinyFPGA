@@ -58,14 +58,26 @@ void test_xor(int argc, char** argv) {
   top->config_data = 0 | 2;
   top->eval();
 
+  cout << "top->v__DOT__cb0__DOT__config_data_reg = " << (int) top->v__DOT__cb0__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__cb1__DOT__config_data_reg = " << (int) top->v__DOT__cb1__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__sb__DOT__config_data_reg = " << (int) top->v__DOT__sb__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__compute_block__DOT__config_data_reg = " << (int) top->v__DOT__compute_block__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__compute_block__DOT__reg_out = " << (int) top->v__DOT__compute_block__DOT__reg_out << endl << endl;
+  
   top->clk = 0;
   top->eval();
 
   top->clk = 1;
-  top->config_data = 1 | (CONFIG_CLB << 16);
+  top->config_addr = 1 | (CONFIG_CLB << 16);
   top->config_data = 3;
   top->eval();
 
+  cout << "top->v__DOT__cb0__DOT__config_data_reg = " << (int) top->v__DOT__cb0__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__cb1__DOT__config_data_reg = " << (int) top->v__DOT__cb1__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__sb__DOT__config_data_reg = " << (int) top->v__DOT__sb__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__compute_block__DOT__config_data_reg = " << (int) top->v__DOT__compute_block__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__compute_block__DOT__reg_out = " << (int) top->v__DOT__compute_block__DOT__reg_out << endl << endl;
+  
   top->clk = 0;
   top->eval();
   
@@ -74,12 +86,19 @@ void test_xor(int argc, char** argv) {
   top->in_wire_0_2 = 1;
   top->eval();
 
-  assert(top->out_wire_0_0 == 1);
-
   top->clk = 0;
   top->eval();
+
+  top->clk = 1;
+  top->eval();
+
+  cout << "top->v__DOT__cb0__DOT__config_data_reg = " << (int) top->v__DOT__cb0__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__cb1__DOT__config_data_reg = " << (int) top->v__DOT__cb1__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__sb__DOT__config_data_reg = " << (int) top->v__DOT__sb__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__compute_block__DOT__config_data_reg = " << (int) top->v__DOT__compute_block__DOT__config_data_reg << endl;
+  cout << "top->v__DOT__compute_block__DOT__reg_out = " << (int) top->v__DOT__compute_block__DOT__reg_out << endl << endl;;
   
-  assert(false);
+  //assert(false);
 
   // Low clock edge
   top->clk = 0;
