@@ -52,19 +52,39 @@ def build_top_str(num_in_ios,
     tile_id = 1;
 
     for grid_row in range(0, grid_height):
+
+        prev_row = grid_row - 1
+        next_row = grid_row + 1
+
         for grid_col in range(0, grid_width):
+
+            prev_col = grid_col - 1
+            next_col = grid_col + 1
+
             body += '\tpe_tile pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
+
+
+            if ((grid_row == 0) and (grid_col <= (num_in_ios - 1))):
+                body += '\t\t.in_wire_3_0(input_to_grid_' + str(grid_col) + '),\n'
+
+            if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
+                body += '\t\t.out_wire_1_0(grid_to_output_' + str(grid_col) + '),\n'
+            elif (grid_row != (grid_height - 1)):
+                for wire_no in range(0, 4):
+                    body += '\t\t.out_wire_1_' + str(wire_no) + '(pe_tile_' + str(next_row) + '_' + str(grid_col) + '.in_wire_3_' + str(wire_no) + '),\n'
+
             body += '\t\t.clk(clk),\n'
             body += '\t\t.reset(reset),\n'
             body += '\t\t.config_addr(config_addr),\n'
             body += '\t\t.config_data(config_data),\n'
             body += '\t\t.tile_id(' + str(tile_id) + ')\n'
+
             body += '\t);\n\n'
             tile_id += 1
 
     return module_string(includes, 'top', ports, body)
 
 pe_tile_file = open('top.v', 'w')
-pe_tile_file.write(build_top_str(16, 16, 16, 16))
+pe_tile_file.write(build_top_str(2, 2, 2, 2))
 pe_tile_file.close()
     
