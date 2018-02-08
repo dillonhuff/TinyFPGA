@@ -44,8 +44,20 @@ module pe_tile(
 	);
 
 
+	localparam CONFIG_SB = 7;
+
 	wire op_0;
 	wire op_1;
+	wire pe_output;
+
+	// Switch box config
+	reg config_en_sb;
+
+	always @(*) begin
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin
+			config_en_sb = 1'b1;
+		end
+	end
 
 	connect_box cb0(
 		.track0_in(in_wire_0_0),
@@ -102,7 +114,7 @@ module pe_tile(
 		.out_wire_3_1(out_wire_3_1),
 		.out_wire_3_2(out_wire_3_2),
 		.out_wire_3_3(out_wire_3_3),
-		.pe_output_0(compute_block.out),
+		.pe_output_0(pe_output),
 		.config_data(config_data),
 		.config_en(1'b0),
 		.clk(clk),
@@ -113,8 +125,9 @@ module pe_tile(
 		.in0(op_0),
 		.in1(op_1),
 		.clk(clk),
-		.config_enable(1'b0),
-		.config_data(2'b0)
+		.config_enable(config_en_sb),
+		.config_data(2'b0),
+		.out(pe_output)
 		);
 
 

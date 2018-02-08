@@ -33,8 +33,19 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
             ports.append('output out_wire_' + str(side) + '_' + str(wire))
 
     body = '\n'
+
+    body += '\tlocalparam CONFIG_SB = 7;\n\n'
     body += '\twire op_0;\n'
-    body += '\twire op_1;\n\n'
+    body += '\twire op_1;\n'
+    body += '\twire pe_output;\n\n'
+
+    body += '\t// Switch box config\n'
+    body += '\treg config_en_sb;\n\n'
+    body += '\talways @(*) begin\n'
+    body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin\n'
+    body += '\t\t\tconfig_en_sb = 1\'b1;\n'
+    body += '\t\tend\n'
+    body += '\tend\n\n'
 
     body += '\tconnect_box cb0(\n'
 
@@ -73,7 +84,7 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
             port_name = 'out_wire_' + str(side_no) + '_' + str(wire_no)
             body += '\t\t.' + port_name + '(' + port_name + '),\n';
 
-    body += '\t\t.pe_output_0(compute_block.out),\n'
+    body += '\t\t.pe_output_0(pe_output),\n'
     body += '\t\t.config_data(config_data),\n'
     body += '\t\t.config_en(1\'b0),\n'
     body += '\t\t.clk(clk),\n'
@@ -84,8 +95,9 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
     body += '\t\t.in0(op_0),\n'
     body += '\t\t.in1(op_1),\n'
     body += '\t\t.clk(clk),\n'
-    body += '\t\t.config_enable(1\'b0),\n'
-    body += '\t\t.config_data(2\'b0)\n'
+    body += '\t\t.config_enable(config_en_sb),\n'
+    body += '\t\t.config_data(2\'b0),\n'
+    body += '\t\t.out(pe_output)\n'
     body += '\t\t);\n\n'
 
     return module_string(['clb.v', 'connect_box.v', 'switch_box.v'],
