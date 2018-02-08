@@ -47,7 +47,21 @@ def build_top_str(num_in_ios,
         body += '\t\t.top_pin(out_wire_' + str(pad_no) + '),\n'
         body += '\t\t.pin(grid_to_output_' + str(pad_no) + ')\n'
         body += '\t);\n\n'
-        
+
+    body += '\t// PE tile grid\n'
+    tile_id = 1;
+
+    for grid_row in range(0, grid_height):
+        for grid_col in range(0, grid_width):
+            body += '\tpe_tile pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
+            body += '\t\t.clk(clk),\n'
+            body += '\t\t.reset(reset),\n'
+            body += '\t\t.config_addr(config_addr),\n'
+            body += '\t\t.config_data(config_data),\n'
+            body += '\t\t.tile_id(' + str(tile_id) + ')\n'
+            body += '\t);\n\n'
+            tile_id += 1
+
     return module_string(includes, 'top', ports, body)
 
 pe_tile_file = open('top.v', 'w')
