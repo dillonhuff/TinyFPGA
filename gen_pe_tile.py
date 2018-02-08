@@ -1,25 +1,4 @@
-def module_string(includes, name, ports, body):
-    mod_str = ""
-    for include_name in includes:
-        mod_str += '`include \"' + include_name + '\"\n'
-
-    mod_str += '\n\n'
-
-    mod_str += 'module ' + name + '(\n'
-
-    for i in range(0, len(ports)):
-        mod_str += '\t' + ports[i]
-        if (i != (len(ports) - 1)):
-            mod_str += ',\n'
-
-    mod_str += '\n\t);\n\n'
-
-    mod_str += body
-
-    mod_str += '\n\n'
-    mod_str += 'endmodule'
-
-    return mod_str
+from generator_utils import module_string
 
 def build_pe_tile_str(n_sides, n_wires_per_side):
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
@@ -141,4 +120,3 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
 pe_tile_file = open('pe_tile.v', 'w')
 pe_tile_file.write(build_pe_tile_str(4, 4))
 pe_tile_file.close()
-
