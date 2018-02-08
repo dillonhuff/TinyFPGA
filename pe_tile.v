@@ -56,6 +56,8 @@ module pe_tile(
 	always @(*) begin
 		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin
 			config_en_sb = 1'b1;
+		end else begin
+			config_en_sb = 1'b0;
 		end
 	end
 

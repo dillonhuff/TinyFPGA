@@ -44,6 +44,8 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
     body += '\talways @(*) begin\n'
     body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin\n'
     body += '\t\t\tconfig_en_sb = 1\'b1;\n'
+    body += '\t\tend else begin\n'
+    body += '\t\t\tconfig_en_sb = 1\'b0;\n'
     body += '\t\tend\n'
     body += '\tend\n\n'
 
