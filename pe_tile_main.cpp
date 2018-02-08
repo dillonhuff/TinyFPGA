@@ -8,119 +8,85 @@
 
 using namespace std;
 
-enum clb_func {
-  CLB_FUNC_AND,
-  CLB_FUNC_OR,
-  CLB_FUNC_XOR,
-};
-
-enum switch_side {
-  SWITCH_SIDE_TOP,
-  SWITCH_SIDE_BOTTOM,
-  SWITCH_SIDE_LEFT,
-  SWITCH_SIDE_RIGHT
-};
-
-uint32_t set_switch_clb_out(const switch_side side,
-                            const uint32_t track_no,
-                            const uint32_t config) {
-
-  assert(track_no <= 3);
-
-  uint32_t new_config = config;
-
-  //uint32_t track_no = ;
-  
-  return new_config;
-}
-
-uint32_t set_cb0(const uint8_t track_no, const uint32_t config) {
-  uint32_t new_config = config;
-  new_config = new_config | ((((1 << 2) - 1) & track_no));
-
-  return new_config;
-}
-
-uint32_t set_cb1(const uint8_t track_no, const uint32_t config) {
-  uint32_t new_config = config;
-  uint32_t mask = ((((1 << 2) - 1) & track_no) << 2);
-
-  cout << "mask   = " << bitset<32>(mask) << endl;
-
-  new_config = new_config | mask;
-
-  return new_config;
-}
-
-uint32_t set_clb(const clb_func func, const uint32_t config) {
-  uint32_t func_no = 0;
-  switch (func) {
-  case CLB_FUNC_AND:
-    func_no = 0;
-    break;
-  case CLB_FUNC_OR:
-    func_no = 1;
-    break;
-  case CLB_FUNC_XOR:
-    func_no = 2;
-    break;
-  default:
-    assert(false);
-  }
-
-  uint32_t new_config = config;
-  new_config = new_config | ((((1 << 2) - 1) & func_no) << 4);
-
-  return new_config;
-}
+#define CONFIG_SB 7
+#define CONFIG_CLB 6
+#define CONFIG_CB0 5
+#define CONFIG_CB1 4
 
 void test_xor(int argc, char** argv) {
 
   Verilated::commandArgs(argc, argv);
   Vpe_tile* top = new Vpe_tile;
 
+  // Initialize the circuit
+  top->clk = 0;
+  top->tile_id = 1;
+  top->reset = 0;
+  top->eval();
+
+  // Configure the switch box
+  top->clk = 1;
+  top->config_addr = 1 | (CONFIG_SB << 16);
+  // out_wire_0_0 <- pe_output_0
+  top->config_data = 0 | (3);
+
+  top->eval();
+
+  top->config_addr = 0;
+
+  top->in_wire_2_1 = 1;
+  top->in_wire_3_2 = 0;
+  top->in_wire_0_3 = 0;
+
+  top->eval();
+
+  assert(top->out_wire_1_0 == 1);
+
+  // Low clock edge
   top->clk = 0;
   top->eval();
 
+  // Configure CB0
   top->clk = 1;
-  //top->config_en = 1;
+  top->config_addr = 1 | (CONFIG_CB0 << 16);
+  // op_0 <- in_wire_0_2
+  top->config_data = 0 | 2;
+  top->eval();
 
-  // // 1:0 -> cb0_config
-  // // 3:2 -> cb1_config
-  // // 5:4 -> clb config
-  // // 21:6 -> sb_config
-  // uint32_t config = 0;
-  // config = config;
+  // Low clock edge
+  top->clk = 0;
+  top->eval();
 
-  // cout << "config = " << bitset<32>(config) << endl;
-  // config = set_cb0(3, config);
-  // cout << "config = " << bitset<32>(config) << endl;
-  // config = set_cb1(1, config);
-  // cout << "config = " << bitset<32>(config) << endl;
-  // config = set_clb(CLB_FUNC_XOR, config);
-  // cout << "config = " << bitset<32>(config) << endl;
-  // config = set_switch_clb_out(SWITCH_SIDE_TOP, 1, config);
+  // Configure CB1
+  top->clk = 1;
+  top->config_addr = 1 | (CONFIG_CB1 << 16);
+  // op_1 <- in_wire_1_1
+  top->config_data = 0 | 1;
+  top->eval();
 
-  // top->config_data = config;
+  // Low clock edge
+  top->clk = 0;
+  top->eval();
 
-  // top->eval();
+  // Configure CLB
+  top->clk = 1;
+  top->config_addr = 1 | (CONFIG_CLB << 16);
+  // clb function = xor
+  top->config_data = 2;
+  top->eval();
 
-  // // Set args
-  // top->right_0 = 1;
-  // top->bottom_1 = 1;
+  top->clk = 0;
+  top->eval();
 
-  // top->eval();
+  top->in_wire_1_1 = 0;
+  top->in_wire_0_2 = 1;
+  top->eval();
 
-  // assert(top->top_1 == 0);
-
-  // top->right_0 = 0;
-  // top->bottom_1 = 1;
-
-  // assert(top->top_1 == 1);
+  assert(top->out_wire_0_0 == 1);
 
   cout << "$$$$ PE tile tests pass" << endl;
 }
 
 int main(int argc, char** argv) {
-  //test_xor(argc, argv);
+  test_xor(argc, argv);
 }

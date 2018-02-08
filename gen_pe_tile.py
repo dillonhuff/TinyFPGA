@@ -34,19 +34,45 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
 
     body = '\n'
 
-    body += '\tlocalparam CONFIG_SB = 7;\n\n'
+    body += '\tlocalparam CONFIG_SB = 7;\n'
+    body += '\tlocalparam CONFIG_CB0 = 6;\n'
+    body += '\tlocalparam CONFIG_CB1 = 5;\n'
+    body += '\tlocalparam CONFIG_CLB = 4;\n\n'
     body += '\twire op_0;\n'
     body += '\twire op_1;\n'
     body += '\twire pe_output;\n\n'
 
     body += '\t// Switch box config\n'
     body += '\treg config_en_sb;\n\n'
+    body += '\treg config_en_cb0;\n\n'
+    body += '\treg config_en_cb1;\n\n'
+    body += '\treg config_en_clb;\n\n'
     body += '\talways @(*) begin\n'
+
     body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin\n'
     body += '\t\t\tconfig_en_sb = 1\'b1;\n'
     body += '\t\tend else begin\n'
     body += '\t\t\tconfig_en_sb = 1\'b0;\n'
     body += '\t\tend\n'
+
+    body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB0)) begin\n'
+    body += '\t\t\tconfig_en_cb0 = 1\'b1;\n'
+    body += '\t\tend else begin\n'
+    body += '\t\t\tconfig_en_cb0 = 1\'b0;\n'
+    body += '\t\tend\n'
+
+    body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB1)) begin\n'
+    body += '\t\t\tconfig_en_cb1 = 1\'b1;\n'
+    body += '\t\tend else begin\n'
+    body += '\t\t\tconfig_en_cb1 = 1\'b0;\n'
+    body += '\t\tend\n'
+
+    body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CLB)) begin\n'
+    body += '\t\t\tconfig_en_clb = 1\'b1;\n'
+    body += '\t\tend else begin\n'
+    body += '\t\t\tconfig_en_clb = 1\'b0;\n'
+    body += '\t\tend\n'
+    
     body += '\tend\n\n'
 
     body += '\tconnect_box cb0(\n'
@@ -56,9 +82,9 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
 
     body += '\t\t.block_out(op_0),\n'
     # Replace this dummy
-    body += '\t\t.config_en(1\'b0),\n'
+    body += '\t\t.config_en(config_en_cb0),\n'
     # Replace this dummy
-    body += '\t\t.config_data(2\'b0),\n'
+    body += '\t\t.config_data(config_data[1:0]),\n'
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
 
@@ -69,9 +95,9 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
 
     body += '\t\t.block_out(op_1),\n'
     # Replace this dummy
-    body += '\t\t.config_en(1\'b0),\n'
+    body += '\t\t.config_en(config_en_cb1),\n'
     # Replace this dummy
-    body += '\t\t.config_data(2\'b0),\n'
+    body += '\t\t.config_data(config_data[1:0]),\n'
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
 
@@ -88,7 +114,7 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
 
     body += '\t\t.pe_output_0(pe_output),\n'
     body += '\t\t.config_data(config_data),\n'
-    body += '\t\t.config_en(1\'b0),\n'
+    body += '\t\t.config_en(config_en_sb),\n'
     body += '\t\t.clk(clk),\n'
     body += '\t\t.reset(reset)\n'
     body += '\t\t);\n\n'
@@ -97,8 +123,8 @@ def build_pe_tile_str(n_sides, n_wires_per_side):
     body += '\t\t.in0(op_0),\n'
     body += '\t\t.in1(op_1),\n'
     body += '\t\t.clk(clk),\n'
-    body += '\t\t.config_enable(config_en_sb),\n'
-    body += '\t\t.config_data(2\'b0),\n'
+    body += '\t\t.config_enable(config_en_clb),\n'
+    body += '\t\t.config_data(config_data[1:0]),\n'
     body += '\t\t.out(pe_output)\n'
     body += '\t\t);\n\n'
 

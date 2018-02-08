@@ -45,6 +45,9 @@ module pe_tile(
 
 
 	localparam CONFIG_SB = 7;
+	localparam CONFIG_CB0 = 6;
+	localparam CONFIG_CB1 = 5;
+	localparam CONFIG_CLB = 4;
 
 	wire op_0;
 	wire op_1;
@@ -53,11 +56,32 @@ module pe_tile(
 	// Switch box config
 	reg config_en_sb;
 
+	reg config_en_cb0;
+
+	reg config_en_cb1;
+
+	reg config_en_clb;
+
 	always @(*) begin
 		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin
 			config_en_sb = 1'b1;
 		end else begin
 			config_en_sb = 1'b0;
+		end
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB0)) begin
+			config_en_cb0 = 1'b1;
+		end else begin
+			config_en_cb0 = 1'b0;
+		end
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB1)) begin
+			config_en_cb1 = 1'b1;
+		end else begin
+			config_en_cb1 = 1'b0;
+		end
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CLB)) begin
+			config_en_clb = 1'b1;
+		end else begin
+			config_en_clb = 1'b0;
 		end
 	end
 
@@ -67,8 +91,8 @@ module pe_tile(
 		.track2_in(in_wire_0_2),
 		.track3_in(in_wire_0_3),
 		.block_out(op_0),
-		.config_en(1'b0),
-		.config_data(2'b0),
+		.config_en(config_en_cb0),
+		.config_data(config_data[1:0]),
 		.clk(clk)
 	);
 
@@ -78,8 +102,8 @@ module pe_tile(
 		.track2_in(in_wire_1_2),
 		.track3_in(in_wire_1_3),
 		.block_out(op_1),
-		.config_en(1'b0),
-		.config_data(2'b0),
+		.config_en(config_en_cb1),
+		.config_data(config_data[1:0]),
 		.clk(clk)
 	);
 
@@ -118,7 +142,7 @@ module pe_tile(
 		.out_wire_3_3(out_wire_3_3),
 		.pe_output_0(pe_output),
 		.config_data(config_data),
-		.config_en(1'b0),
+		.config_en(config_en_sb),
 		.clk(clk),
 		.reset(reset)
 		);
@@ -127,8 +151,8 @@ module pe_tile(
 		.in0(op_0),
 		.in1(op_1),
 		.clk(clk),
-		.config_enable(config_en_sb),
-		.config_data(2'b0),
+		.config_enable(config_en_clb),
+		.config_data(config_data[1:0]),
 		.out(pe_output)
 		);
 
