@@ -9,9 +9,9 @@
 using namespace std;
 
 #define CONFIG_SB 7
-#define CONFIG_CLB 6
-#define CONFIG_CB0 5
-#define CONFIG_CB1 4
+#define CONFIG_CB0 6
+#define CONFIG_CB1 5
+#define CONFIG_CLB 4
 
 void test_xor(int argc, char** argv) {
 
@@ -42,6 +42,11 @@ void test_xor(int argc, char** argv) {
 
   assert(top->out_wire_1_0 == 1);
 
+  top->in_wire_2_1 = 0;
+  top->eval();
+
+  assert(top->out_wire_1_0 == 0);
+
   // Low clock edge
   top->clk = 0;
   top->eval();
@@ -52,6 +57,29 @@ void test_xor(int argc, char** argv) {
   // op_0 <- in_wire_0_2
   top->config_data = 0 | 2;
   top->eval();
+
+  top->clk = 0;
+  top->eval();
+
+  top->clk = 1;
+  top->config_data = 1 | (CONFIG_CLB << 16);
+  top->config_data = 3;
+  top->eval();
+
+  top->clk = 0;
+  top->eval();
+  
+  top->config_addr = 0;
+  top->clk = 1;
+  top->in_wire_0_2 = 1;
+  top->eval();
+
+  assert(top->out_wire_0_0 == 1);
+
+  top->clk = 0;
+  top->eval();
+  
+  assert(false);
 
   // Low clock edge
   top->clk = 0;
@@ -77,6 +105,8 @@ void test_xor(int argc, char** argv) {
 
   top->clk = 0;
   top->eval();
+
+  top->config_data = 0;
 
   top->in_wire_1_1 = 0;
   top->in_wire_0_2 = 1;

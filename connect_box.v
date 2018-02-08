@@ -21,16 +21,18 @@ module connect_box(
           end
      end
 
+   reg block_out_i;
+   
    always @(*)
      begin
         case (config_data_reg)
-          2'd0: block_out = track0_in;
-          2'd1: block_out = track1_in;
-          2'd2: block_out = track2_in;
-          2'd3: block_out = track3_in;
+          2'd0: block_out_i = track0_in;
+          2'd1: block_out_i = track1_in;
+          2'd2: block_out_i = track2_in;
+          2'd3: block_out_i = track3_in;
         endcase // case endcase
      end
-   
-   
+
+   assign block_out = block_out_i;
    
 endmodule // connect_box
