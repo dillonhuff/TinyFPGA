@@ -122,9 +122,13 @@ def build_top_str(num_in_ios,
             next_col = grid_col + 1
 
             this_tile = 'tile_' + str(grid_row) + '_' + str(grid_col)
+
             tile_above = 'tile_' + str(prev_row) + '_' + str(grid_col)
             tile_below = 'tile_' + str(next_row) + '_' + str(grid_col)
 
+            tile_left = 'tile_' + str(grid_row) + '_' + str(prev_col)
+            tile_right = 'tile_' + str(grid_row) + '_' + str(next_col)
+            
             body += '\tpe_tile pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 
             # Wiring up vertical wires
@@ -164,10 +168,33 @@ def build_top_str(num_in_ios,
                     # side
                     out_wire = 'in_wire_1_' + str(i)
                     body += '\t\t.' + out_wire + '(vertical_' + tile_below + '_to_' + this_tile + '_' + str(i) + '),\n'
-                
-                # for wire_no in range(0, 4):
-                #     body += '\t\t.out_wire_1_' + str(wire_no) + '(pe_tile_' + str(next_row) + '_' + str(grid_col) + '.in_wire_3_' + str(wire_no) + '),\n'
 
+            # If this is not column 0 connects to tiles to the left
+            if (grid_col != 0):
+                # All other rows connect to the row above them
+
+                for i in range(0, 4):
+                    # Connect this tiles side 2 to the tile to the left
+                    out_wire = 'out_wire_2_' + str(i)
+                    body += '\t\t.' + out_wire + '(vertical_' + this_tile + '_to_' + tile_left + '_' + str(i) + '),\n'
+
+                for i in range(0, 4):
+                    # Connect this tiles side 3 to the previous rows tile
+                    # side
+                    out_wire = 'in_wire_2_' + str(i)
+                    body += '\t\t.' + out_wire + '(vertical_' + tile_left + '_to_' + this_tile + '_' + str(i) + '),\n'
+
+            # Connect 
+            if (grid_col != (grid_width - 1)):
+                for i in range(0, 4):
+                    # Connect this tiles side 0 to the column to the right
+                    out_wire = 'out_wire_0_' + str(i)
+                    body += '\t\t.' + out_wire + '(vertical_' + this_tile + '_to_' + tile_right + '_' + str(i) + '),\n'
+
+                for i in range(0, 4):
+                    out_wire = 'in_wire_0_' + str(i)
+                    body += '\t\t.' + out_wire + '(vertical_' + tile_right + '_to_' + this_tile + '_' + str(i) + '),\n'
+            
             body += '\t\t.clk(clk),\n'
             body += '\t\t.reset(reset),\n'
             body += '\t\t.config_addr(config_addr),\n'
