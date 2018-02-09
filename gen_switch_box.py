@@ -6,8 +6,11 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
     assert(len(sides_to_use) <= n_sides)
 
     input_wires = Set([])
-    output_map = []
-    for side_no in sides_to_use:
+    out_map_nums = []
+    config_offset = 0
+
+    # Generate all valid connections
+    for side_no in range(0, n_sides):
 
         for wire_no in range(0, n_wires_per_side):
             sources = []
@@ -15,13 +18,36 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
             for i in range(0, n_wires_per_side - 1):
 
                 wire_side = (side_no + i + 1) % n_sides
-                if wire_side in sides_to_use:
-                    in_wire = 'in_wire_' + str(wire_side) + '_' + str((side_no + wire_no + i) % n_wires_per_side)
 
-                    input_wires.add(in_wire)
-                    sources.append((i, in_wire))
+                in_wire = (wire_side, (side_no + wire_no + i) % n_wires_per_side)
 
-            output_map.append(('out_wire_' + str(side_no) + '_' + str(wire_no), sources))
+                sources.append((i, in_wire))
+
+            out_map_nums.append(((side_no, wire_no), sources, config_offset))
+
+            config_offset += 2
+
+    output_map = []
+    for val in out_map_nums:
+
+        side_no = val[0][0]
+        out_wire_no = val[0][1]
+
+        if side_no in sides_to_use:
+            config_offset = val[2]
+            sources = []
+            # check each value in source
+            for src in val[1]:
+                in_side_no = src[0]
+                i = src[1][0]
+                in_wire_no = src[1][1]
+                if in_side_no in sides_to_use:
+                    in_wire_name = 'in_wire_' + str(in_side_no) + '_' + str(in_wire_no)
+                    sources.append(in_wire_name)
+
+                    input_wires.add(in_wire_name)
+
+            output_map.append(('out_wire_' + str(side_no) + '_' + str(out_wire_no), sources, config_offset))
 
     # Generate the actual string
     mod_str = 'module ' + mod_name + '(\n'
@@ -56,6 +82,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
     data_reg_start = 0
     for output in output_map:
         out_wire = output[0]
+        data_reg_start = output[2]
         
         mod_str += '\talways @(*) begin\n'
 

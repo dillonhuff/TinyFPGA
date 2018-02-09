@@ -43,7 +43,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[1:0])
-			2'd0: out_wire_0_0_i = in_wire_1_0;
+			2'di: out_wire_0_0_i = n;
+			2'di: out_wire_0_0_i = n;
 			2'd3: out_wire_0_0_i = pe_output_0;
 			default: out_wire_0_0_i = 1'b0;
 		endcase
@@ -53,7 +54,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[3:2])
-			2'd0: out_wire_0_1_i = in_wire_1_1;
+			2'di: out_wire_0_1_i = n;
+			2'di: out_wire_0_1_i = n;
 			2'd3: out_wire_0_1_i = pe_output_0;
 			default: out_wire_0_1_i = 1'b0;
 		endcase
@@ -63,7 +65,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[5:4])
-			2'd0: out_wire_0_2_i = in_wire_1_2;
+			2'di: out_wire_0_2_i = n;
+			2'di: out_wire_0_2_i = n;
 			2'd3: out_wire_0_2_i = pe_output_0;
 			default: out_wire_0_2_i = 1'b0;
 		endcase
@@ -73,7 +76,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[7:6])
-			2'd0: out_wire_0_3_i = in_wire_1_3;
+			2'di: out_wire_0_3_i = n;
+			2'di: out_wire_0_3_i = n;
 			2'd3: out_wire_0_3_i = pe_output_0;
 			default: out_wire_0_3_i = 1'b0;
 		endcase
@@ -83,7 +87,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[9:8])
-			2'd2: out_wire_1_0_i = in_wire_0_3;
+			2'di: out_wire_1_0_i = n;
+			2'di: out_wire_1_0_i = n;
 			2'd3: out_wire_1_0_i = pe_output_0;
 			default: out_wire_1_0_i = 1'b0;
 		endcase
@@ -93,7 +98,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[11:10])
-			2'd2: out_wire_1_1_i = in_wire_0_0;
+			2'di: out_wire_1_1_i = n;
+			2'di: out_wire_1_1_i = n;
 			2'd3: out_wire_1_1_i = pe_output_0;
 			default: out_wire_1_1_i = 1'b0;
 		endcase
@@ -103,7 +109,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[13:12])
-			2'd2: out_wire_1_2_i = in_wire_0_1;
+			2'di: out_wire_1_2_i = n;
+			2'di: out_wire_1_2_i = n;
 			2'd3: out_wire_1_2_i = pe_output_0;
 			default: out_wire_1_2_i = 1'b0;
 		endcase
@@ -113,7 +120,8 @@ module switch_box_top_left(
 
 	always @(*) begin
 		case (config_data_reg[15:14])
-			2'd2: out_wire_1_3_i = in_wire_0_2;
+			2'di: out_wire_1_3_i = n;
+			2'di: out_wire_1_3_i = n;
 			2'd3: out_wire_1_3_i = pe_output_0;
 			default: out_wire_1_3_i = 1'b0;
 		endcase
