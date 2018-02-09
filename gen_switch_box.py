@@ -38,12 +38,14 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
             sources = []
             # check each value in source
             for src in val[1]:
-                in_side_no = src[0]
-                i = src[1][0]
+                in_side_no = src[1][0] #src[0]
+                i = src[0] #src[1][0]
                 in_wire_no = src[1][1]
                 if in_side_no in sides_to_use:
                     in_wire_name = 'in_wire_' + str(in_side_no) + '_' + str(in_wire_no)
-                    sources.append(in_wire_name)
+                    # print 'in_wire_name = ', in_wire_name
+                    # print 'i            = ', i
+                    sources.append((i, in_wire_name))
 
                     input_wires.add(in_wire_name)
 
@@ -119,19 +121,19 @@ sb_file.close()
 
 # Middle side switch box
 sb_file = open('switch_box_top.v', 'w')
-sb_file.write(build_mod_str('switch_box', [0, 1, 2], 4, 4))
+sb_file.write(build_mod_str('switch_box_top', [0, 1, 2], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_left.v', 'w')
-sb_file.write(build_mod_str('switch_box', [0, 1, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_left', [0, 1, 3], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_right.v', 'w')
-sb_file.write(build_mod_str('switch_box', [1, 2, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_right', [1, 2, 3], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_bottom.v', 'w')
-sb_file.write(build_mod_str('switch_box', [0, 2, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_bottom', [0, 2, 3], 4, 4))
 sb_file.close()
 
 # Corner switch boxes
