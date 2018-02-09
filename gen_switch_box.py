@@ -35,37 +35,41 @@ def build_mod_str(n_sides, n_wires_per_side):
 
     output_map = []
     for side_no in range(0, n_sides):
-        sources = []
+
         for wire_no in range(0, n_wires_per_side):
+            sources = []
 
             for i in range(0, n_wires_per_side - 1):
-                sources.append('in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str((side_no + wire_no + i) % n_wires_per_side))
+                sources.append((i, 'in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str((side_no + wire_no + i) % n_wires_per_side)))
 
-        output_map.append(('out_wire_' + str(side_no) + '_' + str(wire_no) + '_i', sources))
+            output_map.append(('out_wire_' + str(side_no) + '_' + str(wire_no) + '_i', sources))
 
     data_reg_start = 0
 
-    for side_no in range(0, n_sides):
-        for wire_no in range(0, n_wires_per_side):
+    # for side_no in range(0, n_sides):
+    #     for wire_no in range(0, n_wires_per_side):
 
-    #for output in output_map:
+    for output in output_map:
+        out_wire = output[0]
         
-            mod_str += '\talways @(*) begin\n'
+        mod_str += '\talways @(*) begin\n'
 
-            mod_str += '\t\tcase (config_data_reg[' + str(data_reg_start + 1) + ':' + str(data_reg_start) + '])\n'
+        mod_str += '\t\tcase (config_data_reg[' + str(data_reg_start + 1) + ':' + str(data_reg_start) + '])\n'
 
-            data_reg_start += 2
+        data_reg_start += 2
 
-            for i in range(0, n_wires_per_side - 1):
+        for ind_wire_pair in output[1]:
+            i = ind_wire_pair[0]
+            in_wire = ind_wire_pair[1]
                 
-                mod_str += '\t\t\t2\'d' + str(i) + ': ' + 'out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str((side_no + wire_no + i) % n_wires_per_side) + ';\n'
+            mod_str += '\t\t\t2\'d' + str(i) + ': ' + out_wire + ' = ' + in_wire + ';\n'
 
-            mod_str += '\t\t\t2\'d3: out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = pe_output_0;\n'
+        mod_str += '\t\t\t2\'d3: ' + out_wire + ' = pe_output_0;\n'
 
-            mod_str += '\t\t\tdefault: out_wire_' + str(side_no) + '_' + str(wire_no) + '_i = 1\'b0;\n'
-            mod_str += '\t\tendcase\n'
+        mod_str += '\t\t\tdefault: ' + out_wire + ' = 1\'b0;\n'
+        mod_str += '\t\tendcase\n'
 
-            mod_str += '\tend\n\n'
+        mod_str += '\tend\n\n'
 
     mod_str += '\n'
 
