@@ -46,9 +46,6 @@ def build_mod_str(n_sides, n_wires_per_side):
 
     data_reg_start = 0
 
-    # for side_no in range(0, n_sides):
-    #     for wire_no in range(0, n_wires_per_side):
-
     for output in output_map:
         out_wire = output[0]
         
@@ -71,11 +68,14 @@ def build_mod_str(n_sides, n_wires_per_side):
 
         mod_str += '\tend\n\n'
 
+        mod_str += '\tassign ' + out_wire[0:len(out_wire) - 2] + ' = ' + out_wire + ';\n\n';
+        
+        
     mod_str += '\n'
 
-    for side_no in range(0, n_sides):
-        for wire_no in range(0, n_wires_per_side):
-            mod_str += '\tassign out_wire_' + str(side_no) + '_' + str(wire_no) + ' = out_wire_' + str(side_no) + '_' + str(wire_no) + '_i;\n';
+    # for side_no in range(0, n_sides):
+    #     for wire_no in range(0, n_wires_per_side):
+    #         mod_str += '\tassign out_wire_' + str(side_no) + '_' + str(wire_no) + ' = out_wire_' + str(side_no) + '_' + str(wire_no) + '_i;\n';
 
     mod_str += '\n'
     

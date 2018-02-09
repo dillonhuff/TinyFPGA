@@ -75,6 +75,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_0_0 = out_wire_0_0_i;
+
 	always @(*) begin
 		case (config_data_reg[3:2])
 			2'd0: out_wire_0_1_i = in_wire_1_1;
@@ -84,6 +86,8 @@ module switch_box(
 			default: out_wire_0_1_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_0_1 = out_wire_0_1_i;
 
 	always @(*) begin
 		case (config_data_reg[5:4])
@@ -95,6 +99,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_0_2 = out_wire_0_2_i;
+
 	always @(*) begin
 		case (config_data_reg[7:6])
 			2'd0: out_wire_0_3_i = in_wire_1_3;
@@ -104,6 +110,8 @@ module switch_box(
 			default: out_wire_0_3_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_0_3 = out_wire_0_3_i;
 
 	always @(*) begin
 		case (config_data_reg[9:8])
@@ -115,6 +123,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_1_0 = out_wire_1_0_i;
+
 	always @(*) begin
 		case (config_data_reg[11:10])
 			2'd0: out_wire_1_1_i = in_wire_2_2;
@@ -124,6 +134,8 @@ module switch_box(
 			default: out_wire_1_1_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_1_1 = out_wire_1_1_i;
 
 	always @(*) begin
 		case (config_data_reg[13:12])
@@ -135,6 +147,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_1_2 = out_wire_1_2_i;
+
 	always @(*) begin
 		case (config_data_reg[15:14])
 			2'd0: out_wire_1_3_i = in_wire_2_0;
@@ -144,6 +158,8 @@ module switch_box(
 			default: out_wire_1_3_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_1_3 = out_wire_1_3_i;
 
 	always @(*) begin
 		case (config_data_reg[17:16])
@@ -155,6 +171,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_2_0 = out_wire_2_0_i;
+
 	always @(*) begin
 		case (config_data_reg[19:18])
 			2'd0: out_wire_2_1_i = in_wire_3_3;
@@ -164,6 +182,8 @@ module switch_box(
 			default: out_wire_2_1_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_2_1 = out_wire_2_1_i;
 
 	always @(*) begin
 		case (config_data_reg[21:20])
@@ -175,6 +195,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_2_2 = out_wire_2_2_i;
+
 	always @(*) begin
 		case (config_data_reg[23:22])
 			2'd0: out_wire_2_3_i = in_wire_3_1;
@@ -184,6 +206,8 @@ module switch_box(
 			default: out_wire_2_3_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_2_3 = out_wire_2_3_i;
 
 	always @(*) begin
 		case (config_data_reg[25:24])
@@ -195,6 +219,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_3_0 = out_wire_3_0_i;
+
 	always @(*) begin
 		case (config_data_reg[27:26])
 			2'd0: out_wire_3_1_i = in_wire_0_0;
@@ -204,6 +230,8 @@ module switch_box(
 			default: out_wire_3_1_i = 1'b0;
 		endcase
 	end
+
+	assign out_wire_3_1 = out_wire_3_1_i;
 
 	always @(*) begin
 		case (config_data_reg[29:28])
@@ -215,6 +243,8 @@ module switch_box(
 		endcase
 	end
 
+	assign out_wire_3_2 = out_wire_3_2_i;
+
 	always @(*) begin
 		case (config_data_reg[31:30])
 			2'd0: out_wire_3_3_i = in_wire_0_2;
@@ -225,22 +255,8 @@ module switch_box(
 		endcase
 	end
 
-
-	assign out_wire_0_0 = out_wire_0_0_i;
-	assign out_wire_0_1 = out_wire_0_1_i;
-	assign out_wire_0_2 = out_wire_0_2_i;
-	assign out_wire_0_3 = out_wire_0_3_i;
-	assign out_wire_1_0 = out_wire_1_0_i;
-	assign out_wire_1_1 = out_wire_1_1_i;
-	assign out_wire_1_2 = out_wire_1_2_i;
-	assign out_wire_1_3 = out_wire_1_3_i;
-	assign out_wire_2_0 = out_wire_2_0_i;
-	assign out_wire_2_1 = out_wire_2_1_i;
-	assign out_wire_2_2 = out_wire_2_2_i;
-	assign out_wire_2_3 = out_wire_2_3_i;
-	assign out_wire_3_0 = out_wire_3_0_i;
-	assign out_wire_3_1 = out_wire_3_1_i;
-	assign out_wire_3_2 = out_wire_3_2_i;
 	assign out_wire_3_3 = out_wire_3_3_i;
+
+
 
 endmodule
