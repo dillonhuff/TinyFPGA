@@ -137,6 +137,10 @@ def build_top_str(num_in_ios,
             ## all other rows connect to the row above them
             if ((grid_row == 0) and (grid_col <= (num_in_ios - 1))):
                 body += '\t\t.in_wire_3_0(input_to_grid_' + str(grid_col) + '),\n'
+
+                for i in range(1, 4):
+                    body += '\t\t.in_wire_3_' + str(i) + '(1\'b0),\n'
+
             elif (grid_row != 0):
                 # All other rows connect to the row above them
 
@@ -156,6 +160,10 @@ def build_top_str(num_in_ios,
             ## IO pads, all other rows connect to row N + 1
             if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
                 body += '\t\t.out_wire_1_0(grid_to_output_' + str(grid_col) + '),\n'
+
+                for i in range(0, 4):
+                    body += '\t\t.in_wire_1_' + str(i) + '(1\'b0),\n'
+
             elif (grid_row != (grid_height - 1)):
                 for i in range(0, 4):
                     # Connect this tiles side 1 to the next rows tile
@@ -172,8 +180,6 @@ def build_top_str(num_in_ios,
             # Wiring up horizontal grid
             # If this is not column 0 connects to tiles to the left
             if (grid_col != 0):
-                # All other rows connect to the row above them
-
                 for i in range(0, 4):
                     # Connect this tiles side 2 to the tile to the left
                     out_wire = 'out_wire_2_' + str(i)
@@ -185,7 +191,12 @@ def build_top_str(num_in_ios,
                     out_wire = 'in_wire_2_' + str(i)
                     body += '\t\t.' + out_wire + '(horizontal_' + tile_left + '_to_' + this_tile + '_' + str(i) + '),\n'
 
-            # Connect 
+            else:
+                for i in range(0, 4):
+                    out_wire = 'in_wire_2_' + str(i)
+                    body += '\t\t.' + out_wire + '(1\'b0),\n'
+                
+
             if (grid_col != (grid_width - 1)):
                 for i in range(0, 4):
                     # Connect this tiles side 0 to the column to the right
@@ -195,6 +206,10 @@ def build_top_str(num_in_ios,
                 for i in range(0, 4):
                     out_wire = 'in_wire_0_' + str(i)
                     body += '\t\t.' + out_wire + '(horizontal_' + tile_right + '_to_' + this_tile + '_' + str(i) + '),\n'
+            else:
+                for i in range(0, 4):
+                    out_wire = 'in_wire_0_' + str(i)
+                    body += '\t\t.' + out_wire + '(1\'b0),\n'
             
             body += '\t\t.clk(clk),\n'
             body += '\t\t.reset(reset),\n'
