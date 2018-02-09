@@ -1,8 +1,16 @@
 module switch_box_bottom_right(
+	input in_wire_0_0,
+	input in_wire_0_1,
+	input in_wire_0_2,
+	input in_wire_0_3,
 	input in_wire_2_2,
 	input in_wire_2_3,
 	input in_wire_2_0,
 	input in_wire_2_1,
+	input in_wire_1_1,
+	input in_wire_1_0,
+	input in_wire_1_3,
+	input in_wire_1_2,
 	input in_wire_3_3,
 	input in_wire_3_2,
 	input in_wire_3_1,
@@ -44,6 +52,8 @@ module switch_box_bottom_right(
 	always @(*) begin
 		case (config_data_reg[17:16])
 			2'd0: out_wire_2_0_i = in_wire_3_2;
+			2'd1: out_wire_2_0_i = in_wire_0_3;
+			2'd2: out_wire_2_0_i = in_wire_1_0;
 			2'd3: out_wire_2_0_i = pe_output_0;
 			default: out_wire_2_0_i = 1'b0;
 		endcase
@@ -54,6 +64,8 @@ module switch_box_bottom_right(
 	always @(*) begin
 		case (config_data_reg[19:18])
 			2'd0: out_wire_2_1_i = in_wire_3_3;
+			2'd1: out_wire_2_1_i = in_wire_0_0;
+			2'd2: out_wire_2_1_i = in_wire_1_1;
 			2'd3: out_wire_2_1_i = pe_output_0;
 			default: out_wire_2_1_i = 1'b0;
 		endcase
@@ -64,6 +76,8 @@ module switch_box_bottom_right(
 	always @(*) begin
 		case (config_data_reg[21:20])
 			2'd0: out_wire_2_2_i = in_wire_3_0;
+			2'd1: out_wire_2_2_i = in_wire_0_1;
+			2'd2: out_wire_2_2_i = in_wire_1_2;
 			2'd3: out_wire_2_2_i = pe_output_0;
 			default: out_wire_2_2_i = 1'b0;
 		endcase
@@ -74,6 +88,8 @@ module switch_box_bottom_right(
 	always @(*) begin
 		case (config_data_reg[23:22])
 			2'd0: out_wire_2_3_i = in_wire_3_1;
+			2'd1: out_wire_2_3_i = in_wire_0_2;
+			2'd2: out_wire_2_3_i = in_wire_1_3;
 			2'd3: out_wire_2_3_i = pe_output_0;
 			default: out_wire_2_3_i = 1'b0;
 		endcase
@@ -83,6 +99,8 @@ module switch_box_bottom_right(
 
 	always @(*) begin
 		case (config_data_reg[25:24])
+			2'd0: out_wire_3_0_i = in_wire_0_3;
+			2'd1: out_wire_3_0_i = in_wire_1_0;
 			2'd2: out_wire_3_0_i = in_wire_2_1;
 			2'd3: out_wire_3_0_i = pe_output_0;
 			default: out_wire_3_0_i = 1'b0;
@@ -93,6 +111,8 @@ module switch_box_bottom_right(
 
 	always @(*) begin
 		case (config_data_reg[27:26])
+			2'd0: out_wire_3_1_i = in_wire_0_0;
+			2'd1: out_wire_3_1_i = in_wire_1_1;
 			2'd2: out_wire_3_1_i = in_wire_2_2;
 			2'd3: out_wire_3_1_i = pe_output_0;
 			default: out_wire_3_1_i = 1'b0;
@@ -103,6 +123,8 @@ module switch_box_bottom_right(
 
 	always @(*) begin
 		case (config_data_reg[29:28])
+			2'd0: out_wire_3_2_i = in_wire_0_1;
+			2'd1: out_wire_3_2_i = in_wire_1_2;
 			2'd2: out_wire_3_2_i = in_wire_2_3;
 			2'd3: out_wire_3_2_i = pe_output_0;
 			default: out_wire_3_2_i = 1'b0;
@@ -113,6 +135,8 @@ module switch_box_bottom_right(
 
 	always @(*) begin
 		case (config_data_reg[31:30])
+			2'd0: out_wire_3_3_i = in_wire_0_2;
+			2'd1: out_wire_3_3_i = in_wire_1_3;
 			2'd2: out_wire_3_3_i = in_wire_2_0;
 			2'd3: out_wire_3_3_i = pe_output_0;
 			default: out_wire_3_3_i = 1'b0;

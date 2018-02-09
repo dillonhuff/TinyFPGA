@@ -1,6 +1,5 @@
 from sets import Set
 
-
 def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
     assert(len(sides_to_use) <= n_sides)
@@ -42,13 +41,14 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
                 in_side_no = src[1][0] #src[0]
                 i = src[0] #src[1][0]
                 in_wire_no = src[1][1]
-                if in_side_no in sides_to_use:
-                    in_wire_name = 'in_wire_' + str(in_side_no) + '_' + str(in_wire_no)
+
+                #if in_side_no in sides_to_use:
+                in_wire_name = 'in_wire_' + str(in_side_no) + '_' + str(in_wire_no)
                     # print 'in_wire_name = ', in_wire_name
                     # print 'i            = ', i
-                    sources.append((i, in_wire_name))
+                sources.append((i, in_wire_name))
 
-                    input_wires.add(in_wire_name)
+                input_wires.add(in_wire_name)
 
             output_map.append(('out_wire_' + str(side_no) + '_' + str(out_wire_no), sources, config_offset))
 
