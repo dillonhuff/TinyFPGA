@@ -109,6 +109,8 @@ def build_top_str(num_in_ios,
             body += '\n'
             
     # Idea: Utility for helping people draw ascii comment pictures in code
+
+    body += '\t// Tile grid\n'
     for grid_row in range(0, grid_height):
 
         prev_row = grid_row - 1
