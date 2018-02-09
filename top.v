@@ -22,6 +22,8 @@ module top(
 	wire grid_to_output_1;
 
 
+	// 
+	// input pads
 	io1in_pad in_pad_0(
 		.clk(clk),
 		.top_pin(in_wire_0),
@@ -34,6 +36,7 @@ module top(
 		.pin(input_to_grid_1)
 	);
 
+	// output pads
 	io1out_pad out_pad_0(
 		.clk(clk),
 		.top_pin(out_wire_0),
@@ -47,12 +50,46 @@ module top(
 	);
 
 	// PE tile grid
+	// Vertical wires
+	wire vertical_tile_0_0_to_tile_1_0_0;
+	wire vertical_tile_0_0_to_tile_1_0_1;
+	wire vertical_tile_0_0_to_tile_1_0_2;
+	wire vertical_tile_0_0_to_tile_1_0_3;
+	wire vertical_tile_1_0_to_tile_0_0_0;
+	wire vertical_tile_1_0_to_tile_0_0_1;
+	wire vertical_tile_1_0_to_tile_0_0_2;
+	wire vertical_tile_1_0_to_tile_0_0_3;
+
+	wire vertical_tile_0_1_to_tile_1_1_0;
+	wire vertical_tile_0_1_to_tile_1_1_1;
+	wire vertical_tile_0_1_to_tile_1_1_2;
+	wire vertical_tile_0_1_to_tile_1_1_3;
+	wire vertical_tile_1_1_to_tile_0_1_0;
+	wire vertical_tile_1_1_to_tile_0_1_1;
+	wire vertical_tile_1_1_to_tile_0_1_2;
+	wire vertical_tile_1_1_to_tile_0_1_3;
+
+	// Horizontal wires
+	wire horizontal_tile_0_0_to_tile_0_1_0;
+	wire horizontal_tile_0_0_to_tile_0_1_1;
+	wire horizontal_tile_0_0_to_tile_0_1_2;
+	wire horizontal_tile_0_0_to_tile_0_1_3;
+	wire horizontal_tile_0_1_to_tile_0_0_0;
+	wire horizontal_tile_0_1_to_tile_0_0_1;
+	wire horizontal_tile_0_1_to_tile_0_0_2;
+	wire horizontal_tile_0_1_to_tile_0_0_3;
+
+	wire horizontal_tile_1_0_to_tile_1_1_0;
+	wire horizontal_tile_1_0_to_tile_1_1_1;
+	wire horizontal_tile_1_0_to_tile_1_1_2;
+	wire horizontal_tile_1_0_to_tile_1_1_3;
+	wire horizontal_tile_1_1_to_tile_1_0_0;
+	wire horizontal_tile_1_1_to_tile_1_0_1;
+	wire horizontal_tile_1_1_to_tile_1_0_2;
+	wire horizontal_tile_1_1_to_tile_1_0_3;
+
 	pe_tile pe_tile_0_0(
 		.in_wire_3_0(input_to_grid_0),
-		.out_wire_1_0(pe_tile_1_0.in_wire_3_0),
-		.out_wire_1_1(pe_tile_1_0.in_wire_3_1),
-		.out_wire_1_2(pe_tile_1_0.in_wire_3_2),
-		.out_wire_1_3(pe_tile_1_0.in_wire_3_3),
 		.clk(clk),
 		.reset(reset),
 		.config_addr(config_addr),
@@ -62,10 +99,6 @@ module top(
 
 	pe_tile pe_tile_0_1(
 		.in_wire_3_0(input_to_grid_1),
-		.out_wire_1_0(pe_tile_1_1.in_wire_3_0),
-		.out_wire_1_1(pe_tile_1_1.in_wire_3_1),
-		.out_wire_1_2(pe_tile_1_1.in_wire_3_2),
-		.out_wire_1_3(pe_tile_1_1.in_wire_3_3),
 		.clk(clk),
 		.reset(reset),
 		.config_addr(config_addr),

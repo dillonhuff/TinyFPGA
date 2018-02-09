@@ -33,7 +33,11 @@ def build_top_str(num_in_ios,
         body += '\twire grid_to_output_' + str(pad_no) + ';\n'
 
     body += '\n\n'
-        
+
+    body += '\t// \n'
+
+    
+    body += '\t// input pads\n'
     for pad_no in range(0, num_in_ios):
         body += '\tio1in_pad in_pad_' + str(pad_no) + '(\n'
         body += '\t\t.clk(clk),\n'
@@ -41,6 +45,7 @@ def build_top_str(num_in_ios,
         body += '\t\t.pin(input_to_grid_' + str(pad_no) + ')\n'
         body += '\t);\n\n'
 
+    body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
         body += '\tio1out_pad out_pad_' + str(pad_no) + '(\n'
         body += '\t\t.clk(clk),\n'
@@ -51,6 +56,59 @@ def build_top_str(num_in_ios,
     body += '\t// PE tile grid\n'
     tile_id = 1;
 
+
+    #           3
+    #
+    #    2             0
+    #          
+    #           1
+    #
+
+    top_side = 3
+    left_side = 2
+    bottom_side = 1
+    right_side = 0
+
+    # Q: How to name the wires that connect different tiles?
+    # Each tile-direction group needs 4 wires, and there are 2 groups
+    # tile00 -> tile01, tile00 <- tile01
+
+    body += '\t// Vertical wires\n'
+    for grid_row in range(0, grid_height - 1):
+        next_row = grid_row + 1
+
+        for grid_col in range(0, grid_width):
+
+            cur_tile = 'tile_' + str(grid_row) + '_' + str(grid_col)
+            next_tile = 'tile_' + str(next_row) + '_' + str(grid_col)
+
+            for i in range(0, 4):
+                body += '\twire vertical_' + cur_tile + '_to_' + next_tile + '_' + str(i) + ';\n'
+
+            for i in range(0, 4):
+                body += '\twire vertical_' + next_tile + '_to_' + cur_tile + '_' + str(i) + ';\n'
+                
+            body += '\n'
+
+    body += '\t// Horizontal wires\n'            
+    for grid_col in range(0, grid_width - 1):
+
+        next_col = grid_col + 1
+
+        for grid_row in range(0, grid_height):
+
+            cur_tile = 'tile_' + str(grid_row) + '_' + str(grid_col)
+            next_tile = 'tile_' + str(grid_row) + '_' + str(next_col)
+
+            for i in range(0, 4):
+                body += '\twire horizontal_' + cur_tile + '_to_' + next_tile + '_' + str(i) + ';\n'
+
+            for i in range(0, 4):
+                body += '\twire horizontal_' + next_tile + '_to_' + cur_tile + '_' + str(i) + ';\n'
+                
+            body += '\n'
+            
+    # Idea: Utility for helping people draw ascii comment pictures in code
     for grid_row in range(0, grid_height):
 
         prev_row = grid_row - 1
@@ -64,14 +122,22 @@ def build_top_str(num_in_ios,
             body += '\tpe_tile pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 
 
+            # Top row connects to input pads
             if ((grid_row == 0) and (grid_col <= (num_in_ios - 1))):
                 body += '\t\t.in_wire_3_0(input_to_grid_' + str(grid_col) + '),\n'
+            # else:
+            #     # All other rows connect to the row above them
+                
+            #     for i in range(0, 4):
+            #         # Connect this tiles side 3 to the previous rows tile
+            #         # side 
 
+            # the
             if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
                 body += '\t\t.out_wire_1_0(grid_to_output_' + str(grid_col) + '),\n'
-            elif (grid_row != (grid_height - 1)):
-                for wire_no in range(0, 4):
-                    body += '\t\t.out_wire_1_' + str(wire_no) + '(pe_tile_' + str(next_row) + '_' + str(grid_col) + '.in_wire_3_' + str(wire_no) + '),\n'
+            # elif (grid_row != (grid_height - 1)):
+            #     for wire_no in range(0, 4):
+            #         body += '\t\t.out_wire_1_' + str(wire_no) + '(pe_tile_' + str(next_row) + '_' + str(grid_col) + '.in_wire_3_' + str(wire_no) + '),\n'
 
             body += '\t\t.clk(clk),\n'
             body += '\t\t.reset(reset),\n'
