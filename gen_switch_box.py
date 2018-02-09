@@ -1,29 +1,38 @@
+from sets import Set
 
-def build_mod_str(n_sides, n_wires_per_side):
 
+def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
+
+    assert(len(sides_to_use) <= n_sides)
+
+    input_wires = Set([])
     output_map = []
-    for side_no in range(0, n_sides):
+    for side_no in sides_to_use:
 
         for wire_no in range(0, n_wires_per_side):
             sources = []
 
             for i in range(0, n_wires_per_side - 1):
-                sources.append((i, 'in_wire_' + str((side_no + i + 1) % n_sides) + '_' + str((side_no + wire_no + i) % n_wires_per_side)))
+
+                wire_side = (side_no + i + 1) % n_sides
+                if wire_side in sides_to_use:
+                    in_wire = 'in_wire_' + str(wire_side) + '_' + str((side_no + wire_no + i) % n_wires_per_side)
+
+                    input_wires.add(in_wire)
+                    sources.append((i, in_wire))
 
             output_map.append(('out_wire_' + str(side_no) + '_' + str(wire_no), sources))
 
     # Generate the actual string
-    mod_str = 'module switch_box(\n'
+    mod_str = 'module ' + mod_name + '(\n'
 
-    for side_no in range(0, n_sides):
-        for wire_no in range(0, n_wires_per_side):
-            mod_str += '\tinput ' + 'in_wire_' + str(side_no) + '_' + str(wire_no) + ',\n'
+    for in_wire in input_wires:
+        mod_str += '\tinput ' + in_wire + ',\n'
 
-    for side_no in range(0, n_sides):
-        for wire_no in range(0, n_wires_per_side):
-            mod_str += '\toutput ' + 'out_wire_' + str(side_no) + '_' + str(wire_no) + ',\n'
-
-    mod_str += '\tinput pe_output_0,\n'            
+    for output in output_map:
+        mod_str += '\toutput ' + output[0] + ',\n'
+            
+    mod_str += '\tinput pe_output_0,\n'
     mod_str += '\tinput [31:0] config_data,\n'
     mod_str += '\tinput config_en,\n'
     mod_str += '\tinput clk,\n'
@@ -38,10 +47,6 @@ def build_mod_str(n_sides, n_wires_per_side):
     mod_str += '\t\t\tconfig_data_reg <= config_data;\n'
     mod_str += '\t\tend\n'
     mod_str += '\tend\n\n\n'
-
-    # for side_no in range(0, n_sides):
-    #     for wire_no in range(0, n_wires_per_side):
-    #         mod_str += '\treg out_wire_' + str(side_no) + '_' + str(wire_no) + '_i;\n';
 
     for output in output_map:
         mod_str += '\treg ' + output[0] + '_i;\n'
@@ -80,6 +85,41 @@ def build_mod_str(n_sides, n_wires_per_side):
 
     return mod_str
 
+# Center switch box
 sb_file = open('switch_box.v', 'w')
-sb_file.write(build_mod_str(4, 4))
+sb_file.write(build_mod_str('switch_box', [0, 1, 2, 3], 4, 4))
+sb_file.close()
+
+# Middle side switch box
+sb_file = open('switch_box_top.v', 'w')
+sb_file.write(build_mod_str('switch_box', [0, 1, 2], 4, 4))
+sb_file.close()
+
+sb_file = open('switch_box_left.v', 'w')
+sb_file.write(build_mod_str('switch_box', [0, 1, 3], 4, 4))
+sb_file.close()
+
+sb_file = open('switch_box_right.v', 'w')
+sb_file.write(build_mod_str('switch_box', [1, 2, 3], 4, 4))
+sb_file.close()
+
+sb_file = open('switch_box_bottom.v', 'w')
+sb_file.write(build_mod_str('switch_box', [0, 2, 3], 4, 4))
+sb_file.close()
+
+# Corner switch boxes
+sb_file = open('switch_box_top_left.v', 'w')
+sb_file.write(build_mod_str('switch_box_top_left', [0, 1], 4, 4))
+sb_file.close()
+
+sb_file = open('switch_box_top_right.v', 'w')
+sb_file.write(build_mod_str('switch_box_top_right', [1, 2], 4, 4))
+sb_file.close()
+
+sb_file = open('switch_box_bottom_left.v', 'w')
+sb_file.write(build_mod_str('switch_box_bottom_left', [0, 3], 4, 4))
+sb_file.close()
+
+sb_file = open('switch_box_bottom_right.v', 'w')
+sb_file.write(build_mod_str('switch_box_bottom_right', [2, 3], 4, 4))
 sb_file.close()
