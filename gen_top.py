@@ -125,7 +125,8 @@ def build_top_str(num_in_ios,
 
             tile_left = 'tile_' + str(grid_row) + '_' + str(prev_col)
             tile_right = 'tile_' + str(grid_row) + '_' + str(next_col)
-            
+
+            pe_tile_mod = 'pe_tile'
             body += '\tpe_tile pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 
             # Wiring up vertical wires

@@ -27,6 +27,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
             config_offset += 2
 
+    # Select the valid connections
     output_map = []
     for val in out_map_nums:
 
