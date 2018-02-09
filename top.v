@@ -22,7 +22,6 @@ module top(
 	wire grid_to_output_1;
 
 
-	// 
 	// input pads
 	io1in_pad in_pad_0(
 		.clk(clk),

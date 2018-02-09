@@ -34,9 +34,6 @@ def build_top_str(num_in_ios,
 
     body += '\n\n'
 
-    body += '\t// \n'
-
-    
     body += '\t// input pads\n'
     for pad_no in range(0, num_in_ios):
         body += '\tio1in_pad in_pad_' + str(pad_no) + '(\n'
