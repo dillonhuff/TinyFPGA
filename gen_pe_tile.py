@@ -71,11 +71,15 @@ def build_pe_tile_str(mod_name,
     for wire in range(0, n_wires_per_side):
         body += '\t\t.track' + str(wire) + '_in(in_wire_0_' + str(wire) + '),\n'
 
+    for wire in range(n_wires_per_side, 2*n_wires_per_side):
+        wire_no = wire - n_wires_per_side
+        body += '\t\t.track' + str(wire) + '_in(out_wire_0_' + str(wire_no) + '),\n'
+        
     body += '\t\t.block_out(op_0),\n'
     # Replace this dummy
     body += '\t\t.config_en(config_en_cb0),\n'
     # Replace this dummy
-    body += '\t\t.config_data(config_data[1:0]),\n'
+    body += '\t\t.config_data(config_data[2:0]),\n'
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
 
@@ -84,11 +88,15 @@ def build_pe_tile_str(mod_name,
     for wire in range(0, n_wires_per_side):
         body += '\t\t.track' + str(wire) + '_in(in_wire_1_' + str(wire) + '),\n'
 
+    for wire in range(n_wires_per_side, 2*n_wires_per_side):
+        wire_no = wire - n_wires_per_side
+        body += '\t\t.track' + str(wire) + '_in(out_wire_1_' + str(wire_no) + '),\n'
+        
     body += '\t\t.block_out(op_1),\n'
     # Replace this dummy
     body += '\t\t.config_en(config_en_cb1),\n'
     # Replace this dummy
-    body += '\t\t.config_data(config_data[1:0]),\n'
+    body += '\t\t.config_data(config_data[2:0]),\n'
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
 

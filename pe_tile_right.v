@@ -95,9 +95,13 @@ module pe_tile_right(
 		.track1_in(in_wire_0_1),
 		.track2_in(in_wire_0_2),
 		.track3_in(in_wire_0_3),
+		.track4_in(out_wire_0_0),
+		.track5_in(out_wire_0_1),
+		.track6_in(out_wire_0_2),
+		.track7_in(out_wire_0_3),
 		.block_out(op_0),
 		.config_en(config_en_cb0),
-		.config_data(config_data[1:0]),
+		.config_data(config_data[2:0]),
 		.clk(clk)
 	);
 
@@ -106,9 +110,13 @@ module pe_tile_right(
 		.track1_in(in_wire_1_1),
 		.track2_in(in_wire_1_2),
 		.track3_in(in_wire_1_3),
+		.track4_in(out_wire_1_0),
+		.track5_in(out_wire_1_1),
+		.track6_in(out_wire_1_2),
+		.track7_in(out_wire_1_3),
 		.block_out(op_1),
 		.config_en(config_en_cb1),
-		.config_data(config_data[1:0]),
+		.config_data(config_data[2:0]),
 		.clk(clk)
 	);
 
