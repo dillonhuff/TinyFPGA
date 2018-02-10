@@ -247,6 +247,6 @@ def build_top_str(num_in_ios,
     return module_string(includes, 'top', ports, body)
 
 pe_tile_file = open('top.v', 'w')
-pe_tile_file.write(build_top_str(32, 32, 32, 32))
+pe_tile_file.write(build_top_str(4, 4, 4, 4))
 pe_tile_file.close()
     

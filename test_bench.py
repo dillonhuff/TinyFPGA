@@ -27,6 +27,7 @@ def build_module(mod_name):
         assert(False)
 
 build_module("switch_box")
+build_module("switch_box_bottom")
 build_module("io1in_pad")
 build_module("io1out_pad")
 build_module("connect_box")
