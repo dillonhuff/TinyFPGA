@@ -132,9 +132,18 @@ def build_top_str(num_in_ios,
 
             if ((grid_col == (grid_height - 1)) and (grid_row != 0) and (grid_row != (grid_height - 1))):
                 pe_tile_mod = 'pe_tile_right'
-                
+
+            if ((grid_row == 0) and (grid_col != 0) and (grid_col != (grid_width - 1))):
+                print 'grid_row = ', grid_row
+                print 'grid_col = ', grid_col
+
+                pe_tile_mod = 'pe_tile_top'
+
+
+            # Declaration of pe
             body += '\t' + pe_tile_mod + ' pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 
+            print 'pe_tile_mod =', pe_tile_mod
             # Wiring up vertical wires
 
             ## Wiring up tiles to inputs above them: row 0 connects to IOs,
