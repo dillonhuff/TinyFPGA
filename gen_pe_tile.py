@@ -29,6 +29,16 @@ def build_pe_tile_str(mod_name,
     body += '\t/* verilator lint_off UNOPTFLAT */\n'
     body += '\twire pe_output;\n\n'
 
+    body += '\t// Local wires for switch box outputs -> connect box\n'
+    if not (0 in sides_to_use):
+        for wire in range(0, n_wires_per_side):
+            body += '\twire out_wire_0_' + str(wire) + ';\n'
+
+    body += '\t// Local wires for switch box outputs -> connect box\n'
+    if not (1 in sides_to_use):
+        for wire in range(0, n_wires_per_side):
+            body += '\twire out_wire_1_' + str(wire) + ';\n'
+            
     body += '\t// Switch box config\n'
     body += '\treg config_en_sb;\n\n'
     body += '\treg config_en_cb0;\n\n'
@@ -104,7 +114,9 @@ def build_pe_tile_str(mod_name,
             body += '\t\t.' + port_name + '(' + port_name + '),\n';
 
     for side_no in range(0, n_sides):
-        if side_no in sides_to_use:
+        # Outputs from side 0 and 1 are always routed to the connect boxes so
+        # they are always needed
+        if (side_no in sides_to_use) or (side_no in [0, 1]):
             for wire_no in range(0, n_wires_per_side):
                 port_name = 'out_wire_' + str(side_no) + '_' + str(wire_no)
                 body += '\t\t.' + port_name + '(' + port_name + '),\n';

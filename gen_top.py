@@ -130,6 +130,9 @@ def build_top_str(num_in_ios,
             if ((grid_col == 0) and (grid_row != 0) and (grid_row != (grid_height - 1))):
                 pe_tile_mod = 'pe_tile_left'
 
+            if ((grid_col == (grid_height - 1)) and (grid_row != 0) and (grid_row != (grid_height - 1))):
+                pe_tile_mod = 'pe_tile_right'
+                
             body += '\t' + pe_tile_mod + ' pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 
             # Wiring up vertical wires

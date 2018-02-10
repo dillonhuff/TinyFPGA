@@ -131,11 +131,11 @@ sb_file.write(build_mod_str('switch_box_left', [0, 1, 3], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_right.v', 'w')
-sb_file.write(build_mod_str('switch_box_right', [1, 2, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_right', [0, 1, 2, 3], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_bottom.v', 'w')
-sb_file.write(build_mod_str('switch_box_bottom', [0, 2, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_bottom', [0, 1, 2, 3], 4, 4))
 sb_file.close()
 
 # Corner switch boxes
@@ -144,13 +144,13 @@ sb_file.write(build_mod_str('switch_box_top_left', [0, 1], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_top_right.v', 'w')
-sb_file.write(build_mod_str('switch_box_top_right', [1, 2], 4, 4))
+sb_file.write(build_mod_str('switch_box_top_right', [0, 1, 2], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_bottom_left.v', 'w')
-sb_file.write(build_mod_str('switch_box_bottom_left', [0, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_bottom_left', [0, 1, 3], 4, 4))
 sb_file.close()
 
 sb_file = open('switch_box_bottom_right.v', 'w')
-sb_file.write(build_mod_str('switch_box_bottom_right', [2, 3], 4, 4))
+sb_file.write(build_mod_str('switch_box_bottom_right', [0, 1, 2, 3], 4, 4))
 sb_file.close()

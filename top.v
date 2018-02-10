@@ -361,7 +361,7 @@ module top(
 		.tile_id(5)
 	);
 
-	pe_tile pe_tile_1_2(
+	pe_tile_right pe_tile_1_2(
 		.out_wire_3_0(vertical_tile_1_2_to_tile_0_2_0),
 		.out_wire_3_1(vertical_tile_1_2_to_tile_0_2_1),
 		.out_wire_3_2(vertical_tile_1_2_to_tile_0_2_2),
