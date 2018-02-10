@@ -18,6 +18,9 @@ def build_pe_tile_str(mod_name,
             for wire in range(0, n_wires_per_side):
                 ports.append('output out_wire_' + str(side) + '_' + str(wire))
 
+    if not (1 in sides_to_use):
+        ports.append('output out_wire_1_0')
+
     body = '\n'
 
     body += '\tlocalparam CONFIG_SB = 7;\n'
@@ -153,13 +156,16 @@ pe_tile_file = open('pe_tile_left.v', 'w')
 pe_tile_file.write(build_pe_tile_str('pe_tile_left', 'switch_box_left', [0, 1, 3], 4, 4))
 pe_tile_file.close()
 
-
 pe_tile_file = open('pe_tile_right.v', 'w')
 pe_tile_file.write(build_pe_tile_str('pe_tile_right', 'switch_box_right', [1, 2, 3], 4, 4))
 pe_tile_file.close()
 
 pe_tile_file = open('pe_tile_top.v', 'w')
 pe_tile_file.write(build_pe_tile_str('pe_tile_top', 'switch_box_top', [0, 1, 2], 4, 4))
+pe_tile_file.close()
+
+pe_tile_file = open('pe_tile_bottom.v', 'w')
+pe_tile_file.write(build_pe_tile_str('pe_tile_bottom', 'switch_box_bottom', [0, 2, 3], 4, 4))
 pe_tile_file.close()
 
 # Corner tiles
@@ -169,4 +175,12 @@ pe_tile_file.close()
 
 pe_tile_file = open('pe_tile_top_right.v', 'w')
 pe_tile_file.write(build_pe_tile_str('pe_tile_top_right', 'switch_box_top_right', [1, 2], 4, 4))
+pe_tile_file.close()
+
+pe_tile_file = open('pe_tile_bottom_left.v', 'w')
+pe_tile_file.write(build_pe_tile_str('pe_tile_bottom_left', 'switch_box_bottom_left', [0, 3], 4, 4))
+pe_tile_file.close()
+
+pe_tile_file = open('pe_tile_bottom_right.v', 'w')
+pe_tile_file.write(build_pe_tile_str('pe_tile_bottom_right', 'switch_box_bottom_right', [2, 3], 4, 4))
 pe_tile_file.close()

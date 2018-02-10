@@ -141,8 +141,16 @@ def build_top_str(num_in_ios,
 
             if ((grid_row == 0) and (grid_col == (grid_width - 1))):
                 pe_tile_mod = 'pe_tile_top_right'
-                
 
+            if ((grid_row == (grid_height - 1)) and (grid_col != (grid_width - 1)) and (grid_col != 0)):
+                pe_tile_mod = 'pe_tile_bottom'
+
+            if ((grid_row == (grid_height - 1)) and (grid_col == (grid_width - 1))):
+                pe_tile_mod = 'pe_tile_bottom_right'
+
+            if ((grid_row == (grid_height - 1)) and (grid_col == 0)):
+                pe_tile_mod = 'pe_tile_bottom_left'
+                
             # Declaration of pe
             body += '\t' + pe_tile_mod + ' pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 

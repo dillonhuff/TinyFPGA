@@ -397,7 +397,7 @@ module top(
 		.tile_id(6)
 	);
 
-	pe_tile pe_tile_2_0(
+	pe_tile_bottom_left pe_tile_2_0(
 		.out_wire_3_0(vertical_tile_2_0_to_tile_1_0_0),
 		.out_wire_3_1(vertical_tile_2_0_to_tile_1_0_1),
 		.out_wire_3_2(vertical_tile_2_0_to_tile_1_0_2),
@@ -430,7 +430,7 @@ module top(
 		.tile_id(7)
 	);
 
-	pe_tile pe_tile_2_1(
+	pe_tile_bottom pe_tile_2_1(
 		.out_wire_3_0(vertical_tile_2_1_to_tile_1_1_0),
 		.out_wire_3_1(vertical_tile_2_1_to_tile_1_1_1),
 		.out_wire_3_2(vertical_tile_2_1_to_tile_1_1_2),
@@ -467,7 +467,7 @@ module top(
 		.tile_id(8)
 	);
 
-	pe_tile pe_tile_2_2(
+	pe_tile_bottom_right pe_tile_2_2(
 		.out_wire_3_0(vertical_tile_2_2_to_tile_1_2_0),
 		.out_wire_3_1(vertical_tile_2_2_to_tile_1_2_1),
 		.out_wire_3_2(vertical_tile_2_2_to_tile_1_2_2),
