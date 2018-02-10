@@ -185,7 +185,7 @@ module top(
 	wire horizontal_tile_2_2_to_tile_2_1_3;
 
 	// Tile declarations
-	pe_tile pe_tile_0_0(
+	pe_tile_top_left pe_tile_0_0(
 		.in_wire_3_0(input_to_grid_0),
 		.in_wire_3_1(1'b0),
 		.in_wire_3_2(1'b0),

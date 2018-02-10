@@ -134,11 +134,11 @@ def build_top_str(num_in_ios,
                 pe_tile_mod = 'pe_tile_right'
 
             if ((grid_row == 0) and (grid_col != 0) and (grid_col != (grid_width - 1))):
-                print 'grid_row = ', grid_row
-                print 'grid_col = ', grid_col
-
                 pe_tile_mod = 'pe_tile_top'
 
+            if ((grid_row == 0) and (grid_col == 0)):
+                pe_tile_mod = 'pe_tile_top_left'
+                
 
             # Declaration of pe
             body += '\t' + pe_tile_mod + ' pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
