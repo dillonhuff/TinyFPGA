@@ -253,7 +253,7 @@ module top(
 		.tile_id(2)
 	);
 
-	pe_tile pe_tile_0_2(
+	pe_tile_top_right pe_tile_0_2(
 		.in_wire_3_0(input_to_grid_2),
 		.in_wire_3_1(1'b0),
 		.in_wire_3_2(1'b0),

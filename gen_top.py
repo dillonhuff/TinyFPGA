@@ -138,6 +138,9 @@ def build_top_str(num_in_ios,
 
             if ((grid_row == 0) and (grid_col == 0)):
                 pe_tile_mod = 'pe_tile_top_left'
+
+            if ((grid_row == 0) and (grid_col == (grid_width - 1))):
+                pe_tile_mod = 'pe_tile_top_right'
                 
 
             # Declaration of pe

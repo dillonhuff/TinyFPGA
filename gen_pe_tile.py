@@ -166,3 +166,7 @@ pe_tile_file.close()
 pe_tile_file = open('pe_tile_top_left.v', 'w')
 pe_tile_file.write(build_pe_tile_str('pe_tile_top_left', 'switch_box_top_left', [0, 1], 4, 4))
 pe_tile_file.close()
+
+pe_tile_file = open('pe_tile_top_right.v', 'w')
+pe_tile_file.write(build_pe_tile_str('pe_tile_top_right', 'switch_box_top_right', [1, 2], 4, 4))
+pe_tile_file.close()
