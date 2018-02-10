@@ -47,6 +47,7 @@ module pe_tile_right(
 
 	wire op_0;
 	wire op_1;
+	/* verilator lint_off UNOPTFLAT */
 	wire pe_output;
 
 	// Switch box config

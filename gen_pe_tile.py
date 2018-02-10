@@ -26,6 +26,7 @@ def build_pe_tile_str(mod_name,
     body += '\tlocalparam CONFIG_CLB = 4;\n\n'
     body += '\twire op_0;\n'
     body += '\twire op_1;\n'
+    body += '\t/* verilator lint_off UNOPTFLAT */\n'
     body += '\twire pe_output;\n\n'
 
     body += '\t// Switch box config\n'
@@ -76,9 +77,7 @@ def build_pe_tile_str(mod_name,
         body += '\t\t.track' + str(wire) + '_in(out_wire_0_' + str(wire_no) + '),\n'
         
     body += '\t\t.block_out(op_0),\n'
-    # Replace this dummy
     body += '\t\t.config_en(config_en_cb0),\n'
-    # Replace this dummy
     body += '\t\t.config_data(config_data[2:0]),\n'
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
@@ -93,9 +92,7 @@ def build_pe_tile_str(mod_name,
         body += '\t\t.track' + str(wire) + '_in(out_wire_1_' + str(wire_no) + '),\n'
         
     body += '\t\t.block_out(op_1),\n'
-    # Replace this dummy
     body += '\t\t.config_en(config_en_cb1),\n'
-    # Replace this dummy
     body += '\t\t.config_data(config_data[2:0]),\n'
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
