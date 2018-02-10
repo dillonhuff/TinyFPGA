@@ -40,13 +40,21 @@ module switch_box_top_left(
 	end
 
 
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_0_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_1_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_2_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_3_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_1_0_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_1_1_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_1_2_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_1_3_i;
 
 	always @(*) begin

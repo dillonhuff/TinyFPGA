@@ -78,6 +78,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
     mod_str += '\tend\n\n\n'
 
     for output in output_map:
+        mod_str += '\t/* verilator lint_off UNOPTFLAT */\n'
         mod_str += '\treg ' + output[0] + '_i;\n'
 
     mod_str += '\n'
@@ -86,7 +87,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
     for output in output_map:
         out_wire = output[0]
         data_reg_start = output[2]
-        
+
         mod_str += '\talways @(*) begin\n'
 
         mod_str += '\t\tcase (config_data_reg[' + str(data_reg_start + 1) + ':' + str(data_reg_start) + '])\n'

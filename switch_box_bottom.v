@@ -44,17 +44,29 @@ module switch_box_bottom(
 	end
 
 
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_0_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_1_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_2_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_0_3_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_2_0_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_2_1_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_2_2_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_2_3_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_3_0_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_3_1_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_3_2_i;
+	/* verilator lint_off UNOPTFLAT */
 	reg out_wire_3_3_i;
 
 	always @(*) begin
