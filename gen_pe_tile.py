@@ -39,7 +39,7 @@ def build_pe_tile_str(mod_name,
 
     body += '\t// Local wires for switch box outputs -> connect box\n'
     if not (1 in sides_to_use):
-        for wire in range(0, n_wires_per_side):
+        for wire in range(1, n_wires_per_side):
             body += '\twire out_wire_1_' + str(wire) + ';\n'
             
     body += '\t// Switch box config\n'

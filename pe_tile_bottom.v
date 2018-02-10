@@ -62,7 +62,6 @@ module pe_tile_bottom(
 
 	// Local wires for switch box outputs -> connect box
 	// Local wires for switch box outputs -> connect box
-	wire out_wire_1_0;
 	wire out_wire_1_1;
 	wire out_wire_1_2;
 	wire out_wire_1_3;
