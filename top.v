@@ -1,6 +1,15 @@
+`ifndef pe_tile_included
+`define pe_tile_included 1
 `include "pe_tile"
+`endif
+`ifndef io1in_pad_included
+`define io1in_pad_included 1
 `include "io1in_pad"
+`endif
+`ifndef io1out_pad_included
+`define io1out_pad_included 1
 `include "io1out_pad"
+`endif
 
 
 module top(
@@ -276,7 +285,7 @@ module top(
 		.tile_id(3)
 	);
 
-	pe_tile pe_tile_1_0(
+	pe_tile_left pe_tile_1_0(
 		.out_wire_3_0(vertical_tile_1_0_to_tile_0_0_0),
 		.out_wire_3_1(vertical_tile_1_0_to_tile_0_0_1),
 		.out_wire_3_2(vertical_tile_1_0_to_tile_0_0_2),

@@ -1,6 +1,15 @@
+`ifndef clb_v_included
+`define clb_v_included 1
 `include "clb.v"
+`endif
+`ifndef connect_box_v_included
+`define connect_box_v_included 1
 `include "connect_box.v"
+`endif
+`ifndef switch_box_v_included
+`define switch_box_v_included 1
 `include "switch_box.v"
+`endif
 
 
 module pe_tile_left(

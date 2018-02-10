@@ -1,7 +1,11 @@
+
 def module_string(includes, name, ports, body):
     mod_str = ""
     for include_name in includes:
+        mod_str += '`ifndef ' + include_name.replace(".", "_") + '_included\n'
+        mod_str += '`define ' + include_name.replace(".", "_") + '_included 1\n'
         mod_str += '`include \"' + include_name + '\"\n'
+        mod_str += '`endif\n'
 
     mod_str += '\n\n'
 
