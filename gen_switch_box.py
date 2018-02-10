@@ -68,6 +68,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
     mod_str += '\tinput reset\n'
     mod_str += '\t);\n\n'
 
+    mod_str += '\t/* verilator lint_off UNUSED */\n'
     mod_str += '\treg [31:0] config_data_reg;\n'
     mod_str += '\talways @(posedge clk) begin\n'
     mod_str += '\t\tif (reset) begin\n'

@@ -38,6 +38,7 @@ module switch_box(
 	input reset
 	);
 
+	/* verilator lint_off UNUSED */
 	reg [31:0] config_data_reg;
 	always @(posedge clk) begin
 		if (reset) begin
