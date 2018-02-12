@@ -115,6 +115,24 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
     (output_map, input_wires) = build_box_topology(sides_to_use, n_sides, n_wires_per_side)
 
+    print 'Topology of', mod_name
+
+    print mod_name
+    print 'inputs'
+    for in_wire in input_wires:
+        print '\t', in_wire
+
+    print 'outputs'
+    for output in output_map:
+        print '\t', output[0]
+
+    print 'connections'
+    for output in output_map:
+        print '\t', output[0]
+
+        for out in output[1]:
+            print '\t\t', out[1]
+
     # Generate the actual string
     mod_str = 'module ' + mod_name + '(\n'
 
