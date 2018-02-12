@@ -112,25 +112,25 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     return (output_map, input_wires)
 
 def generate_sb_json(mod_name, output_map, input_wires):
-    json_str = '{}'
-    print 'Topology of', mod_name
+    json_str = '{\n'
+    json_str += 'mod_name : ' + mod_name + ',\n'
 
-    print mod_name
-    print 'inputs'
+    json_str += 'inputs\n'
     for in_wire in input_wires:
-        print '\t', in_wire
+        json_str += '\t' + in_wire + '\n'
 
-    print 'outputs'
+    json_str += 'outputs\n'
     for output in output_map:
-        print '\t', output[0]
+        json_str += '\t' + output[0] + '\n'
 
-    print 'connections'
+    json_str += 'connections : \n'
     for output in output_map:
-        print '\t', output[0]
+        json_str += '\t' + output[0] + '\n'
 
         for out in output[1]:
-            print '\t\t', out[1]
+            json_str += '\t\t' + out[1] + '\n'
 
+    json_str += '\n}\n'
     return json_str
 
 def generate_sb_verilog(mod_name, output_map, input_wires):
