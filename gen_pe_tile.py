@@ -10,6 +10,9 @@ class PETile:
                  n_sides,
                  n_wires_per_side):
 
+        self.mod_name = mod_name
+        self.switch_box_mod = switch_box_mod
+
         self.input_wires = Set([])
         for side in range(0, n_sides):
             for wire in range(0, n_wires_per_side):
@@ -51,16 +54,27 @@ class PETile:
         
             
         self.sb_connections = {}
+        for side_no in range(0, n_sides):
+            for wire_no in range(0, n_wires_per_side):
+                port_name = 'in_wire_' + str(side_no) + '_' + str(wire_no)
+                self.sb_connections[port_name] = port_name
+
+        for side_no in range(0, n_sides):
+            # Outputs from side 0 and 1 are always routed to the connect boxes so
+            # they are always needed
+            if (side_no in sides_to_use) or (side_no in [0, 1]):
+                for wire_no in range(0, n_wires_per_side):
+                    port_name = 'out_wire_' + str(side_no) + '_' + str(wire_no)
+                    self.sb_connections[port_name] = port_name
+                    #body += '\t\t.' + port_name + '(' + port_name + '),\n';
 
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
 # outputs?
-def build_pe_tile_str(mod_name,
-                      switch_box_mod,
-                      sides_to_use,
-                      n_sides,
-                      n_wires_per_side):
-
-    pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
+def generate_pe_tile_verilog(pe_tile):
+                      # switch_box_mod,
+                      # sides_to_use,
+                      # n_sides,
+                      # n_wires_per_side):
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
 
     for in_wire in pe_tile.input_wires:
@@ -143,19 +157,9 @@ def build_pe_tile_str(mod_name,
     body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
 
-    body += '\t' + switch_box_mod + ' sb(\n'
-    for side_no in range(0, n_sides):
-        for wire_no in range(0, n_wires_per_side):
-            port_name = 'in_wire_' + str(side_no) + '_' + str(wire_no)
-            body += '\t\t.' + port_name + '(' + port_name + '),\n';
-
-    for side_no in range(0, n_sides):
-        # Outputs from side 0 and 1 are always routed to the connect boxes so
-        # they are always needed
-        if (side_no in sides_to_use) or (side_no in [0, 1]):
-            for wire_no in range(0, n_wires_per_side):
-                port_name = 'out_wire_' + str(side_no) + '_' + str(wire_no)
-                body += '\t\t.' + port_name + '(' + port_name + '),\n';
+    body += '\t' + pe_tile.switch_box_mod + ' sb(\n'
+    for wire in pe_tile.sb_connections:
+        body += '\t\t.' + wire + '(' + pe_tile.sb_connections[wire] + '),\n'
 
     body += '\t\t.pe_output_0(pe_output),\n'
     body += '\t\t.config_data(config_data),\n'
@@ -174,7 +178,19 @@ def build_pe_tile_str(mod_name,
     body += '\t\t);\n\n'
 
     return module_string(['clb.v', 'connect_box.v', 'switch_box.v'],
-                         mod_name,
+                         pe_tile.mod_name,
                          ports,
                          body)
 
+def generate_pe_tile(mod_name,
+                     switch_box_mod,
+                     sides_to_use,
+                     n_sides,
+                     n_wires_per_side):
+    pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
+    verilog_str = generate_pe_tile_verilog(pe_tile)
+
+    pe_tile_file = open(mod_name + '.v', 'w')
+    pe_tile_file.write(verilog_str)
+    pe_tile_file.close()
+    
