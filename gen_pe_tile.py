@@ -32,10 +32,24 @@ class PETile:
         if not (1 in sides_to_use):
             for wire in range(1, n_wires_per_side):
                 self.local_output_wires.add('wire out_wire_1_' + str(wire))
-        
-        self.cb0_connections = {}
-        self.cb1_connections = {}
 
+        self.cb0_connections = {}
+        for wire in range(0, n_wires_per_side):
+            self.cb0_connections['track' + str(wire) + '_in'] = 'in_wire_0_' + str(wire)
+
+        for wire in range(n_wires_per_side, 2*n_wires_per_side):
+            wire_no = wire - n_wires_per_side
+            self.cb0_connections['track' + str(wire) + '_in'] = 'out_wire_0_' + str(wire_no)
+
+        self.cb1_connections = {}
+        for wire in range(0, n_wires_per_side):
+            self.cb1_connections['track' + str(wire) + '_in'] = 'in_wire_1_' + str(wire)
+
+        for wire in range(n_wires_per_side, 2*n_wires_per_side):
+            wire_no = wire - n_wires_per_side
+            self.cb1_connections['track' + str(wire) + '_in'] = 'out_wire_1_' + str(wire_no)
+        
+            
         self.sb_connections = {}
 
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
@@ -69,15 +83,6 @@ def build_pe_tile_str(mod_name,
     body += '\t// Local wires for switch box outputs <-> connect box\n'
     for wire in pe_tile.local_output_wires:
         body += '\t' + wire + ';\n'
-    # body += '\t// Local wires for switch box outputs -> connect box\n'
-    # if not (0 in sides_to_use):
-    #     for wire in range(0, n_wires_per_side):
-    #         body += '\twire out_wire_0_' + str(wire) + ';\n'
-
-    # body += '\t// Local wires for switch box outputs -> connect box\n'
-    # if not (1 in sides_to_use):
-    #     for wire in range(1, n_wires_per_side):
-    #         body += '\twire out_wire_1_' + str(wire) + ';\n'
             
     body += '\t// Switch box config\n'
     body += '\treg config_en_sb;\n\n'
@@ -119,12 +124,8 @@ def build_pe_tile_str(mod_name,
 
     body += '\tconnect_box cb0(\n'
 
-    for wire in range(0, n_wires_per_side):
-        body += '\t\t.track' + str(wire) + '_in(in_wire_0_' + str(wire) + '),\n'
-
-    for wire in range(n_wires_per_side, 2*n_wires_per_side):
-        wire_no = wire - n_wires_per_side
-        body += '\t\t.track' + str(wire) + '_in(out_wire_0_' + str(wire_no) + '),\n'
+    for wire in pe_tile.cb0_connections:
+        body += '\t\t.' + wire + '(' + pe_tile.cb0_connections[wire] + '),\n'
         
     body += '\t\t.block_out(op_0),\n'
     body += '\t\t.config_en(config_en_cb0),\n'
@@ -133,14 +134,9 @@ def build_pe_tile_str(mod_name,
     body += '\t);\n\n'
 
     body += '\tconnect_box cb1(\n'
+    for wire in pe_tile.cb1_connections:
+        body += '\t\t.' + wire + '(' + pe_tile.cb1_connections[wire] + '),\n'
 
-    for wire in range(0, n_wires_per_side):
-        body += '\t\t.track' + str(wire) + '_in(in_wire_1_' + str(wire) + '),\n'
-
-    for wire in range(n_wires_per_side, 2*n_wires_per_side):
-        wire_no = wire - n_wires_per_side
-        body += '\t\t.track' + str(wire) + '_in(out_wire_1_' + str(wire_no) + '),\n'
-        
     body += '\t\t.block_out(op_1),\n'
     body += '\t\t.config_en(config_en_cb1),\n'
     body += '\t\t.config_data(config_data[2:0]),\n'

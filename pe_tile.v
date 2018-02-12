@@ -109,14 +109,14 @@ module pe_tile(
 	end
 
 	connect_box cb0(
-		.track0_in(in_wire_0_0),
-		.track1_in(in_wire_0_1),
-		.track2_in(in_wire_0_2),
-		.track3_in(in_wire_0_3),
-		.track4_in(out_wire_0_0),
-		.track5_in(out_wire_0_1),
 		.track6_in(out_wire_0_2),
+		.track3_in(in_wire_0_3),
 		.track7_in(out_wire_0_3),
+		.track5_in(out_wire_0_1),
+		.track0_in(in_wire_0_0),
+		.track4_in(out_wire_0_0),
+		.track2_in(in_wire_0_2),
+		.track1_in(in_wire_0_1),
 		.block_out(op_0),
 		.config_en(config_en_cb0),
 		.config_data(config_data[2:0]),
@@ -124,14 +124,14 @@ module pe_tile(
 	);
 
 	connect_box cb1(
-		.track0_in(in_wire_1_0),
-		.track1_in(in_wire_1_1),
-		.track2_in(in_wire_1_2),
-		.track3_in(in_wire_1_3),
-		.track4_in(out_wire_1_0),
-		.track5_in(out_wire_1_1),
 		.track6_in(out_wire_1_2),
+		.track3_in(in_wire_1_3),
 		.track7_in(out_wire_1_3),
+		.track5_in(out_wire_1_1),
+		.track0_in(in_wire_1_0),
+		.track4_in(out_wire_1_0),
+		.track2_in(in_wire_1_2),
+		.track1_in(in_wire_1_1),
 		.block_out(op_1),
 		.config_en(config_en_cb1),
 		.config_data(config_data[2:0]),
