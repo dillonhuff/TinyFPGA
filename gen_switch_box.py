@@ -123,7 +123,7 @@ def generate_sb_json(mod_name, output_map, input_wires):
     for output in output_map:
         json_str += '\t' + output[0] + '\n'
 
-    json_str += 'connections : \n'
+    json_str += 'switches : \n'
     for output in output_map:
         json_str += '\t' + output[0] + '\n'
 
