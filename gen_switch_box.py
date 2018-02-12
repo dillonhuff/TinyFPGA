@@ -1,7 +1,66 @@
 from sets import Set
 
-def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
+# How do I want to represent the topology of the entire chip?
 
+# The goal is to have a single place and route algorithm that can
+# handle any parametrized fabric
+
+# There is a set of inputs, a bunch of connection points, and a bunch
+# of switches. Also there is a bitstream format that is used to capture
+# how to map a named topology to a bitstream
+
+# Note: Connections are directional
+
+# Need to generate topology for the top module, switch boxes, and connect boxes
+
+# For bitstream conversion I need to develop a way to convert the PnR format to
+# bits
+
+# In a perfect world: I would generate a chip layout data structure, then generate
+# the verilog to go with the layout from the layout DS and generate the PnR format
+# from the layout DS as well
+
+# Layout format: Nodes and ports
+# Node types: PEs, In pads, Out pads, Switches
+# Ports on nodes: Inputs, Outputs
+
+# In this scheme:
+
+# CLB is just a black box with 2 inputs, 1 output and a label
+
+# Switch is a black box with N inputs, 1 output and a label?
+
+# Input pad is a black box with 1 output
+
+# Output pad is a black box with 1 input
+
+# Connect box is a box with 8 inputs, 1 output. Internally it is a switch
+# Switch box has a bunch of inputs / outputs, internally its a bunch of switches
+
+# Placement is about assigning one tile_id to each CLB, input, and output in
+# the application graph. Then assigning paths to each edge such that:
+# 1. The sequence of connections maps ports to ports
+
+# Is it about assigning paths to each edge? Or about assigning labels to
+# switches?
+
+# Note: Maybe the next thing to do is convert the configuration logic to be
+# auto generated and then write my own bitstream converter for it (in C++)?
+
+# What is the structure of the bitstream converter? Functions for generating
+# configuration data from pairs of connections and from labels?
+
+# Switches labeled by which input they will carry through, CLBs labeled by
+# which operation they will use
+
+# Configuration data is a mapping from labels to bits
+
+# Configuration address is a mapping from addresses to configurable elements.
+# This has a hierarchy. Tiles have addresses and the components inside tiles have
+# config enable bits set by tile addresses. So the address is a hierarchy
+# [ Tile address bits | subcomponent address bits ]
+
+def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     assert(len(sides_to_use) <= n_sides)
 
     input_wires = Set([])
@@ -42,15 +101,19 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
                 i = src[0] #src[1][0]
                 in_wire_no = src[1][1]
 
-                #if in_side_no in sides_to_use:
                 in_wire_name = 'in_wire_' + str(in_side_no) + '_' + str(in_wire_no)
-                    # print 'in_wire_name = ', in_wire_name
-                    # print 'i            = ', i
+
                 sources.append((i, in_wire_name))
 
                 input_wires.add(in_wire_name)
 
             output_map.append(('out_wire_' + str(side_no) + '_' + str(out_wire_no), sources, config_offset))
+
+    return (output_map, input_wires)
+
+def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
+
+    (output_map, input_wires) = build_box_topology(sides_to_use, n_sides, n_wires_per_side)
 
     # Generate the actual string
     mod_str = 'module ' + mod_name + '(\n'
@@ -60,7 +123,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
     for output in output_map:
         mod_str += '\toutput ' + output[0] + ',\n'
-            
+
     mod_str += '\tinput pe_output_0,\n'
     mod_str += '\tinput [31:0] config_data,\n'
     mod_str += '\tinput config_en,\n'
