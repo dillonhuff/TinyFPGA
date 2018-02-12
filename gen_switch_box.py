@@ -111,10 +111,8 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
 
     return (output_map, input_wires)
 
-def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
-
-    (output_map, input_wires) = build_box_topology(sides_to_use, n_sides, n_wires_per_side)
-
+def generate_sb_json(mod_name, output_map, input_wires):
+    json_str = '{}'
     print 'Topology of', mod_name
 
     print mod_name
@@ -133,6 +131,9 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
         for out in output[1]:
             print '\t\t', out[1]
 
+    return json_str
+
+def generate_sb_verilog(mod_name, output_map, input_wires):
     # Generate the actual string
     mod_str = 'module ' + mod_name + '(\n'
 
@@ -197,4 +198,23 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
     mod_str += 'endmodule'
 
     return mod_str
+    
+def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
+    (output_map, input_wires) = build_box_topology(sides_to_use, n_sides, n_wires_per_side)
+
+    verilog = generate_sb_verilog(mod_name, output_map, input_wires)
+    json = generate_sb_json(mod_name, output_map, input_wires)
+    return (verilog, json)
+
+def generate_sb(mod_name, sides_to_use, n_sides, n_wires_per_side):
+
+    (verilog_str, json_str) = build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side)
+    sb_file = open(mod_name + '.v', 'w')
+    sb_file.write(verilog_str)
+    sb_file.close()
+
+    sb_file = open(mod_name + '.json', 'w')
+    sb_file.write(json_str)
+    sb_file.close()
+    
