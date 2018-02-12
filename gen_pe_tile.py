@@ -115,7 +115,7 @@ def generate_pe_tile_verilog(pe_tile):
     body += '\t// Local wires for switch box outputs <-> connect box\n'
     for wire in pe_tile.local_output_wires:
         body += '\t' + wire + ';\n'
-            
+
     body += '\t// Switch box config\n'
     body += '\treg config_en_sb;\n\n'
     body += '\treg config_en_cb0;\n\n'
