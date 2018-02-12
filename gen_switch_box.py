@@ -137,26 +137,6 @@ def generate_sb_json(mod_name, output_map, input_wires):
     json_str = json.dumps(json_val)
 
     return json_str
-    # json_str = '{\n'
-    # json_str += 'mod_name : ' + mod_name + ',\n'
-
-    # json_str += 'inputs\n'
-    # for in_wire in input_wires:
-    #     json_str += '\t' + in_wire + '\n'
-
-    # json_str += 'outputs\n'
-    # for output in output_map:
-    #     json_str += '\t' + output[0] + '\n'
-
-    # json_str += 'switches : \n'
-    # for output in output_map:
-    #     json_str += '\t' + output[0] + '\n'
-
-    #     for out in output[1]:
-    #         json_str += '\t\t' + out[1] + '\n'
-
-    # json_str += '\n}\n'
-    # return json_str
 
 def generate_sb_verilog(mod_name, output_map, input_wires):
     # Generate the actual string

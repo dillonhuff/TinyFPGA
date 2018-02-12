@@ -70,9 +70,22 @@ class PETile:
                     self.sb_connections[port_name] = port_name
 
 def generate_pe_tile_json(pe_tile):
-    json_str = '{\n'
-    json_str += 'mod_name : ' + pe_tile.mod_name + '\n'
-    json_str += '}\n'
+    json_val = {}
+
+    json_val['mod_name'] = pe_tile.mod_name
+    
+    json_val['switch_box_mod'] = pe_tile.switch_box_mod
+
+    json_val['input_wires'] = list(pe_tile.input_wires)
+    json_val['output_wires'] = list(pe_tile.output_wires)
+
+    json_val['local_output_wires'] = list(pe_tile.local_output_wires)
+
+    json_val['cb0_connections'] = pe_tile.cb0_connections
+    json_val['cb1_connections'] = pe_tile.cb1_connections
+    json_val['sb_connections'] = pe_tile.sb_connections
+
+    json_str = json.dumps(json_val)
 
     return json_str
 
