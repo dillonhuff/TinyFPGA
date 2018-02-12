@@ -11,6 +11,7 @@ def run_generators():
     # Middle side switch box
     generate_sb('switch_box_top', [0, 1, 2], 4, n_wires_per_side)
     generate_sb('switch_box_left', [0, 1, 3], 4, n_wires_per_side)
+    # Remove the duplicates here, merge with switch_box
     generate_sb('switch_box_right', [0, 1, 2, 3], 4, n_wires_per_side)
     generate_sb('switch_box_bottom', [0, 1, 2, 3], 4, n_wires_per_side)
 
@@ -18,6 +19,7 @@ def run_generators():
     generate_sb('switch_box_top_left', [0, 1], 4, n_wires_per_side)
     generate_sb('switch_box_top_right', [0, 1, 2], 4, n_wires_per_side)
     generate_sb('switch_box_bottom_left', [0, 1, 3], 4, n_wires_per_side)
+    # Remove the duplicates here, merge with switch_box
     generate_sb('switch_box_bottom_right', [0, 1, 2, 3], 4, n_wires_per_side)
 
     # Generating PE tiles

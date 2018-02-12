@@ -1,5 +1,7 @@
 from sets import Set
 
+import json
+
 # How do I want to represent the topology of the entire chip?
 
 # The goal is to have a single place and route algorithm that can
@@ -112,26 +114,49 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     return (output_map, input_wires)
 
 def generate_sb_json(mod_name, output_map, input_wires):
-    json_str = '{\n'
-    json_str += 'mod_name : ' + mod_name + ',\n'
+    json_val = {}
+    json_val['mod_name'] = mod_name
 
-    json_str += 'inputs\n'
-    for in_wire in input_wires:
-        json_str += '\t' + in_wire + '\n'
+    json_val['inputs'] = list(input_wires)
 
-    json_str += 'outputs\n'
+    output_wires = []
+    switches = {}
     for output in output_map:
-        json_str += '\t' + output[0] + '\n'
+        output_wires.append(output[0])
 
-    json_str += 'switches : \n'
-    for output in output_map:
-        json_str += '\t' + output[0] + '\n'
+        switch_inputs = []
+        for in_wire in output[1]:
+            switch_inputs.append(in_wire[1])
 
-        for out in output[1]:
-            json_str += '\t\t' + out[1] + '\n'
+        switches[output[0]] = switch_inputs
 
-    json_str += '\n}\n'
+    json_val['outputs'] = output_wires
+    json_val['switches'] = switches
+
+    
+    json_str = json.dumps(json_val)
+
     return json_str
+    # json_str = '{\n'
+    # json_str += 'mod_name : ' + mod_name + ',\n'
+
+    # json_str += 'inputs\n'
+    # for in_wire in input_wires:
+    #     json_str += '\t' + in_wire + '\n'
+
+    # json_str += 'outputs\n'
+    # for output in output_map:
+    #     json_str += '\t' + output[0] + '\n'
+
+    # json_str += 'switches : \n'
+    # for output in output_map:
+    #     json_str += '\t' + output[0] + '\n'
+
+    #     for out in output[1]:
+    #         json_str += '\t\t' + out[1] + '\n'
+
+    # json_str += '\n}\n'
+    # return json_str
 
 def generate_sb_verilog(mod_name, output_map, input_wires):
     # Generate the actual string

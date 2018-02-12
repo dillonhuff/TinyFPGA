@@ -1,5 +1,7 @@
 from sets import Set
 
+import json
+
 from generator_utils import module_string
 
 class PETile:
@@ -66,15 +68,18 @@ class PETile:
                 for wire_no in range(0, n_wires_per_side):
                     port_name = 'out_wire_' + str(side_no) + '_' + str(wire_no)
                     self.sb_connections[port_name] = port_name
-                    #body += '\t\t.' + port_name + '(' + port_name + '),\n';
+
+def generate_pe_tile_json(pe_tile):
+    json_str = '{\n'
+    json_str += 'mod_name : ' + pe_tile.mod_name + '\n'
+    json_str += '}\n'
+
+    return json_str
 
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
 # outputs?
 def generate_pe_tile_verilog(pe_tile):
-                      # switch_box_mod,
-                      # sides_to_use,
-                      # n_sides,
-                      # n_wires_per_side):
+
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
 
     for in_wire in pe_tile.input_wires:
@@ -193,4 +198,8 @@ def generate_pe_tile(mod_name,
     pe_tile_file = open(mod_name + '.v', 'w')
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()
-    
+
+    json_str = generate_pe_tile_json(pe_tile)
+    pe_tile_file = open(mod_name + '.json', 'w')
+    pe_tile_file.write(json_str)
+    pe_tile_file.close()
