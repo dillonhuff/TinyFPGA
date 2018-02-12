@@ -246,8 +246,3 @@ def build_top_str(num_in_ios,
 
     return module_string(includes, 'top', ports, body)
 
-name = 'top'
-pe_tile_file = open(name + '.v', 'w')
-pe_tile_file.write(build_top_str(2, 2, 2, 2))
-pe_tile_file.close()
-    

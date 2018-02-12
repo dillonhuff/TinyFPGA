@@ -47,8 +47,6 @@ def run_generators():
     pe_tile_file.write(build_pe_tile_str('pe_tile', 'switch_box', [0, 1, 2, 3], 4, 4))
     pe_tile_file.close()
 
-    # Note: Need custom switch boxes for top and bottom, since those need to receive
-    # one input
     # Side PEs
     pe_tile_file = open('pe_tile_left.v', 'w')
     pe_tile_file.write(build_pe_tile_str('pe_tile_left', 'switch_box_left', [0, 1, 3], 4, 4))
@@ -81,6 +79,11 @@ def run_generators():
 
     pe_tile_file = open('pe_tile_bottom_right.v', 'w')
     pe_tile_file.write(build_pe_tile_str('pe_tile_bottom_right', 'switch_box_bottom_right', [2, 3], 4, 4))
+    pe_tile_file.close()
+
+    name = 'top'
+    pe_tile_file = open(name + '.v', 'w')
+    pe_tile_file.write(build_top_str(2, 2, 2, 2))
     pe_tile_file.close()
     
     print 'Done running generators'
