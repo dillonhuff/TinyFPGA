@@ -24,6 +24,15 @@ class PETile:
         if not (1 in sides_to_use):
             self.output_wires.add('output out_wire_1_0')
 
+        self.local_output_wires = Set([])
+        if not (0 in sides_to_use):
+            for wire in range(0, n_wires_per_side):
+                self.local_output_wires.add('wire out_wire_0_' + str(wire))
+
+        if not (1 in sides_to_use):
+            for wire in range(1, n_wires_per_side):
+                self.local_output_wires.add('wire out_wire_1_' + str(wire))
+        
         self.cb0_connections = {}
         self.cb1_connections = {}
 
@@ -42,20 +51,9 @@ def build_pe_tile_str(mod_name,
 
     for in_wire in pe_tile.input_wires:
         ports.append(in_wire)
-    # for side in range(0, n_sides):
-    #     for wire in range(0, n_wires_per_side):
-    #         ports.append('input in_wire_' + str(side) + '_' + str(wire))
 
     for out_wire in pe_tile.output_wires:
         ports.append(out_wire)
-
-    # for side in range(0, n_sides):
-    #     if side in sides_to_use:
-    #         for wire in range(0, n_wires_per_side):
-    #             ports.append('output out_wire_' + str(side) + '_' + str(wire))
-
-    # if not (1 in sides_to_use):
-    #     ports.append('output out_wire_1_0')
 
     body = '\n'
 
@@ -68,15 +66,18 @@ def build_pe_tile_str(mod_name,
     body += '\t/* verilator lint_off UNOPTFLAT */\n'
     body += '\twire pe_output;\n\n'
 
-    body += '\t// Local wires for switch box outputs -> connect box\n'
-    if not (0 in sides_to_use):
-        for wire in range(0, n_wires_per_side):
-            body += '\twire out_wire_0_' + str(wire) + ';\n'
+    body += '\t// Local wires for switch box outputs <-> connect box\n'
+    for wire in pe_tile.local_output_wires:
+        body += '\t' + wire + ';\n'
+    # body += '\t// Local wires for switch box outputs -> connect box\n'
+    # if not (0 in sides_to_use):
+    #     for wire in range(0, n_wires_per_side):
+    #         body += '\twire out_wire_0_' + str(wire) + ';\n'
 
-    body += '\t// Local wires for switch box outputs -> connect box\n'
-    if not (1 in sides_to_use):
-        for wire in range(1, n_wires_per_side):
-            body += '\twire out_wire_1_' + str(wire) + ';\n'
+    # body += '\t// Local wires for switch box outputs -> connect box\n'
+    # if not (1 in sides_to_use):
+    #     for wire in range(1, n_wires_per_side):
+    #         body += '\twire out_wire_1_' + str(wire) + ';\n'
             
     body += '\t// Switch box config\n'
     body += '\treg config_en_sb;\n\n'

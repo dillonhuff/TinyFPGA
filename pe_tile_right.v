@@ -62,12 +62,11 @@ module pe_tile_right(
 	/* verilator lint_off UNOPTFLAT */
 	wire pe_output;
 
-	// Local wires for switch box outputs -> connect box
+	// Local wires for switch box outputs <-> connect box
 	wire out_wire_0_0;
 	wire out_wire_0_1;
 	wire out_wire_0_2;
 	wire out_wire_0_3;
-	// Local wires for switch box outputs -> connect box
 	// Switch box config
 	reg config_en_sb;
 
