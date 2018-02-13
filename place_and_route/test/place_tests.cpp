@@ -181,14 +181,18 @@ namespace TinyPnR {
 
   class Tile {
     std::string name;
-    std::vector<string> labels;
+    std::set<string> labels;
 
   public:
 
     Tile() : name(""), labels({}) {}
 
     Tile(const std::string& name_,
-         const std::vector<string>& labels_) : name(name_), labels(labels_) {}
+         const std::vector<string>& labels_) : name(name_), labels(begin(labels_), end(labels_)) {}
+
+    std::set<string> getLabels() const { return labels; }
+
+    
   };
 
   class TargetTopology {
@@ -204,32 +208,51 @@ namespace TinyPnR {
                    const std::vector<string>& labels) {
       TileId id = nTiles;
       nTiles++;
+      tileMap[id] = Tile(name, labels);
       return id;
+    }
+
+    Tile getTile(const TileId& tileId) const {
+      assert(contains_key(tileId, tileMap));
+
+      return tileMap.find(tileId)->second;
+    }
+
+    std::set<TileId> tileIds() const {
+      std::set<TileId> ids;
+      for (auto id : tileMap) {
+        ids.insert(id.first);
+      }
+      return ids;
     }
   };
 
   typedef DirectedGraph<std::string, int> ApplicationGraph;
-  // typedef int NodeId;
-  // class ApplicationGraph {
-
-  //   int nNodes;
-
-  // public:
-
-  //   ApplicationGraph() : nNodes(0) {}
-
-  //   NodeId addNode(const std::string& nodeLabel) {
-  //     NodeId id = nNodes;
-  //     nNodes++;
-  //     return id;
-  //   }
-    
-  // };
 
   std::map<vdisc, TileId>
   placeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology) {
-    return {};
+    set<TileId> ids = topology.tileIds();
+
+    map<vdisc, TileId> placement;
+    for (auto vert : app.getVerts()) {
+      string val = app.getNode(vert);
+
+      bool foundTile = false;
+      for (auto tileId : ids) {
+        if (elem(val, topology.getTile(tileId).getLabels())) {
+          ids.erase(tileId);
+          foundTile = true;
+
+          placement[tileId] = tileId;
+          break;
+        }
+      }
+
+      assert(foundTile);
+    }
+    
+    return placement;
   }
 
   TEST_CASE("Placing a single node on a graph") {
