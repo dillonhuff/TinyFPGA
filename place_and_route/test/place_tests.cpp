@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN
 
+#include "algorithm.h"
 #include "catch.hpp"
 
 using namespace std;
@@ -242,6 +243,7 @@ namespace TinyPnR {
     ApplicationGraph app;
     auto inNode = app.addVertex("input");
     auto outNode = app.addVertex("output");
+    auto ed = app.addEdge(inNode, outNode);
 
     // Place application graph
     map<vdisc, TileId> placement = placeApplication(app, topology);
