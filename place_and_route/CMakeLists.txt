@@ -13,4 +13,3 @@ INCLUDE_DIRECTORIES(./src/)
 SET(TEST_FILES ./test/place_tests.cpp)
 
 add_executable(all-tests ${TEST_FILES})
-
