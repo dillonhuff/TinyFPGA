@@ -177,49 +177,49 @@ namespace TinyPnR {
     return g.vertsWithNoIncomingEdge();
   }
   
-  typedef int TileId;
+  typedef int CLBId;
 
-  class Tile {
+  class CLB {
     std::string name;
     std::set<string> labels;
 
   public:
 
-    Tile() : name(""), labels({}) {}
+    CLB() : name(""), labels({}) {}
 
-    Tile(const std::string& name_,
-         const std::vector<string>& labels_) : name(name_), labels(begin(labels_), end(labels_)) {}
+    CLB(const std::string& name_,
+         const std::vector<string>& labels_) :
+      name(name_), labels(begin(labels_), end(labels_)) {}
 
     std::set<string> getLabels() const { return labels; }
 
-    
   };
 
   class TargetTopology {
-    TileId nTiles;
+    CLBId nCLBs;
 
-    std::map<TileId, Tile> tileMap;
+    std::map<CLBId, CLB> tileMap;
     
   public:
 
-    TargetTopology() : nTiles(0) {}
+    TargetTopology() : nCLBs(0) {}
 
-    TileId addTile(const std::string& name,
+    CLBId addCLB(const std::string& name,
                    const std::vector<string>& labels) {
-      TileId id = nTiles;
-      nTiles++;
-      tileMap[id] = Tile(name, labels);
+      CLBId id = nCLBs;
+      nCLBs++;
+      tileMap[id] = CLB(name, labels);
       return id;
     }
 
-    Tile getTile(const TileId& tileId) const {
+    CLB getCLB(const CLBId& tileId) const {
       assert(contains_key(tileId, tileMap));
 
       return tileMap.find(tileId)->second;
     }
 
-    std::set<TileId> tileIds() const {
-      std::set<TileId> ids;
+    std::set<CLBId> tileIds() const {
+      std::set<CLBId> ids;
       for (auto id : tileMap) {
         ids.insert(id.first);
       }
@@ -229,38 +229,38 @@ namespace TinyPnR {
 
   typedef DirectedGraph<std::string, int> ApplicationGraph;
 
-  std::map<vdisc, TileId>
+  std::map<vdisc, CLBId>
   placeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology) {
-    set<TileId> ids = topology.tileIds();
+    set<CLBId> ids = topology.tileIds();
 
-    map<vdisc, TileId> placement;
+    map<vdisc, CLBId> placement;
     for (auto vert : app.getVerts()) {
       string val = app.getNode(vert);
 
-      bool foundTile = false;
+      bool foundCLB = false;
       for (auto tileId : ids) {
-        if (elem(val, topology.getTile(tileId).getLabels())) {
+        if (elem(val, topology.getCLB(tileId).getLabels())) {
           ids.erase(tileId);
-          foundTile = true;
+          foundCLB = true;
 
           placement[tileId] = tileId;
           break;
         }
       }
 
-      assert(foundTile);
+      assert(foundCLB);
     }
     
     return placement;
   }
 
-  TEST_CASE("Placing a single node on a graph") {
+  TEST_CASE("Placing and routing a two node graph") {
 
     // Create target topology
     TargetTopology topology;
-    auto inTile = topology.addTile("in0", {"input"});
-    auto outTile = topology.addTile("out0", {"output"});
+    auto inCLB = topology.addCLB("in0", {"input"});
+    auto outCLB = topology.addCLB("out0", {"output"});
 
     // Create application graph
     ApplicationGraph app;
@@ -269,9 +269,11 @@ namespace TinyPnR {
     auto ed = app.addEdge(inNode, outNode);
 
     // Place application graph
-    map<vdisc, TileId> placement = placeApplication(app, topology);
+    map<vdisc, CLBId> placement = placeApplication(app, topology);
     
     REQUIRE(placement.size() == 2);
+
+    
   }
 
 }
