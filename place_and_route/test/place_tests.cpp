@@ -195,6 +195,8 @@ namespace TinyPnR {
 
   };
 
+  typedef int SwitchId;
+
   class TargetTopology {
     CLBId nCLBs;
 
@@ -203,6 +205,11 @@ namespace TinyPnR {
   public:
 
     TargetTopology() : nCLBs(0) {}
+
+    SwitchId addSwitch(const std::string& name,
+                       const int width) {
+      return 0;
+    }
 
     CLBId addCLB(const std::string& name,
                    const std::vector<string>& labels) {
@@ -255,14 +262,26 @@ namespace TinyPnR {
     return placement;
   }
 
+  std::map<vdisc, vdisc>
+  routeApplication(const ApplicationGraph& app,
+                   const TargetTopology& topology,
+                   std::map<vdisc, CLBId>& placement) {
+    return {};
+  }
+  
   TEST_CASE("Placing and routing a two node graph") {
 
     // Create target topology
     TargetTopology topology;
     auto inCLB = topology.addCLB("in0", {"input"});
     auto outCLB = topology.addCLB("out0", {"output"});
+    auto sw = topology.addSwitch("vertical_channel_0", 1);
+    
 
-    // Create application graph
+    // Whats the way to express the connections? They need to be directed
+
+    // Create application graph. Note that nodes in the application graph
+    // need to have ports with connections
     ApplicationGraph app;
     auto inNode = app.addVertex("input");
     auto outNode = app.addVertex("output");
@@ -273,7 +292,12 @@ namespace TinyPnR {
     
     REQUIRE(placement.size() == 2);
 
-    
+    // How to describe the routing?
+    // Routing is a map from switches to the input that they receive?
+    map<vdisc, vdisc> routes =
+      routeApplication(app, topology, placement);
+
+    REQUIRE(routes.size() == 1);
   }
 
 }
