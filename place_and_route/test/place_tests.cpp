@@ -266,6 +266,13 @@ namespace TinyPnR {
   routeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology,
                    std::map<vdisc, CLBId>& placement) {
+    // How to route? Doesnt need to be state of the art, just ok
+    // Find all pairs of CLBs that need to be connected
+    // Find all switches in topology
+    // For each pair that needs routing:
+    //   exhaustively search topology graph until a path is found
+    //   delete paths that include a CLB (these are not switches)
+    //   pick one path
     return {};
   }
   
