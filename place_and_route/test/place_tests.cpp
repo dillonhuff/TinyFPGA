@@ -16,14 +16,15 @@ namespace TinyPnR {
   class TopologyBox {
   public:
     virtual TopologyBoxType getType() const = 0;
+    virtual ~TopologyBox() {}
   };
 
-  class Switch : TopologyBox {
+  class Switch : public TopologyBox {
   public:
     TopologyBoxType getType() const { return BOX_TYPE_SWITCH; }
   };
 
-  class CLB : TopologyBox {
+  class CLB : public TopologyBox {
     std::string name;
     std::set<string> labels;
 
@@ -216,13 +217,19 @@ namespace TinyPnR {
   typedef int SwitchId;
 
   class TargetTopology {
-    CLBId nCLBs;
 
-    std::map<CLBId, CLB> tileMap;
-    
+    DirectedGraph<TopologyBox*, std::pair<std::string, std::string> > topology;
+    std::set<TopologyBox*> boxes;
+
   public:
 
-    TargetTopology() : nCLBs(0) {}
+    TargetTopology() {}
+
+    ~TargetTopology() {
+      for (auto box : boxes) {
+        delete box;
+      }
+    }
 
     SwitchId addSwitch(const std::string& name,
                        const int width) {
@@ -231,24 +238,28 @@ namespace TinyPnR {
 
     CLBId addCLB(const std::string& name,
                    const std::vector<string>& labels) {
-      CLBId id = nCLBs;
-      nCLBs++;
-      tileMap[id] = CLB(name, labels);
+
+      CLB* clb = new CLB(name, labels);
+      boxes.insert(clb);
+      auto id = topology.addVertex(clb);
       return id;
     }
 
-    CLB getCLB(const CLBId& tileId) const {
-      assert(contains_key(tileId, tileMap));
+    CLB* getCLB(const CLBId& tileId) const {
+      TopologyBox* clb = topology.getNode(tileId);
+      assert(clb->getType() == BOX_TYPE_CLB);
 
-      return tileMap.find(tileId)->second;
+      return static_cast<CLB*>(clb);
     }
 
-    std::set<CLBId> tileIds() const {
-      std::set<CLBId> ids;
-      for (auto id : tileMap) {
-        ids.insert(id.first);
-      }
-      return ids;
+    TopologyBox* getBox(const CLBId& tileId) const {
+      TopologyBox* box = topology.getNode(tileId);
+      return box;
+    }
+    
+    std::set<vdisc> boxIds() const {
+      auto verts = topology.getVerts();
+      return std::set<vdisc>(begin(verts), end(verts));
     }
   };
 
@@ -257,7 +268,7 @@ namespace TinyPnR {
   std::map<vdisc, CLBId>
   placeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology) {
-    set<CLBId> ids = topology.tileIds();
+    set<CLBId> ids = topology.boxIds();
 
     map<vdisc, CLBId> placement;
     for (auto vert : app.getVerts()) {
@@ -265,12 +276,17 @@ namespace TinyPnR {
 
       bool foundCLB = false;
       for (auto tileId : ids) {
-        if (elem(val, topology.getCLB(tileId).getLabels())) {
-          ids.erase(tileId);
-          foundCLB = true;
+        TopologyBox* box = topology.getBox(tileId);
 
-          placement[tileId] = tileId;
-          break;
+        if (box->getType() == BOX_TYPE_CLB) {
+          CLB* clb = static_cast<CLB*>(box);
+          if (elem(val, clb->getLabels())) {
+            ids.erase(tileId);
+            foundCLB = true;
+
+            placement[tileId] = tileId;
+            break;
+          }
         }
       }
 
@@ -290,13 +306,6 @@ namespace TinyPnR {
   routeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology,
                    std::map<vdisc, CLBId>& placement) {
-    // How to route? Doesnt need to be state of the art, just ok
-    // Find all pairs of CLBs that need to be connected
-    // Find all switches in topology
-    // For each pair that needs routing:
-    //   exhaustively search topology graph until a path is found
-    //   delete paths that include a CLB (these are not switches)
-    //   pick one path
 
     vector<vector<vdisc> > routes;
     for (edisc ed : app.getEdges()) {
@@ -310,10 +319,6 @@ namespace TinyPnR {
       cout << "StartId = " << startId << endl;
       cout << "EndId   = " << endId << endl;
 
-      // How to represent paths?
-      // List of vdiscs through target topology where the start is the
-      // start CLB, end is the end CLB, every intermediate is a switch
-      // and every pair in the list is connected to one another
       vector<vdisc> route{startId};
 
       // Search for connections
