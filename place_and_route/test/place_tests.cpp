@@ -15,13 +15,27 @@ namespace TinyPnR {
 
   class TopologyBox {
   public:
+    virtual std::string toString() const = 0;
     virtual TopologyBoxType getType() const = 0;
     virtual ~TopologyBox() {}
   };
 
   class Switch : public TopologyBox {
+    std::string name;
+    int width;
   public:
+
+    Switch(const std::string& name_, const int width_) :
+      name(name_), width(width_) {}
+
+    virtual std::string toString() const {
+      return name + " : " + to_string(width);
+    }
+
     TopologyBoxType getType() const { return BOX_TYPE_SWITCH; }
+
+    int getWidth() const { return width; }
+    std::string getName() { return name; }
   };
 
   class CLB : public TopologyBox {
@@ -36,6 +50,10 @@ namespace TinyPnR {
          const std::vector<string>& labels_) :
       name(name_), labels(begin(labels_), end(labels_)) {}
 
+    virtual std::string toString() const {
+      return name;
+    }
+    
     std::set<string> getLabels() const { return labels; }
 
     TopologyBoxType getType() const { return BOX_TYPE_CLB; }
@@ -231,9 +249,33 @@ namespace TinyPnR {
       }
     }
 
+    std::vector<edisc> outEdges(const vdisc vd) const {
+      return topology.outEdges(vd);
+    }
+
+    std::vector<edisc> inEdges(const vdisc vd) const {
+      return topology.inEdges(vd);
+    }
+
+    vdisc target(const edisc ed)  const {
+      return topology.target(ed);
+    }
+
+    vdisc source(const edisc ed)  const {
+      return topology.source(ed);
+    }
+
+    edisc addEdge(const vdisc s, const vdisc e) {
+      return topology.addEdge(s, e);
+    }
+
     SwitchId addSwitch(const std::string& name,
                        const int width) {
-      return 0;
+      Switch* sw = new Switch(name, width);
+      boxes.insert(sw);
+      auto id = topology.addVertex(sw);
+
+      return id;
     }
 
     CLBId addCLB(const std::string& name,
@@ -323,16 +365,50 @@ namespace TinyPnR {
 
       // Search for connections
       set<vdisc> switchesLeft;
-      
+      for (auto id : topology.boxIds()) {
+        auto tile = topology.getBox(id);
+        if (tile->getType() == BOX_TYPE_SWITCH) {
+          switchesLeft.insert(id);
+        }
+      }
+
+      vdisc currentLoc = startId;
       bool foundRoute = false;
       while (!foundRoute && (switchesLeft.size() > 0)) {
-        
+
+        for (auto ed : topology.outEdges(currentLoc)) {
+
+          cout << "Out edge " << ed << endl;
+          auto id = topology.target(ed);
+          auto tile = topology.getBox(id);
+
+          if ((tile->getType() == BOX_TYPE_SWITCH) &&
+              (elem(id, switchesLeft))) {
+
+            cout << "Found switch" << endl;
+
+            currentLoc = id;
+            route.push_back(id);
+
+            switchesLeft.erase(id);
+
+            for (auto se : topology.outEdges(id)) {
+              auto lastTile = topology.target(se);
+
+              if (lastTile == endId) {
+                foundRoute = true;
+              }
+
+              route.push_back(lastTile);
+            }
+
+            break;
+          }
+        }
       }
 
       assert(foundRoute);
-
-      route.push_back(endId);
-
+      assert(route.back() == endId);
       assert(route.size() >= 3);
     }
 
@@ -349,7 +425,9 @@ namespace TinyPnR {
     auto inCLB = topology.addCLB("in0", {"input"});
     auto outCLB = topology.addCLB("out0", {"output"});
     auto sw = topology.addSwitch("vertical_channel_0", 1);
-    
+
+    auto ed0 = topology.addEdge(inCLB, sw);
+    auto ed1 = topology.addEdge(sw, outCLB);
 
     // Whats the way to express the connections? They need to be directed
 
