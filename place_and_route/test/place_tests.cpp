@@ -7,6 +7,40 @@ using namespace std;
 
 namespace TinyPnR {
 
+  // NOTE: Need to add port names to the targetTopology
+  enum TopologyBoxType {
+    BOX_TYPE_CLB,
+    BOX_TYPE_SWITCH,
+  };
+
+  class TopologyBox {
+  public:
+    virtual TopologyBoxType getType() const = 0;
+  };
+
+  class Switch : TopologyBox {
+  public:
+    TopologyBoxType getType() const { return BOX_TYPE_SWITCH; }
+  };
+
+  class CLB : TopologyBox {
+    std::string name;
+    std::set<string> labels;
+
+  public:
+
+    CLB() : name(""), labels({}) {}
+
+    CLB(const std::string& name_,
+         const std::vector<string>& labels_) :
+      name(name_), labels(begin(labels_), end(labels_)) {}
+
+    std::set<string> getLabels() const { return labels; }
+
+    TopologyBoxType getType() const { return BOX_TYPE_CLB; }
+    
+  };
+
   typedef int vdisc;
   typedef int edisc;
 
@@ -178,22 +212,6 @@ namespace TinyPnR {
   }
   
   typedef int CLBId;
-
-  class CLB {
-    std::string name;
-    std::set<string> labels;
-
-  public:
-
-    CLB() : name(""), labels({}) {}
-
-    CLB(const std::string& name_,
-         const std::vector<string>& labels_) :
-      name(name_), labels(begin(labels_), end(labels_)) {}
-
-    std::set<string> getLabels() const { return labels; }
-
-  };
 
   typedef int SwitchId;
 
