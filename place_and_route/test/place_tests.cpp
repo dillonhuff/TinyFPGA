@@ -341,7 +341,12 @@ namespace TinyPnR {
   std::map<vdisc, vdisc>
   routesToSwitchConfig(const TargetTopology& topology,
                        const std::vector<std::vector<vdisc> >& routes) {
-    return {};
+    map<vdisc, vdisc> routeConfig;
+    // TODO: Write test to break this
+    for (auto route : routes) {
+      routeConfig.insert({0, 0});
+    }
+    return routeConfig;
   }
   
   std::map<vdisc, vdisc>
@@ -410,6 +415,8 @@ namespace TinyPnR {
       assert(foundRoute);
       assert(route.back() == endId);
       assert(route.size() >= 3);
+
+      routes.push_back(route);
     }
 
     map<vdisc, vdisc> routeConfig =
