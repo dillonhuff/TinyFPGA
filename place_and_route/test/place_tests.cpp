@@ -263,6 +263,12 @@ namespace TinyPnR {
   }
 
   std::map<vdisc, vdisc>
+  routesToSwitchConfig(const TargetTopology& topology,
+                       const std::vector<std::vector<vdisc> >& routes) {
+    return {};
+  }
+  
+  std::map<vdisc, vdisc>
   routeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology,
                    std::map<vdisc, CLBId>& placement) {
@@ -273,7 +279,44 @@ namespace TinyPnR {
     //   exhaustively search topology graph until a path is found
     //   delete paths that include a CLB (these are not switches)
     //   pick one path
-    return {};
+
+    vector<vector<vdisc> > routes;
+    for (edisc ed : app.getEdges()) {
+      cout << "ed = " << ed << endl;
+      vdisc start = app.source(ed);
+      vdisc end = app.target(ed);
+
+      CLBId startId = placement[start];
+      CLBId endId = placement[end];
+
+      cout << "StartId = " << startId << endl;
+      cout << "EndId   = " << endId << endl;
+
+      // How to represent paths?
+      // List of vdiscs through target topology where the start is the
+      // start CLB, end is the end CLB, every intermediate is a switch
+      // and every pair in the list is connected to one another
+      vector<vdisc> route{startId};
+
+      // Search for connections
+      set<vdisc> switchesLeft;
+      
+      bool foundRoute = false;
+      while (!foundRoute && (switchesLeft.size() > 0)) {
+        
+      }
+
+      assert(foundRoute);
+
+      route.push_back(endId);
+
+      assert(route.size() >= 3);
+    }
+
+    map<vdisc, vdisc> routeConfig =
+      routesToSwitchConfig(topology, routes);
+
+    return routeConfig;
   }
   
   TEST_CASE("Placing and routing a two node graph") {
