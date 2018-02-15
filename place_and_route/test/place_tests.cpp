@@ -344,8 +344,20 @@ namespace TinyPnR {
     map<vdisc, vdisc> routeConfig;
     // TODO: Write test to break this
     for (auto route : routes) {
-      routeConfig.insert({0, 0});
+
+      assert(route.size() >= 3);
+
+      for (int i = 0; i < route.size() - 2; i++) {
+        vdisc from = route[i];
+        vdisc to = route[i + 1];
+
+        TopologyBox* box = topology.getBox(to);
+        assert(box->getType() == BOX_TYPE_SWITCH);
+
+        routeConfig.insert({to, from});
+      }
     }
+
     return routeConfig;
   }
   
@@ -419,6 +431,8 @@ namespace TinyPnR {
       routes.push_back(route);
     }
 
+    cout << "# of routes = " << routes.size() << endl;
+
     map<vdisc, vdisc> routeConfig =
       routesToSwitchConfig(topology, routes);
 
@@ -456,6 +470,8 @@ namespace TinyPnR {
       routeApplication(app, topology, placement);
 
     REQUIRE(routes.size() == 1);
+
+    REQUIRE(contains_key(sw, routes));
   }
 
 }
