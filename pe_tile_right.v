@@ -56,58 +56,26 @@ module pe_tile_right(
 	);
 
 
-	localparam CONFIG_SB = 7;
-	localparam CONFIG_CB0 = 6;
-	localparam CONFIG_CB1 = 5;
-	localparam CONFIG_CLB = 4;
-
 	wire op_0;
 	wire op_1;
 	/* verilator lint_off UNOPTFLAT */
 	wire pe_output;
 
 	// Local wires for switch box outputs <-> connect box
-	// Switch box config
+	// Set configuration flag
 	reg config_en_sb;
-
-	reg config_en_cb0;
-
-	reg config_en_cb1;
-
-	reg config_en_clb;
-
+	localparam CONFIG_sb = 7;
 	always @(*) begin
-		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_sb)) begin
 			config_en_sb = 1'b1;
 		end else begin
 			config_en_sb = 1'b0;
 		end
 	end
 
-	always @(*) begin
-		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB0)) begin
-			config_en_cb0 = 1'b1;
-		end else begin
-			config_en_cb0 = 1'b0;
-		end
-	end
 
-	always @(*) begin
-		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB1)) begin
-			config_en_cb1 = 1'b1;
-		end else begin
-			config_en_cb1 = 1'b0;
-		end
-	end
 
-	always @(*) begin
-		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CLB)) begin
-			config_en_clb = 1'b1;
-		end else begin
-			config_en_clb = 1'b0;
-		end
-	end
-
+	// Declare module
 	switch_box_right sb(
 		.config_en(config_en_sb),
 		.out_wire_1_1(out_wire_1_1),
@@ -148,6 +116,20 @@ module pe_tile_right(
 		.clk(clk)
 	);
 
+	// Set configuration flag
+	reg config_en_cb0;
+	localparam CONFIG_cb0 = 6;
+	always @(*) begin
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_cb0)) begin
+			config_en_cb0 = 1'b1;
+		end else begin
+			config_en_cb0 = 1'b0;
+		end
+	end
+
+
+
+	// Declare module
 	connect_box cb0(
 		.track6_in(out_wire_0_2),
 		.config_data(config_data[2:0]),
@@ -163,6 +145,20 @@ module pe_tile_right(
 		.track1_in(in_wire_0_1)
 	);
 
+	// Set configuration flag
+	reg config_en_cb1;
+	localparam CONFIG_cb1 = 5;
+	always @(*) begin
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_cb1)) begin
+			config_en_cb1 = 1'b1;
+		end else begin
+			config_en_cb1 = 1'b0;
+		end
+	end
+
+
+
+	// Declare module
 	connect_box cb1(
 		.track6_in(out_wire_1_2),
 		.config_data(config_data[2:0]),
@@ -178,14 +174,28 @@ module pe_tile_right(
 		.track1_in(in_wire_1_1)
 	);
 
+	// Set configuration flag
+	reg config_en_compute_block;
+	localparam CONFIG_compute_block = 4;
+	always @(*) begin
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_compute_block)) begin
+			config_en_compute_block = 1'b1;
+		end else begin
+			config_en_compute_block = 1'b0;
+		end
+	end
+
+
+
+	// Declare module
 	clb compute_block(
+		.config_data(config_data[1:0]),
+		.clk(clk),
+		.config_enable(config_en_compute_block),
 		.in0(op_0),
 		.in1(op_1),
-		.clk(clk),
-		.config_enable(config_en_clb),
-		.config_data(config_data[1:0]),
 		.out(pe_output)
-		);
+	);
 
 
 
