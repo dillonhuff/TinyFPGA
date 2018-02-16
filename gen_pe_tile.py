@@ -157,11 +157,6 @@ def generate_pe_tile_verilog(pe_tile):
 
     body = '\n'
 
-    # These should be set in the pe_tile data structure?
-    # body += '\tlocalparam CONFIG_SB = 7;\n'
-    # body += '\tlocalparam CONFIG_CB0 = 6;\n'
-    # body += '\tlocalparam CONFIG_CB1 = 5;\n'
-    # body += '\tlocalparam CONFIG_CLB = 4;\n\n'
     body += '\twire op_0;\n'
     body += '\twire op_1;\n'
     body += '\t/* verilator lint_off UNOPTFLAT */\n'
@@ -170,44 +165,6 @@ def generate_pe_tile_verilog(pe_tile):
     body += '\t// Local wires for switch box outputs <-> connect box\n'
     for wire in pe_tile.local_output_wires:
         body += '\t' + wire + ';\n'
-
-    # body += '\t// Switch box config\n'
-    # body += '\treg config_en_sb;\n\n'
-    # body += '\treg config_en_cb0;\n\n'
-    # body += '\treg config_en_cb1;\n\n'
-    # body += '\treg config_en_clb;\n\n'
-
-    # body += '\talways @(*) begin\n'
-    # body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_SB)) begin\n'
-    # body += '\t\t\tconfig_en_sb = 1\'b1;\n'
-    # body += '\t\tend else begin\n'
-    # body += '\t\t\tconfig_en_sb = 1\'b0;\n'
-    # body += '\t\tend\n'
-    # body += '\tend\n\n'
-
-    # body += '\talways @(*) begin\n'
-    # body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB0)) begin\n'
-    # body += '\t\t\tconfig_en_cb0 = 1\'b1;\n'
-    # body += '\t\tend else begin\n'
-    # body += '\t\t\tconfig_en_cb0 = 1\'b0;\n'
-    # body += '\t\tend\n'
-    # body += '\tend\n\n'
-
-    # body += '\talways @(*) begin\n'
-    # body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CB1)) begin\n'
-    # body += '\t\t\tconfig_en_cb1 = 1\'b1;\n'
-    # body += '\t\tend else begin\n'
-    # body += '\t\t\tconfig_en_cb1 = 1\'b0;\n'
-    # body += '\t\tend\n'
-    # body += '\tend\n\n'
-
-    # body += '\talways @(*) begin\n'
-    # body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_CLB)) begin\n'
-    # body += '\t\t\tconfig_en_clb = 1\'b1;\n'
-    # body += '\t\tend else begin\n'
-    # body += '\t\t\tconfig_en_clb = 1\'b0;\n'
-    # body += '\t\tend\n'
-    # body += '\tend\n\n'
 
     for mod_name in pe_tile.modules:
         mod = pe_tile.modules[mod_name]
