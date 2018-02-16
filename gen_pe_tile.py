@@ -4,6 +4,15 @@ import json
 
 from generator_utils import module_string
 
+class ProgrammableModule:
+    def __init__(self, module_name, inst_name, connections):
+        self.module_name = module_name
+        self.inst_name = inst_name
+        self.connections = connections
+
+    def connect(self, port, wire):
+        self.connections[port] = wire
+
 class PETile:
     def __init__(self,
                  mod_name,
@@ -38,14 +47,25 @@ class PETile:
             for wire in range(1, n_wires_per_side):
                 self.local_output_wires.add('wire out_wire_1_' + str(wire))
 
+        self.modules = {}
+        self.modules['cb0'] = ProgrammableModule('connect_box',
+                                                 'cb0',
+                                                 {})
         self.cb0_connections = {}
         for wire in range(0, n_wires_per_side):
-            self.cb0_connections['track' + str(wire) + '_in'] = 'in_wire_0_' + str(wire)
+            self.modules['cb0'].connect('track' + str(wire) + '_in', 'in_wire_0_' + str(wire))
+            #self.cb0_connections['track' + str(wire) + '_in'] = 'in_wire_0_' + str(wire)
 
         for wire in range(n_wires_per_side, 2*n_wires_per_side):
             wire_no = wire - n_wires_per_side
-            self.cb0_connections['track' + str(wire) + '_in'] = 'out_wire_0_' + str(wire_no)
+            self.modules['cb0'].connect('track' + str(wire) + '_in', 'out_wire_0_' + str(wire_no))
+            #self.cb0_connections['track' + str(wire) + '_in'] = 'out_wire_0_' + str(wire_no)
 
+        self.modules['cb0'].connect('block_out', 'op_0')
+        self.modules['cb0'].connect('config_en', 'config_en_cb0')
+        self.modules['cb0'].connect('config_data', 'config_data[2:0]')
+        self.modules['cb0'].connect('clk', 'clk')
+            
         self.cb1_connections = {}
         for wire in range(0, n_wires_per_side):
             self.cb1_connections['track' + str(wire) + '_in'] = 'in_wire_1_' + str(wire)
@@ -103,6 +123,7 @@ def generate_pe_tile_verilog(pe_tile):
 
     body = '\n'
 
+    # These should be set in the pe_tile data structure?
     body += '\tlocalparam CONFIG_SB = 7;\n'
     body += '\tlocalparam CONFIG_CB0 = 6;\n'
     body += '\tlocalparam CONFIG_CB1 = 5;\n'
@@ -154,15 +175,25 @@ def generate_pe_tile_verilog(pe_tile):
     body += '\t\tend\n'
     body += '\tend\n\n'
 
-    body += '\tconnect_box cb0(\n'
+    cb0 = pe_tile.modules['cb0']
 
-    for wire in pe_tile.cb0_connections:
-        body += '\t\t.' + wire + '(' + pe_tile.cb0_connections[wire] + '),\n'
+    body += '\t' + cb0.module_name + ' ' + cb0.inst_name + '(\n'
+
+    i = 0
+    for port in cb0.connections:
+        body += '\t\t.' + port + '(' + cb0.connections[port] + ')'
+        if (i < (len(cb0.connections) - 1)):
+            body += ','
+        body += '\n'
+        i += 1
         
-    body += '\t\t.block_out(op_0),\n'
-    body += '\t\t.config_en(config_en_cb0),\n'
-    body += '\t\t.config_data(config_data[2:0]),\n'
-    body += '\t\t.clk(clk)\n'
+    # for wire in pe_tile.cb0_connections:
+    #     body += '\t\t.' + wire + '(' + pe_tile.cb0_connections[wire] + '),\n'
+        
+    # body += '\t\t.block_out(op_0),\n'
+    # body += '\t\t.config_en(config_en_cb0),\n'
+    # body += '\t\t.config_data(config_data[2:0]),\n'
+    # body += '\t\t.clk(clk)\n'
     body += '\t);\n\n'
 
     body += '\tconnect_box cb1(\n'

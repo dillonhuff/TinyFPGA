@@ -110,17 +110,17 @@ module pe_tile_bottom(
 
 	connect_box cb0(
 		.track6_in(out_wire_0_2),
+		.config_data(config_data[2:0]),
+		.config_en(config_en_cb0),
 		.track3_in(in_wire_0_3),
+		.clk(clk),
 		.track7_in(out_wire_0_3),
 		.track5_in(out_wire_0_1),
 		.track0_in(in_wire_0_0),
+		.block_out(op_0),
 		.track4_in(out_wire_0_0),
 		.track2_in(in_wire_0_2),
-		.track1_in(in_wire_0_1),
-		.block_out(op_0),
-		.config_en(config_en_cb0),
-		.config_data(config_data[2:0]),
-		.clk(clk)
+		.track1_in(in_wire_0_1)
 	);
 
 	connect_box cb1(
