@@ -125,17 +125,17 @@ module pe_tile_bottom_right(
 
 	connect_box cb1(
 		.track6_in(out_wire_1_2),
+		.config_data(config_data[2:0]),
+		.config_en(config_en_cb1),
 		.track3_in(in_wire_1_3),
+		.clk(clk),
 		.track7_in(out_wire_1_3),
 		.track5_in(out_wire_1_1),
 		.track0_in(in_wire_1_0),
+		.block_out(op_1),
 		.track4_in(out_wire_1_0),
 		.track2_in(in_wire_1_2),
-		.track1_in(in_wire_1_1),
-		.block_out(op_1),
-		.config_en(config_en_cb1),
-		.config_data(config_data[2:0]),
-		.clk(clk)
+		.track1_in(in_wire_1_1)
 	);
 
 	switch_box_bottom_right sb(

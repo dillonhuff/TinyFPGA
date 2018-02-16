@@ -54,26 +54,30 @@ class PETile:
         self.cb0_connections = {}
         for wire in range(0, n_wires_per_side):
             self.modules['cb0'].connect('track' + str(wire) + '_in', 'in_wire_0_' + str(wire))
-            #self.cb0_connections['track' + str(wire) + '_in'] = 'in_wire_0_' + str(wire)
 
         for wire in range(n_wires_per_side, 2*n_wires_per_side):
             wire_no = wire - n_wires_per_side
             self.modules['cb0'].connect('track' + str(wire) + '_in', 'out_wire_0_' + str(wire_no))
-            #self.cb0_connections['track' + str(wire) + '_in'] = 'out_wire_0_' + str(wire_no)
 
         self.modules['cb0'].connect('block_out', 'op_0')
         self.modules['cb0'].connect('config_en', 'config_en_cb0')
         self.modules['cb0'].connect('config_data', 'config_data[2:0]')
         self.modules['cb0'].connect('clk', 'clk')
-            
+
+        self.modules['cb1'] = ProgrammableModule('connect_box', 'cb1', {})
         self.cb1_connections = {}
+        cb1 = self.modules['cb1']
         for wire in range(0, n_wires_per_side):
-            self.cb1_connections['track' + str(wire) + '_in'] = 'in_wire_1_' + str(wire)
+            cb1.connect('track' + str(wire) + '_in', 'in_wire_1_' + str(wire))
 
         for wire in range(n_wires_per_side, 2*n_wires_per_side):
             wire_no = wire - n_wires_per_side
-            self.cb1_connections['track' + str(wire) + '_in'] = 'out_wire_1_' + str(wire_no)
+            cb1.connect('track' + str(wire) + '_in', 'out_wire_1_' + str(wire_no))
         
+        cb1.connect('block_out', 'op_1')
+        cb1.connect('config_en', 'config_en_cb1')
+        cb1.connect('config_data', 'config_data[2:0]')
+        cb1.connect('clk', 'clk')
             
         self.sb_connections = {}
         for side_no in range(0, n_sides):
@@ -175,36 +179,29 @@ def generate_pe_tile_verilog(pe_tile):
     body += '\t\tend\n'
     body += '\tend\n\n'
 
-    cb0 = pe_tile.modules['cb0']
+    for mod_name in pe_tile.modules:
+        mod = pe_tile.modules[mod_name]
+        body += '\t' + mod.module_name + ' ' + mod.inst_name + '(\n'
 
-    body += '\t' + cb0.module_name + ' ' + cb0.inst_name + '(\n'
+        i = 0
+        for port in mod.connections:
+            body += '\t\t.' + port + '(' + mod.connections[port] + ')'
+            if (i < (len(mod.connections) - 1)):
+                body += ','
+            body += '\n'
+            i += 1
+        
+        body += '\t);\n\n'
 
-    i = 0
-    for port in cb0.connections:
-        body += '\t\t.' + port + '(' + cb0.connections[port] + ')'
-        if (i < (len(cb0.connections) - 1)):
-            body += ','
-        body += '\n'
-        i += 1
-        
-    # for wire in pe_tile.cb0_connections:
-    #     body += '\t\t.' + wire + '(' + pe_tile.cb0_connections[wire] + '),\n'
-        
-    # body += '\t\t.block_out(op_0),\n'
-    # body += '\t\t.config_en(config_en_cb0),\n'
+    # body += '\tconnect_box cb1(\n'
+    # for wire in pe_tile.cb1_connections:
+    #     body += '\t\t.' + wire + '(' + pe_tile.cb1_connections[wire] + '),\n'
+
+    # body += '\t\t.block_out(op_1),\n'
+    # body += '\t\t.config_en(config_en_cb1),\n'
     # body += '\t\t.config_data(config_data[2:0]),\n'
     # body += '\t\t.clk(clk)\n'
-    body += '\t);\n\n'
-
-    body += '\tconnect_box cb1(\n'
-    for wire in pe_tile.cb1_connections:
-        body += '\t\t.' + wire + '(' + pe_tile.cb1_connections[wire] + '),\n'
-
-    body += '\t\t.block_out(op_1),\n'
-    body += '\t\t.config_en(config_en_cb1),\n'
-    body += '\t\t.config_data(config_data[2:0]),\n'
-    body += '\t\t.clk(clk)\n'
-    body += '\t);\n\n'
+    # body += '\t);\n\n'
 
     body += '\t' + pe_tile.switch_box_mod + ' sb(\n'
     for wire in pe_tile.sb_connections:
