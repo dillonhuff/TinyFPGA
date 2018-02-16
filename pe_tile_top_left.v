@@ -100,6 +100,38 @@ module pe_tile_top_left(
 		end
 	end
 
+	switch_box_top_left sb(
+		.config_en(config_en_sb),
+		.out_wire_1_1(out_wire_1_1),
+		.out_wire_1_0(out_wire_1_0),
+		.out_wire_1_3(out_wire_1_3),
+		.out_wire_1_2(out_wire_1_2),
+		.out_wire_0_0(out_wire_0_0),
+		.out_wire_0_1(out_wire_0_1),
+		.out_wire_0_2(out_wire_0_2),
+		.out_wire_0_3(out_wire_0_3),
+		.pe_output_0(pe_output),
+		.clk(clk),
+		.in_wire_2_2(in_wire_2_2),
+		.in_wire_2_3(in_wire_2_3),
+		.in_wire_2_0(in_wire_2_0),
+		.in_wire_2_1(in_wire_2_1),
+		.in_wire_3_3(in_wire_3_3),
+		.in_wire_3_2(in_wire_3_2),
+		.in_wire_3_1(in_wire_3_1),
+		.in_wire_3_0(in_wire_3_0),
+		.config_data(config_data),
+		.in_wire_0_0(in_wire_0_0),
+		.in_wire_0_1(in_wire_0_1),
+		.in_wire_0_2(in_wire_0_2),
+		.in_wire_0_3(in_wire_0_3),
+		.in_wire_1_1(in_wire_1_1),
+		.in_wire_1_0(in_wire_1_0),
+		.in_wire_1_3(in_wire_1_3),
+		.in_wire_1_2(in_wire_1_2),
+		.reset(reset)
+	);
+
 	connect_box cb0(
 		.track6_in(out_wire_0_2),
 		.config_data(config_data[2:0]),
@@ -129,38 +161,6 @@ module pe_tile_top_left(
 		.track2_in(in_wire_1_2),
 		.track1_in(in_wire_1_1)
 	);
-
-	switch_box_top_left sb(
-		.out_wire_1_1(out_wire_1_1),
-		.out_wire_1_0(out_wire_1_0),
-		.out_wire_1_3(out_wire_1_3),
-		.out_wire_1_2(out_wire_1_2),
-		.out_wire_0_0(out_wire_0_0),
-		.out_wire_0_1(out_wire_0_1),
-		.out_wire_0_2(out_wire_0_2),
-		.out_wire_0_3(out_wire_0_3),
-		.in_wire_2_2(in_wire_2_2),
-		.in_wire_2_3(in_wire_2_3),
-		.in_wire_2_0(in_wire_2_0),
-		.in_wire_2_1(in_wire_2_1),
-		.in_wire_3_3(in_wire_3_3),
-		.in_wire_3_2(in_wire_3_2),
-		.in_wire_3_1(in_wire_3_1),
-		.in_wire_3_0(in_wire_3_0),
-		.in_wire_0_0(in_wire_0_0),
-		.in_wire_0_1(in_wire_0_1),
-		.in_wire_0_2(in_wire_0_2),
-		.in_wire_0_3(in_wire_0_3),
-		.in_wire_1_1(in_wire_1_1),
-		.in_wire_1_0(in_wire_1_0),
-		.in_wire_1_3(in_wire_1_3),
-		.in_wire_1_2(in_wire_1_2),
-		.pe_output_0(pe_output),
-		.config_data(config_data),
-		.config_en(config_en_sb),
-		.clk(clk),
-		.reset(reset)
-		);
 
 	clb compute_block(
 		.in0(op_0),
