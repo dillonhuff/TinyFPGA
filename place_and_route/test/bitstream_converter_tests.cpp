@@ -19,18 +19,26 @@ namespace TinyPnR {
   // virtual BitVector getConfigurationBits(ConfigurationLable*) void
 
   class ConfigurableComponent {
+
+    std::map<ConfigLabel, int> configMapping;
+
   public:
 
     int nConfigBits;
-    std::map<ConfigLabel, int> configMapping;
+
+    ConfigurableComponent(const std::map<ConfigLabel, int>& configMapping_) :
+      configMapping(configMapping_) {}
 
     // Maybe change to configDataWidth? Is there a hidden class here?
     int numConfigBits() {
-      return 0;
+      return ceil(log2(configMapping.size()));
     }
 
     BitVector configBitPattern(const ConfigLabel& label) {
-      return BitVector(numConfigBits(), 0);
+
+      assert(contains_key(label, configMapping));
+      
+      return BitVector(numConfigBits(), configMapping[label]);
     }
 
   };
@@ -85,6 +93,41 @@ namespace TinyPnR {
     }
 
   };
+
+  TEST_CASE("Building component bit vector") {
+
+    SECTION("2 option switch") {
+      map<ConfigLabel, int> confMap;
+      confMap["in_0_0"] = 0;
+      confMap["in_0_1"] = 1;
+      ConfigurableComponent* sw = new ConfigurableComponent(confMap);
+
+      SECTION("Pattern for in_0_0") {
+        REQUIRE(sw->configBitPattern("in_0_0") == BitVector(1, 0));
+      }
+
+      SECTION("Pattern for in_0_1") {
+        REQUIRE(sw->configBitPattern("in_0_1") == BitVector(1, 1));
+      }
+
+      delete sw;
+    }
+
+    SECTION("3 option switch") {
+      map<ConfigLabel, int> confMap;
+      confMap["in_0_0"] = 0;
+      confMap["in_0_1"] = 1;
+      confMap["in_2_1"] = 2;
+      ConfigurableComponent* sw = new ConfigurableComponent(confMap);
+
+      SECTION("Pattern for in_2_1") {
+        REQUIRE(sw->configBitPattern("in_2_1") == BitVector(2, 2));
+      }
+
+      delete sw;
+    }
+    
+  }
 
   TEST_CASE("Computing placement addresses") {
     BitStreamFormat format;
