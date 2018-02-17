@@ -53,14 +53,38 @@ namespace TinyPnR {
   // All of the configurable components in the module and maps from
   // their configuration labels to the bit patterns that map to each
   // configuration
+
+  // Query function is:
+  // Tile name, module name (convert to address)
+  // Map from component names, all of which are in the module, to the
+  // labels that they are going to use
   class ModuleConfig {
+
+    std::string name;
+    int configDataWidth;
     
   public:
 
+    ModuleConfig(const std::string& name_) : name(name_) {
+      configDataWidth = 0;
+    }
+
     std::map<ConfigurableComponent*, int> componentOffsets;
 
-    int configDataWidth() const {
-      return 0;
+    int getConfigDataWidth() const {
+      return configDataWidth;
+    }
+    BitVector getConfigData() const {
+      return BitVector(getConfigDataWidth(), 0);
+    }
+
+    void addComponent(const std::string& componentName,
+                      std::map<ConfigLabel, int>& configMap) {
+      
+    }
+
+    void setComponentConfig(const std::string& componentName,
+                            const ConfigLabel& componentConfig) {
     }
 
   };
@@ -127,6 +151,26 @@ namespace TinyPnR {
       delete sw;
     }
     
+  }
+
+  TEST_CASE("Building programmable module config data") {
+
+    ModuleConfig twoSwitches("twoSwitches");
+
+    map<ConfigLabel, int> out0Conf{{"in_0_0", 0},
+      {"in_0_1", 1}};
+    twoSwitches.addComponent("out_0", out0Conf);
+
+    map<ConfigLabel, int> out1Conf{{"in_1_0", 0},
+        {"in_1_1", 1}, {"in_1_2", 2}, {"in_1_3", 3}};
+    twoSwitches.addComponent("out_1", out0Conf);
+    
+    twoSwitches.setComponentConfig("out_0", "in_0_0");
+    twoSwitches.setComponentConfig("out_1", "in_1_3");
+
+    BitVector correctConfigData(3, "011");
+
+    REQUIRE(twoSwitches.getConfigData() == correctConfigData);
   }
 
   TEST_CASE("Computing placement addresses") {
