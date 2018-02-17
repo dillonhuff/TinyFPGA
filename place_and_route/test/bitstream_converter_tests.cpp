@@ -61,32 +61,63 @@ namespace TinyPnR {
   class ModuleConfig {
 
     std::string name;
-    int configDataWidth;
-    
+    std::map<std::string, ConfigurableComponent*> components;
+    std::map<ConfigurableComponent*, int> componentOffsets;
+
   public:
 
     ModuleConfig(const std::string& name_) : name(name_) {
-      configDataWidth = 0;
     }
 
-    std::map<ConfigurableComponent*, int> componentOffsets;
+    ~ModuleConfig() {
+      for (auto comp : components) {
+        delete comp.second;
+      }
+    }
 
     int getConfigDataWidth() const {
-      return configDataWidth;
-    }
-    BitVector getConfigData() const {
-      return BitVector(getConfigDataWidth(), 0);
+      int width = 0;
+      for (auto comp : components) {
+        width += comp.second->numConfigBits();
+      }
+
+      return width;
     }
 
     void addComponent(const std::string& componentName,
+                      const int componentOffset,
                       std::map<ConfigLabel, int>& configMap) {
-      
+      int oldWidth = getConfigDataWidth();
+      auto comp = new ConfigurableComponent(configMap);
+      components[componentName] = comp;
+      componentOffsets[comp] = componentOffset;
     }
 
-    void setComponentConfig(const std::string& componentName,
-                            const ConfigLabel& componentConfig) {
-    }
+    BitVector
+    configDataForConfiguration(const std::map<std::string, ConfigLabel>& configMap) const {
+      BitVector configBits(getConfigDataWidth(), 0);
 
+      for (auto config : configMap) {
+        assert(contains_key(config.first, components));
+
+        ConfigurableComponent* comp = components.find(config.first)->second;
+
+        assert(contains_key(comp, componentOffsets));
+
+        int offset = componentOffsets.find(comp)->second;
+
+        BitVector compExtended(getConfigDataWidth(), 0);
+        BitVector compOriginal = comp->configBitPattern(config.second);
+
+        for (int i = 0; i < compOriginal.bitLength(); i++) {
+          compExtended.set(i + offset, compOriginal.get(i));
+        }
+
+        configBits = configBits | compExtended;
+      }
+
+      return configBits;
+    }
   };
 
   class TileConfig {
@@ -159,18 +190,24 @@ namespace TinyPnR {
 
     map<ConfigLabel, int> out0Conf{{"in_0_0", 0},
       {"in_0_1", 1}};
-    twoSwitches.addComponent("out_0", out0Conf);
+    twoSwitches.addComponent("out_0", 2, out0Conf);
 
     map<ConfigLabel, int> out1Conf{{"in_1_0", 0},
         {"in_1_1", 1}, {"in_1_2", 2}, {"in_1_3", 3}};
-    twoSwitches.addComponent("out_1", out0Conf);
-    
-    twoSwitches.setComponentConfig("out_0", "in_0_0");
-    twoSwitches.setComponentConfig("out_1", "in_1_3");
+    twoSwitches.addComponent("out_1", 0, out1Conf);
 
-    BitVector correctConfigData(3, "011");
+    SECTION("Config width is 3") {
+      REQUIRE(twoSwitches.getConfigDataWidth() == 3);
+    }
 
-    REQUIRE(twoSwitches.getConfigData() == correctConfigData);
+    SECTION("Generating configuration data for a given config") {
+      map<string, ConfigLabel> config{{"out_0", "in_0_0"},
+          {"out_1", "in_1_3"}};
+
+      BitVector correctConfigData(3, "011");
+
+      REQUIRE(twoSwitches.configDataForConfiguration(config) == correctConfigData);
+    }
   }
 
   TEST_CASE("Computing placement addresses") {
