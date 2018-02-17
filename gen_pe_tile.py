@@ -4,6 +4,11 @@ import json
 
 from generator_utils import module_string
 
+# Note: Place and router needs more info if it is going to generate a
+# string format object that communicates with the bitstream converter
+# For now the PnR and bitstream converter should probably be in the
+# same repo.
+
 class ProgrammableModule:
     def __init__(self, module_name, inst_name, connections):
         self.module_name = module_name
