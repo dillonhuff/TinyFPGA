@@ -1,7 +1,11 @@
 #include "catch.hpp"
 
+#include <fstream>
+#include <streambuf>
+
 #include "algorithm.h"
 #include "dynamic_bit_vector.h"
+#include "picojson.h"
 
 using namespace std;
 
@@ -272,5 +276,20 @@ namespace TinyPnR {
       REQUIRE(addr == BitVector("32'h00100005"));
     }
 
+  }
+
+  TEST_CASE("Loading a module") {
+    std::ifstream t("switch_box.json");
+    // std::string str((std::istreambuf_iterator<char>(t)),
+    //                 std::istreambuf_iterator<char>());
+
+    std::istream_iterator<char> input(t);
+    picojson::value v;
+    std::string err;
+    input = picojson::parse(v, input, std::istream_iterator<char>(), &err);
+    if (! err.empty()) {
+      std::cerr << err << std::endl;
+    }
+    
   }
 }
