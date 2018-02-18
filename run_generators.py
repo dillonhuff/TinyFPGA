@@ -52,7 +52,7 @@ def run_generators():
 
     name = 'top'
     pe_tile_file = open(name + '.v', 'w')
-    pe_tile_file.write(build_top_str(2, 2, 2, 2))
+    pe_tile_file.write(build_top_str(3, 3, 3, 3))
     pe_tile_file.close()
     
     print 'Done running generators'

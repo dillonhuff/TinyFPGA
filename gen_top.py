@@ -1,3 +1,5 @@
+from sets import Set
+
 from generator_utils import module_string
 
 # How do I gradually move to having configuration data determined automatically
@@ -32,24 +34,77 @@ from generator_utils import module_string
 # for each module. Then add a general purpose C++ bitstream converter, and JSON
 # bitstream metadata
 
-# Bitstream metadata:
-#   CONFIG ADDR:
-#   Address width
-#   Tile address width, and offset of tile address in address width
-#   Map from tile names to tile addresses
-#   cb, sb, pe tile addresses and their width in offset
+# Represent structural verilog
+# Note: This is basically the yosys representation. No mapping back from wires
+# to ports
+class VerilogModule():
 
-#   CONFIG DATA LAYOUT
-#   Data width
-#   pe tile modes to bit patterns
-#   sb / cb switches to received inputs
+    def __init__(self, mod_name, ports):
+        self.mod_name = mod_name
+        self.ports = ports
+        self.inst_connections = []
+        self.port_connections = []
+        self.instances = Set([])
+        self.inst_to_wires = {}
+
+    def add_instance(self, mod_name, inst_name):
+        self.instances.add((mod_name, inst_name))
+        self.inst_to_wires[inst_name] = []
+
+    def add_instance_connection(self, inst_name_0, port_name_0, inst_name_1, port_name_1):
+        conn = ((inst_name_0, port_name_0), (inst_name_1, port_name_1))
+        self.inst_connections.append(conn)
+
+        w1 = conn[0][0] + '_' + conn[0][1]
+        w2 = conn[1][0] + '_' + conn[1][1]
+        wire_name = w1 + '_to_' + w2
+        
+        self.internal_wires.add(wire_name)
+
+        self.inst_to_wires[inst_name_0].append((port_name_0, wire_name))
+        self.inst_to_wires[inst_name_1].append((port_name_1, wire_name))
+
+    def add_port_connection(self, module_port_name, inst_name_0, inst_port_name):
+        # assert(module_port_name in self.ports)
+
+        self.inst_to_wires[inst_name_0].append((inst_port_name, module_port_name))
+        self.port_connections.append((module_port_name, (inst_name_0, inst_port_name)))
+
+    def body_string(self):
+        body = ''
+
+        body += '\t// Internal wires\n'
+        for conn in self.inst_connections:
+            w1 = conn[0][0] + '_' + conn[0][1]
+            w2 = conn[1][0] + '_' + conn[1][1]
+            body += '\twire ' + w1 + '_to_' + w2 + ';\n'
+        body += '\t// End of internal wires\n'
+
+        for inst in self.instances:
+            mod_name = inst[0]
+            inst_name = inst[1]
+            body += '\t' + mod_name + ' ' + inst_name + '(\n'
+
+            print 'inst = ', inst_name
+            i = 0
+            for port_wire_pair in self.inst_to_wires[inst_name]:
+                body += '\t'
+                body += '.' + port_wire_pair[0] + '(' + port_wire_pair[1] + ')'
+                if i < len(self.inst_to_wires[inst_name]) - 1:
+                    body += ','
+                body += '\n'
+                i += 1
+            body += '\t);\n'
+        
+        return body
+
 def build_top_str(num_in_ios,
                   num_out_ios,
                   grid_height,
                   grid_width):
 
-    assert(num_in_ios <= grid_width);
-    assert(num_out_ios <= grid_width);
+    assert(num_in_ios <= grid_width)
+    assert(num_out_ios <= grid_width)
 
     includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data']
@@ -59,6 +114,8 @@ def build_top_str(num_in_ios,
 
     for pad_no in range(0, num_out_ios):
         ports.append('output out_wire_' + str(pad_no))
+
+    top_mod = VerilogModule('top', ports)
 
     # Need to initialize wire groups:
     # 1. input io pads to tile grid
@@ -79,6 +136,13 @@ def build_top_str(num_in_ios,
 
     body += '\t// input pads\n'
     for pad_no in range(0, num_in_ios):
+        pad_name = 'in_pad_' + str(pad_no)
+
+        # top_mod.add_instance('io1in_pad', pad_name)
+        # top_mod.add_port_connection('clk', pad_name, 'clk')
+        # top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
+        # top_mod.add_port_connection('input_to_grid_' + str(pad_no), pad_name, 'pin')
+
         body += '\tio1in_pad in_pad_' + str(pad_no) + '(\n'
         body += '\t\t.clk(clk),\n'
         body += '\t\t.top_pin(in_wire_' + str(pad_no) + '),\n'
@@ -87,6 +151,8 @@ def build_top_str(num_in_ios,
 
     body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
+        #top_mod.add_instance('io1out_pad', 'out_pad_' + str(pad_no))
+
         body += '\tio1out_pad out_pad_' + str(pad_no) + '(\n'
         body += '\t\t.clk(clk),\n'
         body += '\t\t.top_pin(out_wire_' + str(pad_no) + '),\n'
@@ -193,10 +259,15 @@ def build_top_str(num_in_ios,
 
             if ((grid_row == (grid_height - 1)) and (grid_col == 0)):
                 pe_tile_mod = 'pe_tile_bottom_left'
-                
-            # Declaration of pe
-            body += '\t' + pe_tile_mod + ' pe_tile_' + str(grid_row) + '_' + str(grid_col) + '(\n'
 
+            # Declaration of pe
+            tile_name = 'pe_tile_' + str(grid_row) + '_' + str(grid_col)
+            # TODO: Re-introduce this value
+            # top_mod.add_instance(pe_tile_mod, tile_name)
+
+            body += '\t' + pe_tile_mod + ' ' + tile_name + '(\n'
+
+            
             print 'pe_tile_mod =', pe_tile_mod
             # Wiring up vertical wires
 
@@ -287,5 +358,6 @@ def build_top_str(num_in_ios,
             body += '\t);\n\n'
             tile_id += 1
 
+    #return module_string(includes, 'top', ports, top_mod.body_string() + '\n' + body)
     return module_string(includes, 'top', ports, body)
 
