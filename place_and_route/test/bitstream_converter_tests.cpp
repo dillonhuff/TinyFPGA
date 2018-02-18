@@ -279,17 +279,28 @@ namespace TinyPnR {
   }
 
   TEST_CASE("Loading a module") {
-    std::ifstream t("switch_box.json");
-    // std::string str((std::istreambuf_iterator<char>(t)),
-    //                 std::istreambuf_iterator<char>());
+    std::ifstream t("./test/switch_box.json");
 
     std::istream_iterator<char> input(t);
     picojson::value v;
     std::string err;
     input = picojson::parse(v, input, std::istream_iterator<char>(), &err);
-    if (! err.empty()) {
+    if (!err.empty()) {
       std::cerr << err << std::endl;
     }
-    
+
+    // check if the type of the value is "object"
+    if (!v.is<picojson::object>()) {
+      std::cerr << "JSON is not an object" << std::endl;
+      exit(2);
+    }
+
+    // obtain a const reference to the map, and print the contents
+    const picojson::value::object& obj = v.get<picojson::object>();
+    for (picojson::value::object::const_iterator i = obj.begin();
+         i != obj.end();
+         ++i) {
+      std::cout << i->first << ": " << i->second.to_str() << std::endl;
+    }
   }
 }
