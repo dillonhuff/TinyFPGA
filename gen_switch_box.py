@@ -2,66 +2,6 @@ from sets import Set
 
 import json
 
-# How do I want to represent the topology of the entire chip?
-
-# The goal is to have a single place and route algorithm that can
-# handle any parametrized fabric
-
-# There is a set of inputs, a bunch of connection points, and a bunch
-# of switches. Also there is a bitstream format that is used to capture
-# how to map a named topology to a bitstream
-
-# Note: Connections are directional
-
-# Need to generate topology for the top module, switch boxes, and connect boxes
-
-# For bitstream conversion I need to develop a way to convert the PnR format to
-# bits
-
-# In a perfect world: I would generate a chip layout data structure, then generate
-# the verilog to go with the layout from the layout DS and generate the PnR format
-# from the layout DS as well
-
-# Layout format: Nodes and ports
-# Node types: PEs, In pads, Out pads, Switches
-# Ports on nodes: Inputs, Outputs
-
-# In this scheme:
-
-# CLB is just a black box with 2 inputs, 1 output and a label
-
-# Switch is a black box with N inputs, 1 output and a label?
-
-# Input pad is a black box with 1 output
-
-# Output pad is a black box with 1 input
-
-# Connect box is a box with 8 inputs, 1 output. Internally it is a switch
-# Switch box has a bunch of inputs / outputs, internally its a bunch of switches
-
-# Placement is about assigning one tile_id to each CLB, input, and output in
-# the application graph. Then assigning paths to each edge such that:
-# 1. The sequence of connections maps ports to ports
-
-# Is it about assigning paths to each edge? Or about assigning labels to
-# switches?
-
-# Note: Maybe the next thing to do is convert the configuration logic to be
-# auto generated and then write my own bitstream converter for it (in C++)?
-
-# What is the structure of the bitstream converter? Functions for generating
-# configuration data from pairs of connections and from labels?
-
-# Switches labeled by which input they will carry through, CLBs labeled by
-# which operation they will use
-
-# Configuration data is a mapping from labels to bits
-
-# Configuration address is a mapping from addresses to configurable elements.
-# This has a hierarchy. Tiles have addresses and the components inside tiles have
-# config enable bits set by tile addresses. So the address is a hierarchy
-# [ Tile address bits | subcomponent address bits ]
-
 def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     assert(len(sides_to_use) <= n_sides)
 
@@ -120,15 +60,15 @@ def generate_sb_json(mod_name, output_map, input_wires):
     json_val['inputs'] = list(input_wires)
 
     output_wires = []
-    switches = {}
-    for output in output_map:
-        output_wires.append(output[0])
+    switches = output_map # {}
+    # for output in output_map:
+    #     output_wires.append(output[0])
 
-        switch_inputs = []
-        for in_wire in output[1]:
-            switch_inputs.append(in_wire[1])
+    #     switch_inputs = []
+    #     for in_wire in output[1]:
+    #         switch_inputs.append(in_wire[1])
 
-        switches[output[0]] = switch_inputs
+    #     switches[output[0]] = switch_inputs
 
     json_val['outputs'] = output_wires
     json_val['switches'] = switches
