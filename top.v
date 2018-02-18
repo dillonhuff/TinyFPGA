@@ -29,6 +29,54 @@ module top(
 	);
 
 	// Internal wires
+	wire vertical_tile_2_2_to_tile_1_2_3;
+	wire vertical_tile_1_2_to_tile_0_2_1;
+	wire vertical_tile_2_1_to_tile_1_1_1;
+	wire vertical_tile_1_2_to_tile_0_2_0;
+	wire vertical_tile_1_2_to_tile_0_2_3;
+	wire vertical_tile_1_1_to_tile_0_1_1;
+	wire vertical_tile_1_1_to_tile_0_1_0;
+	wire vertical_tile_1_1_to_tile_0_1_3;
+	wire vertical_tile_1_1_to_tile_0_1_2;
+	wire vertical_tile_1_0_to_tile_2_0_3;
+	wire vertical_tile_2_1_to_tile_1_1_3;
+	wire vertical_tile_2_2_to_tile_1_2_2;
+	wire vertical_tile_1_2_to_tile_0_2_2;
+	wire vertical_tile_2_0_to_tile_1_0_2;
+	wire vertical_tile_0_0_to_tile_1_0_1;
+	wire vertical_tile_0_0_to_tile_1_0_0;
+	wire vertical_tile_0_0_to_tile_1_0_3;
+	wire vertical_tile_0_0_to_tile_1_0_2;
+	wire vertical_tile_1_0_to_tile_2_0_2;
+	wire vertical_tile_2_1_to_tile_1_1_2;
+	wire vertical_tile_2_2_to_tile_1_2_1;
+	wire vertical_tile_1_0_to_tile_0_0_1;
+	wire vertical_tile_1_0_to_tile_0_0_0;
+	wire vertical_tile_1_0_to_tile_0_0_3;
+	wire vertical_tile_1_0_to_tile_0_0_2;
+	wire vertical_tile_2_0_to_tile_1_0_1;
+	wire vertical_tile_0_1_to_tile_1_1_1;
+	wire vertical_tile_0_1_to_tile_1_1_0;
+	wire vertical_tile_0_1_to_tile_1_1_3;
+	wire vertical_tile_0_1_to_tile_1_1_2;
+	wire vertical_tile_1_0_to_tile_2_0_1;
+	wire vertical_tile_2_0_to_tile_1_0_3;
+	wire vertical_tile_1_1_to_tile_2_1_3;
+	wire vertical_tile_2_2_to_tile_1_2_0;
+	wire vertical_tile_0_2_to_tile_1_2_1;
+	wire vertical_tile_0_2_to_tile_1_2_0;
+	wire vertical_tile_0_2_to_tile_1_2_3;
+	wire vertical_tile_0_2_to_tile_1_2_2;
+	wire vertical_tile_1_1_to_tile_2_1_2;
+	wire vertical_tile_2_0_to_tile_1_0_0;
+	wire vertical_tile_1_1_to_tile_2_1_1;
+	wire vertical_tile_1_0_to_tile_2_0_0;
+	wire vertical_tile_1_1_to_tile_2_1_0;
+	wire vertical_tile_2_1_to_tile_1_1_0;
+	wire vertical_tile_1_2_to_tile_2_2_3;
+	wire vertical_tile_1_2_to_tile_2_2_2;
+	wire vertical_tile_1_2_to_tile_2_2_1;
+	wire vertical_tile_1_2_to_tile_2_2_0;
 	// End of internal wires
 	io1out_pad out_pad_2(
 		.top_pin(out_wire_2),
@@ -74,61 +122,6 @@ module top(
 	// input pads
 	// output pads
 	// PE tile grid
-	// Vertical wires
-	wire vertical_tile_0_0_to_tile_1_0_0;
-	wire vertical_tile_0_0_to_tile_1_0_1;
-	wire vertical_tile_0_0_to_tile_1_0_2;
-	wire vertical_tile_0_0_to_tile_1_0_3;
-	wire vertical_tile_1_0_to_tile_0_0_0;
-	wire vertical_tile_1_0_to_tile_0_0_1;
-	wire vertical_tile_1_0_to_tile_0_0_2;
-	wire vertical_tile_1_0_to_tile_0_0_3;
-
-	wire vertical_tile_0_1_to_tile_1_1_0;
-	wire vertical_tile_0_1_to_tile_1_1_1;
-	wire vertical_tile_0_1_to_tile_1_1_2;
-	wire vertical_tile_0_1_to_tile_1_1_3;
-	wire vertical_tile_1_1_to_tile_0_1_0;
-	wire vertical_tile_1_1_to_tile_0_1_1;
-	wire vertical_tile_1_1_to_tile_0_1_2;
-	wire vertical_tile_1_1_to_tile_0_1_3;
-
-	wire vertical_tile_0_2_to_tile_1_2_0;
-	wire vertical_tile_0_2_to_tile_1_2_1;
-	wire vertical_tile_0_2_to_tile_1_2_2;
-	wire vertical_tile_0_2_to_tile_1_2_3;
-	wire vertical_tile_1_2_to_tile_0_2_0;
-	wire vertical_tile_1_2_to_tile_0_2_1;
-	wire vertical_tile_1_2_to_tile_0_2_2;
-	wire vertical_tile_1_2_to_tile_0_2_3;
-
-	wire vertical_tile_1_0_to_tile_2_0_0;
-	wire vertical_tile_1_0_to_tile_2_0_1;
-	wire vertical_tile_1_0_to_tile_2_0_2;
-	wire vertical_tile_1_0_to_tile_2_0_3;
-	wire vertical_tile_2_0_to_tile_1_0_0;
-	wire vertical_tile_2_0_to_tile_1_0_1;
-	wire vertical_tile_2_0_to_tile_1_0_2;
-	wire vertical_tile_2_0_to_tile_1_0_3;
-
-	wire vertical_tile_1_1_to_tile_2_1_0;
-	wire vertical_tile_1_1_to_tile_2_1_1;
-	wire vertical_tile_1_1_to_tile_2_1_2;
-	wire vertical_tile_1_1_to_tile_2_1_3;
-	wire vertical_tile_2_1_to_tile_1_1_0;
-	wire vertical_tile_2_1_to_tile_1_1_1;
-	wire vertical_tile_2_1_to_tile_1_1_2;
-	wire vertical_tile_2_1_to_tile_1_1_3;
-
-	wire vertical_tile_1_2_to_tile_2_2_0;
-	wire vertical_tile_1_2_to_tile_2_2_1;
-	wire vertical_tile_1_2_to_tile_2_2_2;
-	wire vertical_tile_1_2_to_tile_2_2_3;
-	wire vertical_tile_2_2_to_tile_1_2_0;
-	wire vertical_tile_2_2_to_tile_1_2_1;
-	wire vertical_tile_2_2_to_tile_1_2_2;
-	wire vertical_tile_2_2_to_tile_1_2_3;
-
 	// Horizontal wires
 	wire horizontal_tile_0_0_to_tile_0_1_0;
 	wire horizontal_tile_0_0_to_tile_0_1_1;

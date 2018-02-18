@@ -46,6 +46,10 @@ class VerilogModule():
         self.port_connections = []
         self.instances = Set([])
         self.inst_to_wires = {}
+        self.internal_wires = Set([])
+
+    def add_wire(self, wire_name):
+        self.internal_wires.add(wire_name)
 
     def add_instance(self, mod_name, inst_name):
         self.instances.add((mod_name, inst_name))
@@ -74,10 +78,8 @@ class VerilogModule():
         body = ''
 
         body += '\t// Internal wires\n'
-        for conn in self.inst_connections:
-            w1 = conn[0][0] + '_' + conn[0][1]
-            w2 = conn[1][0] + '_' + conn[1][1]
-            body += '\twire ' + w1 + '_to_' + w2 + ';\n'
+        for wire in self.internal_wires:
+            body += '\twire ' + wire + ';\n'
         body += '\t// End of internal wires\n'
 
         for inst in self.instances:
@@ -143,12 +145,6 @@ def build_top_str(num_in_ios,
         top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
         top_mod.add_port_connection('input_to_grid_' + str(pad_no), pad_name, 'pin')
 
-        # body += '\tio1in_pad in_pad_' + str(pad_no) + '(\n'
-        # body += '\t\t.clk(clk),\n'
-        # body += '\t\t.top_pin(in_wire_' + str(pad_no) + '),\n'
-        # body += '\t\t.pin(input_to_grid_' + str(pad_no) + ')\n'
-        # body += '\t);\n\n'
-
     body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
         pad_name = 'out_pad_' + str(pad_no)
@@ -157,12 +153,6 @@ def build_top_str(num_in_ios,
         top_mod.add_port_connection('out_wire_' + str(pad_no), pad_name, 'top_pin')
         top_mod.add_port_connection('clk', pad_name, 'clk')
         top_mod.add_port_connection('grid_to_output_' + str(pad_no), pad_name, 'pin')
-
-        # body += '\tio1out_pad out_pad_' + str(pad_no) + '(\n'
-        # body += '\t\t.clk(clk),\n'
-        # body += '\t\t.top_pin(out_wire_' + str(pad_no) + '),\n'
-        # body += '\t\t.pin(grid_to_output_' + str(pad_no) + ')\n'
-        # body += '\t);\n\n'
 
     body += '\t// PE tile grid\n'
     tile_id = 1;
@@ -184,7 +174,7 @@ def build_top_str(num_in_ios,
     # Each tile-direction group needs 4 wires, and there are 2 groups
     # tile00 -> tile01, tile00 <- tile01
 
-    body += '\t// Vertical wires\n'
+    #body += '\t// Vertical wires\n'
     for grid_row in range(0, grid_height - 1):
         next_row = grid_row + 1
 
@@ -194,12 +184,14 @@ def build_top_str(num_in_ios,
             next_tile = 'tile_' + str(next_row) + '_' + str(grid_col)
 
             for i in range(0, 4):
-                body += '\twire vertical_' + cur_tile + '_to_' + next_tile + '_' + str(i) + ';\n'
+                top_mod.add_wire('vertical_' + cur_tile + '_to_' + next_tile + '_' + str(i))
+                #body += '\twire vertical_' + cur_tile + '_to_' + next_tile + '_' + str(i) + ';\n'
 
             for i in range(0, 4):
-                body += '\twire vertical_' + next_tile + '_to_' + cur_tile + '_' + str(i) + ';\n'
+                top_mod.add_wire('vertical_' + next_tile + '_to_' + cur_tile + '_' + str(i))
+                #body += '\twire vertical_' + next_tile + '_to_' + cur_tile + '_' + str(i) + ';\n'
                 
-            body += '\n'
+            #body += '\n'
 
     body += '\t// Horizontal wires\n'            
     for grid_col in range(0, grid_width - 1):
