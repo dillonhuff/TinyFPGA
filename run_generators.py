@@ -2,7 +2,20 @@ from gen_switch_box import build_mod_str, generate_sb
 from gen_pe_tile import generate_pe_tile
 from gen_top import build_top_str
 
+# I need to create a whole chip object that includes instantiations of io pads
+# and pe tiles
 
+# Note: The bitstream format does not need the full connection network info, so
+# all of the connections in gen_top dont need to be included to generate the bitstream
+# However, PnR needs all of those connections, so they will have to be included
+# in the object eventually.
+
+# Q: What is the smallest change I could make to get closer to that goal?
+
+# Wrap up connections in gen_top into its own class
+# Write connect box and CLB generators
+# Merge generation calls so that files can be emitted at one time
+# Emit json configuration data in one file at the end of generation
 def run_generators():
     n_wires_per_side = 4
     # Center switch box

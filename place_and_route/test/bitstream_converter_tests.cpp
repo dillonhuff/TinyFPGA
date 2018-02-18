@@ -105,8 +105,6 @@ namespace TinyPnR {
   public:
     std::string tileName;
 
-    std::vector<ModuleConfig> components;
-
     std::map<std::string, ModuleConfig*> modMap;
     std::map<ModuleConfig*, int> modsToAddrs;
 

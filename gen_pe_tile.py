@@ -137,6 +137,12 @@ def generate_pe_tile_json(pe_tile):
     json_val = {}
 
     json_val['mod_name'] = pe_tile.mod_name
+
+    # json_val['tile_name'] = pe_tile.inst_name
+
+    # mods = {}
+    # for mod in pe_tile.modules:
+    #     mods[mod.name] = 0
     
     json_val['switch_box_mod'] = pe_tile.switch_box_mod
 
