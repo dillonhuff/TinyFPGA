@@ -24,7 +24,7 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
                 sources.append((i, in_wire))
 
             out_map_nums.append(((side_no, wire_no), sources, config_offset))
-
+            # mod_str += '\t\t\t2\'d3: ' + out_wire + '_i = pe_output_0;\n'
             config_offset += 2
 
     # Select the valid connections
@@ -49,10 +49,14 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
 
                 input_wires.add(in_wire_name)
 
+            sources.append((n_wires_per_side - 1, 'pe_output_0'))
             output_map.append(('out_wire_' + str(side_no) + '_' + str(out_wire_no), sources, config_offset))
 
     return (output_map, input_wires)
 
+# What should the layout of modules in json be?
+# List of components:
+# Component contains: 
 def generate_sb_json(mod_name, output_map, input_wires):
     json_val = {}
     json_val['mod_name'] = mod_name
@@ -60,18 +64,23 @@ def generate_sb_json(mod_name, output_map, input_wires):
     json_val['inputs'] = list(input_wires)
 
     output_wires = []
-    switches = output_map # {}
-    # for output in output_map:
-    #     output_wires.append(output[0])
+    switches = []
 
-    #     switch_inputs = []
-    #     for in_wire in output[1]:
-    #         switch_inputs.append(in_wire[1])
+    for output in output_map:
 
-    #     switches[output[0]] = switch_inputs
+        config_map = {}
+        
+        output_wires.append(output[0])
+
+        switch_inputs = []
+        for in_wire in output[1]:
+            switch_inputs.append(in_wire[1])
+            config_map[in_wire[1]] = in_wire[0]
+        
+        switches.append({'name' : output[0], 'offset' : output[2], 'config_map' : config_map})
 
     json_val['outputs'] = output_wires
-    json_val['switches'] = switches
+    json_val['components'] = switches
 
     
     json_str = json.dumps(json_val)
@@ -128,7 +137,7 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
                 
             mod_str += '\t\t\t2\'d' + str(i) + ': ' + out_wire + '_i = ' + in_wire + ';\n'
 
-        mod_str += '\t\t\t2\'d3: ' + out_wire + '_i = pe_output_0;\n'
+        # mod_str += '\t\t\t2\'d3: ' + out_wire + '_i = pe_output_0;\n'
 
         mod_str += '\t\t\tdefault: ' + out_wire + '_i = 1\'b0;\n'
         mod_str += '\t\tendcase\n'
