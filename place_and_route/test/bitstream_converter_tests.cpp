@@ -11,13 +11,6 @@ namespace TinyPnR {
 
   typedef std::string ConfigLabel;
 
-  // Q: How to modify this to support labels where a string for each
-  // labeling is not practical? E. G. constant values to load into registers?
-
-  // Maybe configurable component should have two functions:
-  // virtual int numConfigBits
-  // virtual BitVector getConfigurationBits(ConfigurationLable*) void
-
   class ConfigurableComponent {
 
     std::map<ConfigLabel, int> configMapping;
@@ -29,7 +22,6 @@ namespace TinyPnR {
     ConfigurableComponent(const std::map<ConfigLabel, int>& configMapping_) :
       configMapping(configMapping_) {}
 
-    // Maybe change to configDataWidth? Is there a hidden class here?
     int numConfigBits() {
       return ceil(log2(configMapping.size()));
     }
@@ -43,21 +35,6 @@ namespace TinyPnR {
 
   };
 
-  // ModuleConfig will build up the whole configuration bit vector
-
-  // Tile config will select the appropriate config addr and the
-  // appropriate module configuration
-
-  // What needs to be in the moduleconfig?
-  // The total width of configuration data for this element
-  // All of the configurable components in the module and maps from
-  // their configuration labels to the bit patterns that map to each
-  // configuration
-
-  // Query function is:
-  // Tile name, module name (convert to address)
-  // Map from component names, all of which are in the module, to the
-  // labels that they are going to use
   class ModuleConfig {
 
     std::string name;
@@ -152,10 +129,6 @@ namespace TinyPnR {
 
   };
 
-  // Full input to format conversion should be:
-  // 1. Tile name
-  // 2. Module name
-  // 3. Map from module component names (switch and PE names) to component labels
   class BitStreamFormat {
 
     std::map<std::string, TileConfig*> tileMap;

@@ -127,6 +127,11 @@ class PETile:
         self.modules['cb0'].set_config_id(6)
         self.modules['cb1'].set_config_id(5)
         self.modules['clb'].set_config_id(4)
+
+        self.tile_id_end = 15
+        self.tile_id_begin = 0
+        self.mod_id_end = 31
+        self.mod_id_begin = 16
         
 def generate_pe_tile_json(pe_tile):
     json_val = {}
@@ -180,7 +185,7 @@ def generate_pe_tile_verilog(pe_tile):
         body += '\treg ' + config_reg + ';\n'
         body += '\tlocalparam ' + config_flag_value + ' = ' + str(mod.config_id) + ';\n'
         body += '\talways @(*) begin\n'
-        body += '\t\tif ((config_addr[15:0] == tile_id) && (config_addr[31:16] == ' + config_flag_value + ')) begin\n'
+        body += '\t\tif ((config_addr[' + str(pe_tile.tile_id_end) + ':' + str(pe_tile.tile_id_begin) + '] == tile_id) && (config_addr[' + str(pe_tile.mod_id_end) + ':' + str(pe_tile.mod_id_begin) + '] == ' + config_flag_value + ')) begin\n'
         body += '\t\t\t' + config_reg + ' = 1\'b1;\n'
         body += '\t\tend else begin\n'
         body += '\t\t\t' + config_reg + ' = 1\'b0;\n'
