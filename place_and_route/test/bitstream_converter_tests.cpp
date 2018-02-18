@@ -126,6 +126,7 @@ namespace TinyPnR {
 
     std::vector<ModuleConfig> components;
 
+    std::map<std::string, ModuleConfig*> modMap;
     std::map<ModuleConfig*, int> modsToAddrs;
 
     TileConfig(const std::string& tileName_) : tileName(tileName_) {}
@@ -140,7 +141,13 @@ namespace TinyPnR {
                             const int addr) {
       ModuleConfig* mod = new ModuleConfig(modName);
       modsToAddrs[mod] = addr;
+      modMap[modName] = mod;
       return mod;
+    }
+
+    int getModuleAddr(const std::string& modName) {
+      ModuleConfig* mod = modMap[modName];
+      return modsToAddrs[mod];
     }
 
   };
@@ -152,6 +159,13 @@ namespace TinyPnR {
   class BitStreamFormat {
 
     std::map<std::string, TileConfig*> tileMap;
+    std::map<TileConfig*, int> tilesToIds;
+
+    int tileIdStart;
+    int tileIdEnd;
+
+    int componentIdStart;
+    int componentIdEnd;
     
   public:
 
@@ -162,9 +176,13 @@ namespace TinyPnR {
     }
     
     void setTileIdRange(const int end, const int start) {
+      tileIdStart = start;
+      tileIdEnd = end;
     }
 
     void setComponentIdRange(const int end, const int start) {
+      componentIdStart = start;
+      componentIdEnd = end;
     }
 
     void setTileNameMap(const std::map<std::string, int>& tileNamesToIds) {
@@ -173,6 +191,7 @@ namespace TinyPnR {
     void addTile(const std::string& tileName, const int tileId) {
       TileConfig* tile = new TileConfig(tileName);
       tileMap[tileName] = tile;
+      tilesToIds[tile] = tileId;
     }
 
     TileConfig* getTile(const std::string& tileName) {
@@ -180,7 +199,18 @@ namespace TinyPnR {
 
       return tileMap.find(tileName)->second;
     }
-    
+
+    BitVector getAddress(const std::string tileName,
+                         const std::string modName) {
+      auto tile = tileMap[tileName];
+      BitVector tileAddr(tileIdEnd - tileIdStart + 1, tilesToIds[tile]);
+
+      BitVector modAddr(componentIdEnd - componentIdStart + 1,
+                        tile->getModuleAddr(modName));
+      return concat(static_cast<BitVector>(modAddr),
+                    static_cast<BitVector>(tileAddr));
+    }
+
   };
 
   TEST_CASE("Building component bit vector") {
@@ -263,13 +293,11 @@ namespace TinyPnR {
         {"in_1_1", 1}, {"in_1_2", 2}, {"in_1_3", 3}};
     twoSwitches->addComponent("out_1", 0, out1Conf);
 
-    
-    // map<std::string, int> tileNamesToIds;
-    // tileNamesToIds.insert({"pe_tile_123", 123});
+    SECTION("Compute tile module address") {
+      BitVector addr = format.getAddress("pe_tile_0", "twoSwitches");
 
-    // format.setTileNameMap(tileNamesToIds);
+      REQUIRE(addr == BitVector("32'h00100005"));
+    }
 
-    // Q: How to deal with hierarchy? List of tiles where
-    // each tile in tileNamesToIds may have a different layout?
   }
 }
