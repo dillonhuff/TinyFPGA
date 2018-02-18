@@ -123,13 +123,36 @@ namespace TinyPnR {
   class TileConfig {
   public:
     std::string tileName;
-    int tileNumber;
 
     std::vector<ModuleConfig> components;
 
+    std::map<ModuleConfig*, int> modsToAddrs;
+
+    TileConfig(const std::string& tileName_) : tileName(tileName_) {}
+
+    ~TileConfig() {
+      for (auto mod : modsToAddrs) {
+        delete mod.first;
+      }
+    }
+
+    ModuleConfig* addModule(const std::string& modName,
+                            const int addr) {
+      ModuleConfig* mod = new ModuleConfig(modName);
+      modsToAddrs[mod] = addr;
+      return mod;
+    }
+
   };
 
+  // Full input to format conversion should be:
+  // 1. Tile name
+  // 2. Module name
+  // 3. Map from module component names (switch and PE names) to component labels
   class BitStreamFormat {
+
+    std::map<std::string, TileConfig*> tileMap;
+    
   public:
 
     void setAddressWidth(const int i) {
@@ -147,6 +170,17 @@ namespace TinyPnR {
     void setTileNameMap(const std::map<std::string, int>& tileNamesToIds) {
     }
 
+    void addTile(const std::string& tileName, const int tileId) {
+      TileConfig* tile = new TileConfig(tileName);
+      tileMap[tileName] = tile;
+    }
+
+    TileConfig* getTile(const std::string& tileName) {
+      assert(contains_key(tileName, tileMap));
+
+      return tileMap.find(tileName)->second;
+    }
+    
   };
 
   TEST_CASE("Building component bit vector") {
@@ -213,14 +247,27 @@ namespace TinyPnR {
   TEST_CASE("Computing placement addresses") {
     BitStreamFormat format;
     format.setAddressWidth(32);
-    format.setDataWidth(32);
     format.setTileIdRange(31, 16);
     format.setComponentIdRange(15, 0);
 
-    map<std::string, int> tileNamesToIds;
-    tileNamesToIds.insert({"pe_tile_123", 123});
+    format.addTile("pe_tile_0", 16);
 
-    format.setTileNameMap(tileNamesToIds);
+    TileConfig* switchTile = format.getTile("pe_tile_0");
+
+    ModuleConfig* twoSwitches = switchTile->addModule("twoSwitches", 5);
+    map<ConfigLabel, int> out0Conf{{"in_0_0", 0},
+      {"in_0_1", 1}};
+    twoSwitches->addComponent("out_0", 2, out0Conf);
+
+    map<ConfigLabel, int> out1Conf{{"in_1_0", 0},
+        {"in_1_1", 1}, {"in_1_2", 2}, {"in_1_3", 3}};
+    twoSwitches->addComponent("out_1", 0, out1Conf);
+
+    
+    // map<std::string, int> tileNamesToIds;
+    // tileNamesToIds.insert({"pe_tile_123", 123});
+
+    // format.setTileNameMap(tileNamesToIds);
 
     // Q: How to deal with hierarchy? List of tiles where
     // each tile in tileNamesToIds may have a different layout?
