@@ -28,6 +28,24 @@ module top(
 	output out_wire_2
 	);
 
+	// Internal wires
+	// End of internal wires
+	io1in_pad in_pad_1(
+	.clk(clk),
+	.top_pin(in_wire_1),
+	.pin(input_to_grid_1)
+	);
+	io1in_pad in_pad_2(
+	.clk(clk),
+	.top_pin(in_wire_2),
+	.pin(input_to_grid_2)
+	);
+	io1in_pad in_pad_0(
+	.clk(clk),
+	.top_pin(in_wire_0),
+	.pin(input_to_grid_0)
+	);
+
 	wire input_to_grid_0;
 	wire input_to_grid_1;
 	wire input_to_grid_2;
@@ -39,24 +57,6 @@ module top(
 
 
 	// input pads
-	io1in_pad in_pad_0(
-		.clk(clk),
-		.top_pin(in_wire_0),
-		.pin(input_to_grid_0)
-	);
-
-	io1in_pad in_pad_1(
-		.clk(clk),
-		.top_pin(in_wire_1),
-		.pin(input_to_grid_1)
-	);
-
-	io1in_pad in_pad_2(
-		.clk(clk),
-		.top_pin(in_wire_2),
-		.pin(input_to_grid_2)
-	);
-
 	// output pads
 	io1out_pad out_pad_0(
 		.clk(clk),

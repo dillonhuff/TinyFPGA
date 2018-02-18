@@ -138,16 +138,16 @@ def build_top_str(num_in_ios,
     for pad_no in range(0, num_in_ios):
         pad_name = 'in_pad_' + str(pad_no)
 
-        # top_mod.add_instance('io1in_pad', pad_name)
-        # top_mod.add_port_connection('clk', pad_name, 'clk')
-        # top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
-        # top_mod.add_port_connection('input_to_grid_' + str(pad_no), pad_name, 'pin')
+        top_mod.add_instance('io1in_pad', pad_name)
+        top_mod.add_port_connection('clk', pad_name, 'clk')
+        top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
+        top_mod.add_port_connection('input_to_grid_' + str(pad_no), pad_name, 'pin')
 
-        body += '\tio1in_pad in_pad_' + str(pad_no) + '(\n'
-        body += '\t\t.clk(clk),\n'
-        body += '\t\t.top_pin(in_wire_' + str(pad_no) + '),\n'
-        body += '\t\t.pin(input_to_grid_' + str(pad_no) + ')\n'
-        body += '\t);\n\n'
+        # body += '\tio1in_pad in_pad_' + str(pad_no) + '(\n'
+        # body += '\t\t.clk(clk),\n'
+        # body += '\t\t.top_pin(in_wire_' + str(pad_no) + '),\n'
+        # body += '\t\t.pin(input_to_grid_' + str(pad_no) + ')\n'
+        # body += '\t);\n\n'
 
     body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
@@ -358,6 +358,6 @@ def build_top_str(num_in_ios,
             body += '\t);\n\n'
             tile_id += 1
 
-    #return module_string(includes, 'top', ports, top_mod.body_string() + '\n' + body)
-    return module_string(includes, 'top', ports, body)
+    return module_string(includes, 'top', ports, top_mod.body_string() + '\n' + body)
+    #return module_string(includes, 'top', ports, body)
 

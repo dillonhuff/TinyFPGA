@@ -41,10 +41,6 @@ module pe_tile_right(
 	output out_wire_1_2,
 	output out_wire_1_1,
 	output out_wire_1_0,
-	output out_wire_0_2,
-	output out_wire_0_3,
-	output out_wire_0_0,
-	output out_wire_0_1,
 	output out_wire_3_1,
 	output out_wire_3_0,
 	output out_wire_3_3,
@@ -62,6 +58,10 @@ module pe_tile_right(
 	wire pe_output;
 
 	// Local wires for switch box outputs <-> connect box
+	wire out_wire_0_0;
+	wire out_wire_0_1;
+	wire out_wire_0_2;
+	wire out_wire_0_3;
 	// Set configuration flag
 	reg config_en_sb;
 	localparam CONFIG_sb = 7;

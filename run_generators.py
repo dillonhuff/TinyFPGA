@@ -40,7 +40,7 @@ def run_generators():
 
     # Side PEs
     generate_pe_tile('pe_tile_left', 'switch_box_left', [0, 1, 3], 4, n_wires_per_side)
-    generate_pe_tile('pe_tile_right', 'switch_box_right', [0, 1, 2, 3], 4, n_wires_per_side)
+    generate_pe_tile('pe_tile_right', 'switch_box_right', [1, 2, 3], 4, n_wires_per_side)
     generate_pe_tile('pe_tile_top', 'switch_box_top', [0, 1, 2], 4, n_wires_per_side)
     generate_pe_tile('pe_tile_bottom', 'switch_box_bottom', [0, 2, 3], 4, n_wires_per_side)
 
