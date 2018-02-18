@@ -305,12 +305,48 @@ namespace TinyPnR {
       if (i->first == "mod_name") {
         auto nm = i->second;
         modName = nm.get<string>();
-      } else if (i->first == "components") {
       }
     }
 
     ModuleConfig mod(modName);
 
-    REQUIRE(mod.getConfigDataWidth() == 32);
+    for (picojson::value::object::const_iterator i = obj.begin(); i != obj.end(); ++i) {
+      std::cout << i->first << ": " << i->second.to_str() << std::endl;
+      if (i->first == "components") {
+        auto nm = i->second;
+
+        REQUIRE(nm.is<picojson::array>());
+
+        for (auto comp : nm.get<picojson::array>()) {
+          REQUIRE(comp.is<picojson::object>());
+
+          auto compObj = comp.get<picojson::object>();
+
+          string compName;
+          int componentOffset = 0;
+          map<ConfigLabel, int> configMap;
+
+          for (auto val : compObj) {
+            if (val.first == "name") {
+              compName = val.second.get<string>();
+            } else if (val.first == "offset") {
+              componentOffset = static_cast<int>(val.second.get<double>());
+            } else if (val.first == "config_map") {
+              auto compMap = val.second.get<picojson::object>();
+              for (auto comp : compMap) {
+                configMap.insert({comp.first, static_cast<double>(comp.second.get<double>())});
+              }
+            }
+          }
+
+          mod.addComponent(compName, componentOffset, configMap);
+        }
+      }
+    }
+
+    SECTION("32 bit configuration") {
+      REQUIRE(mod.getConfigDataWidth() == 32);
+    }
+
   }
 }
