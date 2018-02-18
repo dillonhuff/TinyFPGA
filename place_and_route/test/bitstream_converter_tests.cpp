@@ -295,12 +295,22 @@ namespace TinyPnR {
       exit(2);
     }
 
+
     // obtain a const reference to the map, and print the contents
     const picojson::value::object& obj = v.get<picojson::object>();
-    for (picojson::value::object::const_iterator i = obj.begin();
-         i != obj.end();
-         ++i) {
+
+    string modName;
+    for (picojson::value::object::const_iterator i = obj.begin(); i != obj.end(); ++i) {
       std::cout << i->first << ": " << i->second.to_str() << std::endl;
+      if (i->first == "mod_name") {
+        auto nm = i->second;
+        modName = nm.get<string>();
+      } else if (i->first == "components") {
+      }
     }
+
+    ModuleConfig mod(modName);
+
+    REQUIRE(mod.getConfigDataWidth() == 32);
   }
 }
