@@ -30,20 +30,35 @@ module top(
 
 	// Internal wires
 	// End of internal wires
-	io1in_pad in_pad_1(
-	.clk(clk),
-	.top_pin(in_wire_1),
-	.pin(input_to_grid_1)
-	);
-	io1in_pad in_pad_2(
-	.clk(clk),
-	.top_pin(in_wire_2),
-	.pin(input_to_grid_2)
+	io1out_pad out_pad_2(
+		.top_pin(out_wire_2),
+		.clk(clk),
+		.pin(grid_to_output_2)
 	);
 	io1in_pad in_pad_0(
-	.clk(clk),
-	.top_pin(in_wire_0),
-	.pin(input_to_grid_0)
+		.clk(clk),
+		.top_pin(in_wire_0),
+		.pin(input_to_grid_0)
+	);
+	io1in_pad in_pad_1(
+		.clk(clk),
+		.top_pin(in_wire_1),
+		.pin(input_to_grid_1)
+	);
+	io1in_pad in_pad_2(
+		.clk(clk),
+		.top_pin(in_wire_2),
+		.pin(input_to_grid_2)
+	);
+	io1out_pad out_pad_0(
+		.top_pin(out_wire_0),
+		.clk(clk),
+		.pin(grid_to_output_0)
+	);
+	io1out_pad out_pad_1(
+		.top_pin(out_wire_1),
+		.clk(clk),
+		.pin(grid_to_output_1)
 	);
 
 	wire input_to_grid_0;
@@ -58,24 +73,6 @@ module top(
 
 	// input pads
 	// output pads
-	io1out_pad out_pad_0(
-		.clk(clk),
-		.top_pin(out_wire_0),
-		.pin(grid_to_output_0)
-	);
-
-	io1out_pad out_pad_1(
-		.clk(clk),
-		.top_pin(out_wire_1),
-		.pin(grid_to_output_1)
-	);
-
-	io1out_pad out_pad_2(
-		.clk(clk),
-		.top_pin(out_wire_2),
-		.pin(grid_to_output_2)
-	);
-
 	// PE tile grid
 	// Vertical wires
 	wire vertical_tile_0_0_to_tile_1_0_0;

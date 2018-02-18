@@ -88,7 +88,7 @@ class VerilogModule():
             print 'inst = ', inst_name
             i = 0
             for port_wire_pair in self.inst_to_wires[inst_name]:
-                body += '\t'
+                body += '\t\t'
                 body += '.' + port_wire_pair[0] + '(' + port_wire_pair[1] + ')'
                 if i < len(self.inst_to_wires[inst_name]) - 1:
                     body += ','
@@ -151,13 +151,18 @@ def build_top_str(num_in_ios,
 
     body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
-        #top_mod.add_instance('io1out_pad', 'out_pad_' + str(pad_no))
+        pad_name = 'out_pad_' + str(pad_no)
 
-        body += '\tio1out_pad out_pad_' + str(pad_no) + '(\n'
-        body += '\t\t.clk(clk),\n'
-        body += '\t\t.top_pin(out_wire_' + str(pad_no) + '),\n'
-        body += '\t\t.pin(grid_to_output_' + str(pad_no) + ')\n'
-        body += '\t);\n\n'
+        top_mod.add_instance('io1out_pad', pad_name)
+        top_mod.add_port_connection('out_wire_' + str(pad_no), pad_name, 'top_pin')
+        top_mod.add_port_connection('clk', pad_name, 'clk')
+        top_mod.add_port_connection('grid_to_output_' + str(pad_no), pad_name, 'pin')
+
+        # body += '\tio1out_pad out_pad_' + str(pad_no) + '(\n'
+        # body += '\t\t.clk(clk),\n'
+        # body += '\t\t.top_pin(out_wire_' + str(pad_no) + '),\n'
+        # body += '\t\t.pin(grid_to_output_' + str(pad_no) + ')\n'
+        # body += '\t);\n\n'
 
     body += '\t// PE tile grid\n'
     tile_id = 1;
