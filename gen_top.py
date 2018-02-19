@@ -2,39 +2,7 @@ from sets import Set
 
 from generator_utils import module_string
 
-# How do I gradually move to having configuration data determined automatically
-# by a bitstream converter?
-
-# Problems:
-
-#   1. Dont want to break unit tests, or if I do I want them to be fixed easily
-#   2. Not sure how to deal with connection architecture without just doing string
-#      concatenation
-
-# Idea: Convert switch box first (or maybe connect box first?)
-# Actually build a class that represents a verilog module. Then add connections
-# representing it. Somehow label the configureable portions?
-
-# For now assume: No clock gating. Just clock and reset
-# Maybe just build tile based model? Tiles and components. Each with clk / reset,
-# other inputs / outputs, switches, clbs and other connections
-
-# switches / clbs need configuration
-
-# Each module has some configurable state. Elaborator looks at the config state,
-# computes the number of bits needed, format of bits in config register and
-# a mapping from bit patterns in config data to state settings
-
-# Q: How to generate addresses? Tree of components in the top design. Only leaf
-#    nodes have configurable elements. Leaf nodes get a config enable bit. Higher
-#    level nodes get config addresses
-
-# How to move to this scheme gradually?
-# Step one: Start specifying the configuration bit width / layout in data structures
-# for each module. Then add a general purpose C++ bitstream converter, and JSON
-# bitstream metadata
-
-# Represent structural verilog
+# Represent structural verilog + assignments
 # Note: This is basically the yosys representation. No mapping back from wires
 # to ports
 class VerilogModule():
