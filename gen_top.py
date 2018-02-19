@@ -74,6 +74,11 @@ class VerilogModule():
         self.inst_to_wires[inst_name_0].append((inst_port_name, module_port_name))
         self.port_connections.append((module_port_name, (inst_name_0, inst_port_name)))
 
+    # same as add port connection. Merge or add check for port to add_port_connection?
+    def add_wire_connection(self, wire_name, inst_name_0, inst_port_name):
+        assert(wire_name in self.internal_wires)
+        self.inst_to_wires[inst_name_0].append((inst_port_name, wire_name))
+        
     def body_string(self):
         body = ''
 
@@ -143,7 +148,6 @@ def build_top_str(num_in_ios,
         top_mod.add_instance('io1in_pad', pad_name)
         top_mod.add_port_connection('clk', pad_name, 'clk')
         top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
-        top_mod.add_port_connection('input_to_grid_' + str(pad_no), pad_name, 'pin')
 
     body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
@@ -174,7 +178,6 @@ def build_top_str(num_in_ios,
     # Each tile-direction group needs 4 wires, and there are 2 groups
     # tile00 -> tile01, tile00 <- tile01
 
-    #body += '\t// Vertical wires\n'
     for grid_row in range(0, grid_height - 1):
         next_row = grid_row + 1
 
@@ -185,15 +188,9 @@ def build_top_str(num_in_ios,
 
             for i in range(0, 4):
                 top_mod.add_wire('vertical_' + cur_tile + '_to_' + next_tile + '_' + str(i))
-                #body += '\twire vertical_' + cur_tile + '_to_' + next_tile + '_' + str(i) + ';\n'
-
             for i in range(0, 4):
                 top_mod.add_wire('vertical_' + next_tile + '_to_' + cur_tile + '_' + str(i))
-                #body += '\twire vertical_' + next_tile + '_to_' + cur_tile + '_' + str(i) + ';\n'
-                
-            #body += '\n'
 
-    body += '\t// Horizontal wires\n'            
     for grid_col in range(0, grid_width - 1):
 
         next_col = grid_col + 1
@@ -204,15 +201,11 @@ def build_top_str(num_in_ios,
             next_tile = 'tile_' + str(grid_row) + '_' + str(next_col)
 
             for i in range(0, 4):
-                body += '\twire horizontal_' + cur_tile + '_to_' + next_tile + '_' + str(i) + ';\n'
+                top_mod.add_wire('horizontal_' + cur_tile + '_to_' + next_tile + '_' + str(i))
 
             for i in range(0, 4):
-                body += '\twire horizontal_' + next_tile + '_to_' + cur_tile + '_' + str(i) + ';\n'
-                
-            body += '\n'
+                top_mod.add_wire('horizontal_' + next_tile + '_to_' + cur_tile + '_' + str(i))
             
-    # Idea: Utility for helping people draw ascii comment pictures in code
-
     body += '\t// Tile declarations\n'
     for grid_row in range(0, grid_height):
 
@@ -260,7 +253,7 @@ def build_top_str(num_in_ios,
             # Declaration of pe
             tile_name = 'pe_tile_' + str(grid_row) + '_' + str(grid_col)
             # TODO: Re-introduce this value
-            # top_mod.add_instance(pe_tile_mod, tile_name)
+            top_mod.add_instance(pe_tile_mod, tile_name)
 
             body += '\t' + pe_tile_mod + ' ' + tile_name + '(\n'
 
@@ -271,7 +264,11 @@ def build_top_str(num_in_ios,
             ## Wiring up tiles to inputs above them: row 0 connects to IOs,
             ## all other rows connect to the row above them
             if ((grid_row == 0) and (grid_col <= (num_in_ios - 1))):
-                body += '\t\t.in_wire_3_0(input_to_grid_' + str(grid_col) + '),\n'
+                #body += '\t\t.in_wire_3_0(input_to_grid_' + str(grid_col) + '),\n'
+                top_mod.add_instance_connection('in_pad_' + str(grid_col),
+                                                'pin',
+                                                tile_name,
+                                                'in_wire_3_0')
 
                 for i in range(1, 4):
                     body += '\t\t.in_wire_3_' + str(i) + '(1\'b0),\n'
