@@ -47,6 +47,7 @@ class VerilogModule():
         self.instances = Set([])
         self.inst_to_wires = {}
         self.internal_wires = Set([])
+        self.assigns = Set([])
 
     def add_wire(self, wire_name):
         self.internal_wires.add(wire_name)
@@ -54,6 +55,10 @@ class VerilogModule():
     def add_instance(self, mod_name, inst_name):
         self.instances.add((mod_name, inst_name))
         self.inst_to_wires[inst_name] = []
+
+    def add_assign(self, in_wire, driver_value):
+        assert(in_wire in self.internal_wires)
+        self.assigns.add((in_wire, driver_value))
 
     def add_instance_connection(self, inst_name_0, port_name_0, inst_name_1, port_name_1):
         conn = ((inst_name_0, port_name_0), (inst_name_1, port_name_1))
@@ -102,6 +107,10 @@ class VerilogModule():
                 body += '\n'
                 i += 1
             body += '\t);\n'
+
+        body += '\t// Assignments \n'
+        for assign in self.assigns:
+            body += '\tassign ' + assign[0] + ' = ' + assign[1] + ';\n'
         
         return body
 
@@ -270,8 +279,13 @@ def build_top_str(num_in_ios,
                                                 tile_name,
                                                 'in_wire_3_0')
 
+                # Q: How do we replace these connections?
                 for i in range(1, 4):
-                    body += '\t\t.in_wire_3_' + str(i) + '(1\'b0),\n'
+                    in_wire = tile_name + '_in_wire_3_' + str(i) + '_const'
+                    top_mod.add_wire(in_wire)
+                    top_mod.add_wire_connection(in_wire, tile_name, 'in_wire_3_' + str(i))
+                    top_mod.add_assign(in_wire, '1\'b0')
+                    #body += '\t\t.in_wire_3_' + str(i) + '(1\'b0),\n'
 
             elif (grid_row != 0):
                 # All other rows connect to the row above them
@@ -280,13 +294,18 @@ def build_top_str(num_in_ios,
                     # Connect this tiles side 3 to the previous rows tile
                     # side
                     out_wire = 'out_wire_3_' + str(i)
-                    body += '\t\t.' + out_wire + '(vertical_' + this_tile + '_to_' + tile_above + '_' + str(i) + '),\n'
+                    connector = 'vertical_' + this_tile + '_to_' + tile_above + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+
+                    # body += '\t\t.' + out_wire + '(vertical_' + this_tile + '_to_' + tile_above + '_' + str(i) + '),\n'
 
                 for i in range(0, 4):
                     # Connect this tiles side 3 to the previous rows tile
                     # side
                     out_wire = 'in_wire_3_' + str(i)
-                    body += '\t\t.' + out_wire + '(vertical_' + tile_above + '_to_' + this_tile + '_' + str(i) + '),\n'
+                    connector = 'vertical_' + tile_above + '_to_' + this_tile + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    #body += '\t\t.' + out_wire + '(vertical_' + tile_above + '_to_' + this_tile + '_' + str(i) + '),\n'
                     
             ## Wiring up tiles to inputs below them: row (N - 1) connects to output
             ## IO pads, all other rows connect to row N + 1
@@ -301,13 +320,17 @@ def build_top_str(num_in_ios,
                     # Connect this tiles side 1 to the next rows tile
                     # side
                     out_wire = 'out_wire_1_' + str(i)
-                    body += '\t\t.' + out_wire + '(vertical_' + this_tile + '_to_' + tile_below + '_' + str(i) + '),\n'
+                    connector = 'vertical_' + this_tile + '_to_' + tile_below + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    #body += '\t\t.' + out_wire + '(vertical_' + this_tile + '_to_' + tile_below + '_' + str(i) + '),\n'
 
                 for i in range(0, 4):
                     # Connect this tiles side 1 to the next rows tile
                     # side
                     out_wire = 'in_wire_1_' + str(i)
-                    body += '\t\t.' + out_wire + '(vertical_' + tile_below + '_to_' + this_tile + '_' + str(i) + '),\n'
+                    connector = 'vertical_' + tile_below + '_to_' + this_tile + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    # body += '\t\t.' + out_wire + '(vertical_' + tile_below + '_to_' + this_tile + '_' + str(i) + '),\n'
 
             # Wiring up horizontal grid
             # If this is not column 0 connects to tiles to the left
@@ -315,13 +338,17 @@ def build_top_str(num_in_ios,
                 for i in range(0, 4):
                     # Connect this tiles side 2 to the tile to the left
                     out_wire = 'out_wire_2_' + str(i)
-                    body += '\t\t.' + out_wire + '(horizontal_' + this_tile + '_to_' + tile_left + '_' + str(i) + '),\n'
+                    connector = 'horizontal_' + this_tile + '_to_' + tile_left + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    #body += '\t\t.' + out_wire + '(horizontal_' + this_tile + '_to_' + tile_left + '_' + str(i) + '),\n'
 
                 for i in range(0, 4):
                     # Connect this tiles side 3 to the previous rows tile
                     # side
                     out_wire = 'in_wire_2_' + str(i)
-                    body += '\t\t.' + out_wire + '(horizontal_' + tile_left + '_to_' + this_tile + '_' + str(i) + '),\n'
+                    connector = 'horizontal_' + tile_left + '_to_' + this_tile + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    #body += '\t\t.' + out_wire + '(horizontal_' + tile_left + '_to_' + this_tile + '_' + str(i) + '),\n'
 
             else:
                 for i in range(0, 4):
