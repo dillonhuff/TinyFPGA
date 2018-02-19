@@ -141,7 +141,7 @@ def build_top_str(num_in_ios,
     # 1. input io pads to tile grid
     # 2. output io pads to top
     # 3. wires between each pad on the grid
-    body = ''
+    # body = ''
 
     # Initialize io pads to tile
     # for pad_no in range(0, num_in_ios):
@@ -416,6 +416,6 @@ def build_top_str(num_in_ios,
             # body += '\t);\n\n'
             tile_id += 1
 
-    return module_string(includes, 'top', ports, top_mod.body_string() + '\n' + body)
+    return module_string(includes, 'top', ports, top_mod.body_string())
     #return module_string(includes, 'top', ports, body)
 
