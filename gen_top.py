@@ -48,9 +48,11 @@ class VerilogModule():
         self.inst_to_wires = {}
         self.internal_wires = Set([])
         self.assigns = Set([])
+        self.wire_widths = {}
 
-    def add_wire(self, wire_name):
+    def add_wire(self, wire_name, width=1):
         self.internal_wires.add(wire_name)
+        self.wire_widths[wire_name] = width
 
     def add_instance(self, mod_name, inst_name):
         self.instances.add((mod_name, inst_name))
@@ -67,8 +69,9 @@ class VerilogModule():
         w1 = conn[0][0] + '_' + conn[0][1]
         w2 = conn[1][0] + '_' + conn[1][1]
         wire_name = w1 + '_to_' + w2
-        
-        self.internal_wires.add(wire_name)
+
+        self.add_wire(wire_name)
+        #self.internal_wires.add(wire_name)
 
         self.inst_to_wires[inst_name_0].append((port_name_0, wire_name))
         self.inst_to_wires[inst_name_1].append((port_name_1, wire_name))
@@ -89,7 +92,8 @@ class VerilogModule():
 
         body += '\t// Internal wires\n'
         for wire in self.internal_wires:
-            body += '\twire ' + wire + ';\n'
+            width = self.wire_widths[wire]
+            body += '\twire [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
         body += '\t// End of internal wires\n'
 
         for inst in self.instances:
@@ -393,7 +397,16 @@ def build_top_str(num_in_ios,
                     top_mod.add_assign(out_wire_c, '1\'b0')
                     
                     #body += '\t\t.' + out_wire + '(1\'b0),\n'
-            
+
+            top_mod.add_port_connection('clk', tile_name, 'clk')
+            top_mod.add_port_connection('reset', tile_name, 'reset')
+            top_mod.add_port_connection('config_addr', tile_name, 'config_addr')
+            top_mod.add_port_connection('config_data', tile_name, 'config_data')
+
+            tile_id_wire = tile_name + '_id_wire'
+            top_mod.add_wire(tile_id_wire, 16)
+            top_mod.add_assign(tile_id_wire, str(tile_id))
+            top_mod.add_port_connection(tile_id_wire, tile_name, 'tile_id')
             # body += '\t\t.clk(clk),\n'
             # body += '\t\t.reset(reset),\n'
             # body += '\t\t.config_addr(config_addr),\n'
