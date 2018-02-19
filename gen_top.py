@@ -134,24 +134,6 @@ def build_top_str(num_in_ios,
 
     top_mod = VerilogModule('top', ports)
 
-    # Need to initialize wire groups:
-    # 1. input io pads to tile grid
-    # 2. output io pads to top
-    # 3. wires between each pad on the grid
-    # body = ''
-
-    # Initialize io pads to tile
-    # for pad_no in range(0, num_in_ios):
-    #     body += '\twire input_to_grid_' + str(pad_no) + ';\n'
-
-    # body += '\n\n'
-
-    # for pad_no in range(0, num_out_ios):
-    #     body += '\twire grid_to_output_' + str(pad_no) + ';\n'
-
-    # body += '\n\n'
-
-    # body += '\t// input pads\n'
     for pad_no in range(0, num_in_ios):
         pad_name = 'in_pad_' + str(pad_no)
 
@@ -159,16 +141,13 @@ def build_top_str(num_in_ios,
         top_mod.add_port_connection('clk', pad_name, 'clk')
         top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
 
-    #body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
         pad_name = 'out_pad_' + str(pad_no)
 
         top_mod.add_instance('io1out_pad', pad_name)
         top_mod.add_port_connection('out_wire_' + str(pad_no), pad_name, 'top_pin')
         top_mod.add_port_connection('clk', pad_name, 'clk')
-        #top_mod.add_port_connection('grid_to_output_' + str(pad_no), pad_name, 'pin')
 
-    #body += '\t// PE tile grid\n'
     tile_id = 1;
 
 
