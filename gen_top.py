@@ -165,7 +165,7 @@ def build_top_str(num_in_ios,
         top_mod.add_instance('io1out_pad', pad_name)
         top_mod.add_port_connection('out_wire_' + str(pad_no), pad_name, 'top_pin')
         top_mod.add_port_connection('clk', pad_name, 'clk')
-        top_mod.add_port_connection('grid_to_output_' + str(pad_no), pad_name, 'pin')
+        #top_mod.add_port_connection('grid_to_output_' + str(pad_no), pad_name, 'pin')
 
     body += '\t// PE tile grid\n'
     tile_id = 1;

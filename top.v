@@ -180,7 +180,6 @@ module top(
 	io1out_pad out_pad_2(
 		.top_pin(out_wire_2),
 		.clk(clk),
-		.pin(grid_to_output_2),
 		.pin(out_pad_2_pin_to_pe_tile_2_2_out_wire_1_0)
 	);
 	pe_tile pe_tile_1_1(
@@ -462,13 +461,11 @@ module top(
 	io1out_pad out_pad_0(
 		.top_pin(out_wire_0),
 		.clk(clk),
-		.pin(grid_to_output_0),
 		.pin(out_pad_0_pin_to_pe_tile_2_0_out_wire_1_0)
 	);
 	io1out_pad out_pad_1(
 		.top_pin(out_wire_1),
 		.clk(clk),
-		.pin(grid_to_output_1),
 		.pin(out_pad_1_pin_to_pe_tile_2_1_out_wire_1_0)
 	);
 	// Assignments 
