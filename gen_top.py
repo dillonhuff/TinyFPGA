@@ -174,8 +174,9 @@ def build_top_mod(num_in_ios,
 
             for i in range(0, 4):
                 top_mod.add_wire('horizontal_' + next_tile + '_to_' + cur_tile + '_' + str(i))
-            
-    #body += '\t// Tile declarations\n'
+
+    tiles_to_ids = {}
+    tile_map = {}
     for grid_row in range(0, grid_height):
 
         prev_row = grid_row - 1
@@ -223,6 +224,7 @@ def build_top_mod(num_in_ios,
             tile_name = 'pe_tile_' + str(grid_row) + '_' + str(grid_col)
             # TODO: Re-introduce this value
             top_mod.add_instance(pe_tile_mod, tile_name)
+            tile_map[tile_name] = pe_tile_mod
 
             print 'pe_tile_mod =', pe_tile_mod
             # Wiring up vertical wires
@@ -345,8 +347,19 @@ def build_top_mod(num_in_ios,
             top_mod.add_assign(tile_id_wire, str(tile_id))
             top_mod.add_port_connection(tile_id_wire, tile_name, 'tile_id')
 
+            tiles_to_ids[tile_name] = tile_id
             tile_id += 1
 
+    top_mod.metadata['tile_id_end'] = 15
+    top_mod.metadata['tile_id_start'] = 0
+    top_mod.metadata['mod_id_end'] = 31
+    top_mod.metadata['mod_id_start'] = 16
+    top_mod.metadata['tiles_to_ids'] = tiles_to_ids
+    # self.tile_id_end = 15
+    # self.tile_id_begin = 0
+    # self.mod_id_end = 31
+    # self.mod_id_begin = 16
+            
     return top_mod
 
 def build_top_mod_bitstream_json(top_mod):

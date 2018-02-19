@@ -95,6 +95,17 @@ def run_generators():
     top_json = build_top_mod_bitstream_json(top_mod)
 
     bitstream_json['top'] = top_json
+
+    # Manually written CLB
+    clb_json = {'mod_name' : 'clb', 'components' : [{ 'config_map' : {'and' : 0, 'or' : 1, 'xor' : 2, 'reg' : 3}, "name" : "clb", "offset" : 0} ] }
+    bitstream_json['clb'] = clb_json
+
+    # Manually written connect box
+    connect_box_json = {'mod_name' : 'connect_box', 'components' : [
+        { 'config_map' : {'track0_in' : 0, 'track1_in' : 1, 'track2_in' : 2, 'track3_in' : 3, 'track4_in' : 4, 'track5_in' : 5, 'track6_in' : 6, 'track7_in' : 7}, "name" : "block_out", "offset" : 0},
+    ] }
+    bitstream_json['connect_box'] = connect_box_json
+
     top_json_file = open(name + '.json', 'w')
     top_json_file.write(json.dumps(bitstream_json))
     top_json_file.close()

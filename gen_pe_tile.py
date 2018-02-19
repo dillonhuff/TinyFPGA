@@ -219,7 +219,19 @@ def generate_pe_tile_verilog(pe_tile):
                          body)
 
 def generate_pe_bs_json(pe_tile):
-    return {}
+    json_val = {}
+    mod_map = {'cb0' : 'connect_box', 'cb1' : 'connect_box', 'compute_block' : 'clb', 'sb' : pe_tile.switch_box_mod}
+
+    mods_to_addrs = {}
+    mods_to_addrs['sb'] = 7
+    mods_to_addrs['cb0'] = 6
+    mods_to_addrs['cb1'] = 5
+    mods_to_addrs['clb'] = 5
+
+    json_val['mods_to_addrs'] = mods_to_addrs
+
+    json_val['mod_map'] = mod_map
+    return json_val
 
 def generate_pe_tile(mod_name,
                      switch_box_mod,
