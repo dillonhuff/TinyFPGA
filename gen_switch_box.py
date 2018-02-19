@@ -2,6 +2,9 @@ from sets import Set
 
 import json
 
+# Note: Maybe the programmable elements should have a base set like CLB / switch
+# that are instantiated, combinational modules that take config inputs
+
 def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     assert(len(sides_to_use) <= n_sides)
 
@@ -24,7 +27,6 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
                 sources.append((i, in_wire))
 
             out_map_nums.append(((side_no, wire_no), sources, config_offset))
-            # mod_str += '\t\t\t2\'d3: ' + out_wire + '_i = pe_output_0;\n'
             config_offset += 2
 
     # Select the valid connections
@@ -39,8 +41,8 @@ def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
             sources = []
             # check each value in source
             for src in val[1]:
-                in_side_no = src[1][0] #src[0]
-                i = src[0] #src[1][0]
+                in_side_no = src[1][0]
+                i = src[0]
                 in_wire_no = src[1][1]
 
                 in_wire_name = 'in_wire_' + str(in_side_no) + '_' + str(in_wire_no)
@@ -136,8 +138,6 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
             in_wire = ind_wire_pair[1]
                 
             mod_str += '\t\t\t2\'d' + str(i) + ': ' + out_wire + '_i = ' + in_wire + ';\n'
-
-        # mod_str += '\t\t\t2\'d3: ' + out_wire + '_i = pe_output_0;\n'
 
         mod_str += '\t\t\tdefault: ' + out_wire + '_i = 1\'b0;\n'
         mod_str += '\t\tendcase\n'

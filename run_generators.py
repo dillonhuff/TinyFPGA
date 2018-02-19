@@ -1,6 +1,6 @@
 from gen_switch_box import build_mod_str, generate_sb
 from gen_pe_tile import generate_pe_tile
-from gen_top import build_top_str
+from gen_top import build_verilog_string, build_top_mod
 
 # I need to create a whole chip object that includes instantiations of io pads
 # and pe tiles
@@ -52,7 +52,8 @@ def run_generators():
 
     name = 'top'
     pe_tile_file = open(name + '.v', 'w')
-    pe_tile_file.write(build_top_str(3, 3, 3, 3))
+    top_mod = build_top_mod(3, 3, 3, 3)
+    pe_tile_file.write(build_verilog_string(top_mod))
     pe_tile_file.close()
     
     print 'Done running generators'

@@ -3,8 +3,16 @@ from sets import Set
 from generator_utils import module_string
 
 # Represent structural verilog + assignments
+
 # Note: This is basically the yosys representation. No mapping back from wires
 # to ports
+
+# Note: Need to add input / output types on ports
+
+# Note: tile to tile_id mappings are major piece of configurable state that is
+# needed for this generator. After that we will need the mapping from tile names
+# to tile type names. Also we are going to need tileIdStart, tileIdEnd,
+# componentIdStart, componentIdEnd
 class VerilogModule():
 
     def __init__(self, mod_name, ports):
@@ -37,7 +45,6 @@ class VerilogModule():
         wire_name = w1 + '_to_' + w2
 
         self.add_wire(wire_name)
-        #self.internal_wires.add(wire_name)
 
         self.inst_to_wires[inst_name_0].append((port_name_0, wire_name))
         self.inst_to_wires[inst_name_1].append((port_name_1, wire_name))
@@ -83,7 +90,7 @@ class VerilogModule():
         
         return body
 
-def build_top_str(num_in_ios,
+def build_top_mod(num_in_ios,
                   num_out_ios,
                   grid_height,
                   grid_width):
@@ -91,7 +98,6 @@ def build_top_str(num_in_ios,
     assert(num_in_ios <= grid_width)
     assert(num_out_ios <= grid_width)
 
-    includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data']
 
     for pad_no in range(0, num_in_ios):
@@ -335,6 +341,9 @@ def build_top_str(num_in_ios,
 
             tile_id += 1
 
-    return module_string(includes, 'top', ports, top_mod.body_string())
-    #return module_string(includes, 'top', ports, body)
+    return top_mod
+
+def build_verilog_string(top_mod):
+    includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
+    return module_string(includes, top_mod.mod_name, top_mod.ports, top_mod.body_string())
 
