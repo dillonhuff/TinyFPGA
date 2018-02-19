@@ -218,6 +218,9 @@ def generate_pe_tile_verilog(pe_tile):
                          ports,
                          body)
 
+def generate_pe_bs_json(pe_tile):
+    return {}
+
 def generate_pe_tile(mod_name,
                      switch_box_mod,
                      sides_to_use,
@@ -234,3 +237,5 @@ def generate_pe_tile(mod_name,
     pe_tile_file = open(mod_name + '.json', 'w')
     pe_tile_file.write(json_str)
     pe_tile_file.close()
+
+    return generate_pe_bs_json(pe_tile)

@@ -152,18 +152,21 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
     mod_str += 'endmodule'
 
     return mod_str
-    
+
+def build_sb_bitstream_json(output_map):
+    return {}
+
 def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
     (output_map, input_wires) = build_box_topology(sides_to_use, n_sides, n_wires_per_side)
 
     verilog = generate_sb_verilog(mod_name, output_map, input_wires)
     json = generate_sb_json(mod_name, output_map, input_wires)
-    return (verilog, json)
+    return (verilog, json, build_sb_bitstream_json(output_map))
 
 def generate_sb(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
-    (verilog_str, json_str) = build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side)
+    (verilog_str, json_str, bs_json) = build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side)
     sb_file = open(mod_name + '.v', 'w')
     sb_file.write(verilog_str)
     sb_file.close()
@@ -171,4 +174,6 @@ def generate_sb(mod_name, sides_to_use, n_sides, n_wires_per_side):
     sb_file = open(mod_name + '.json', 'w')
     sb_file.write(json_str)
     sb_file.close()
+
+    return bs_json
     

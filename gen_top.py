@@ -13,12 +13,18 @@ from generator_utils import module_string
 # needed for this generator. After that we will need the mapping from tile names
 # to tile type names. Also we are going to need tileIdStart, tileIdEnd,
 # componentIdStart, componentIdEnd
+
+# Q: What is the next small step toward a consistent, unified set of generators?
+# Q: What am I trying to get to? A design where all json is generated uniformly
+#    by each generate call and stored to a single json file. Verilog is generated
+#    file by file (or all at once I guess would work too)
 class VerilogModule():
 
     def __init__(self, mod_name, ports):
         self.mod_name = mod_name
         self.ports = ports
 
+        self.metadata = {}
         self.instances = Set([])
         self.inst_to_wires = {}
         self.internal_wires = Set([])
@@ -342,6 +348,9 @@ def build_top_mod(num_in_ios,
             tile_id += 1
 
     return top_mod
+
+def build_top_mod_bitstream_json(top_mod):
+    return top_mod.metadata
 
 def build_verilog_string(top_mod):
     includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
