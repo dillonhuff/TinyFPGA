@@ -153,8 +153,28 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
 
     return mod_str
 
-def build_sb_bitstream_json(output_map):
-    return {}
+def build_sb_bitstream_json(mod_name, output_map):
+    json_val = {}
+    json_val['mod_name'] = mod_name
+
+    output_wires = []
+    switches = []
+
+    for output in output_map:
+
+        config_map = {}
+        
+        switch_inputs = []
+        for in_wire in output[1]:
+            switch_inputs.append(in_wire[1])
+            config_map[in_wire[1]] = in_wire[0]
+        
+        switches.append({'name' : output[0], 'offset' : output[2], 'config_map' : config_map})
+
+    json_val['components'] = switches
+
+    
+    return json_val
 
 def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
@@ -162,7 +182,7 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
     verilog = generate_sb_verilog(mod_name, output_map, input_wires)
     json = generate_sb_json(mod_name, output_map, input_wires)
-    return (verilog, json, build_sb_bitstream_json(output_map))
+    return (verilog, json, build_sb_bitstream_json(mod_name, output_map))
 
 def generate_sb(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
