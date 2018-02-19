@@ -10,7 +10,9 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${EXTRA_CXX_COMPILE_FLAGS}")
 
 INCLUDE_DIRECTORIES(./src/)
 
+SET(SRC_FILES ./src/bitstream_format.cpp)
+
 SET(TEST_FILES ./test/place_tests.cpp
                ./test/bitstream_converter_tests.cpp)
 
-add_executable(all-tests ${TEST_FILES})
+add_executable(all-tests ${SRC_FILES} ${TEST_FILES})
