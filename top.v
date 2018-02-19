@@ -578,20 +578,6 @@ module top(
 	assign pe_tile_2_0_in_wire_1_2_const = 1'b0;
 	assign pe_tile_1_0in_wire_2_0_const = 1'b0;
 
-	wire input_to_grid_0;
-	wire input_to_grid_1;
-	wire input_to_grid_2;
-
-
-	wire grid_to_output_0;
-	wire grid_to_output_1;
-	wire grid_to_output_2;
-
-
-	// input pads
-	// output pads
-	// PE tile grid
-	// Tile declarations
 
 
 endmodule

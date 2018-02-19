@@ -144,17 +144,17 @@ def build_top_str(num_in_ios,
     body = ''
 
     # Initialize io pads to tile
-    for pad_no in range(0, num_in_ios):
-        body += '\twire input_to_grid_' + str(pad_no) + ';\n'
+    # for pad_no in range(0, num_in_ios):
+    #     body += '\twire input_to_grid_' + str(pad_no) + ';\n'
 
-    body += '\n\n'
+    # body += '\n\n'
 
-    for pad_no in range(0, num_out_ios):
-        body += '\twire grid_to_output_' + str(pad_no) + ';\n'
+    # for pad_no in range(0, num_out_ios):
+    #     body += '\twire grid_to_output_' + str(pad_no) + ';\n'
 
-    body += '\n\n'
+    # body += '\n\n'
 
-    body += '\t// input pads\n'
+    # body += '\t// input pads\n'
     for pad_no in range(0, num_in_ios):
         pad_name = 'in_pad_' + str(pad_no)
 
@@ -162,7 +162,7 @@ def build_top_str(num_in_ios,
         top_mod.add_port_connection('clk', pad_name, 'clk')
         top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
 
-    body += '\t// output pads\n'
+    #body += '\t// output pads\n'
     for pad_no in range(0, num_out_ios):
         pad_name = 'out_pad_' + str(pad_no)
 
@@ -171,7 +171,7 @@ def build_top_str(num_in_ios,
         top_mod.add_port_connection('clk', pad_name, 'clk')
         #top_mod.add_port_connection('grid_to_output_' + str(pad_no), pad_name, 'pin')
 
-    body += '\t// PE tile grid\n'
+    #body += '\t// PE tile grid\n'
     tile_id = 1;
 
 
@@ -219,7 +219,7 @@ def build_top_str(num_in_ios,
             for i in range(0, 4):
                 top_mod.add_wire('horizontal_' + next_tile + '_to_' + cur_tile + '_' + str(i))
             
-    body += '\t// Tile declarations\n'
+    #body += '\t// Tile declarations\n'
     for grid_row in range(0, grid_height):
 
         prev_row = grid_row - 1
