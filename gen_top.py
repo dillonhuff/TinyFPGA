@@ -264,7 +264,7 @@ def build_top_str(num_in_ios,
             # TODO: Re-introduce this value
             top_mod.add_instance(pe_tile_mod, tile_name)
 
-            body += '\t' + pe_tile_mod + ' ' + tile_name + '(\n'
+            # body += '\t' + pe_tile_mod + ' ' + tile_name + '(\n'
 
             
             print 'pe_tile_mod =', pe_tile_mod
@@ -310,10 +310,19 @@ def build_top_str(num_in_ios,
             ## Wiring up tiles to inputs below them: row (N - 1) connects to output
             ## IO pads, all other rows connect to row N + 1
             if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
-                body += '\t\t.out_wire_1_0(grid_to_output_' + str(grid_col) + '),\n'
+                #body += '\t\t.out_wire_1_0(grid_to_output_' + str(grid_col) + '),\n'
+                top_mod.add_instance_connection('out_pad_' + str(grid_col),
+                                                'pin',
+                                                tile_name,
+                                                'out_wire_1_0')
 
                 for i in range(0, 4):
-                    body += '\t\t.in_wire_1_' + str(i) + '(1\'b0),\n'
+                    in_wire = 'in_wire_1_' + str(i)
+                    in_wire_c = tile_name + '_' + in_wire + '_const'
+                    top_mod.add_wire(in_wire_c)
+                    top_mod.add_wire_connection(in_wire_c, tile_name, in_wire)
+                    top_mod.add_assign(in_wire_c, '1\'b0')
+                    # body += '\t\t.in_wire_1_' + str(i) + '(1\'b0),\n'
 
             elif (grid_row != (grid_height - 1)):
                 for i in range(0, 4):
@@ -353,30 +362,45 @@ def build_top_str(num_in_ios,
             else:
                 for i in range(0, 4):
                     out_wire = 'in_wire_2_' + str(i)
-                    body += '\t\t.' + out_wire + '(1\'b0),\n'
+                    out_wire_c = tile_name + out_wire + '_const'
+
+                    top_mod.add_wire(out_wire_c)
+                    top_mod.add_wire_connection(out_wire_c, tile_name, out_wire)
+                    top_mod.add_assign(out_wire_c, '1\'b0')
+                    # body += '\t\t.' + out_wire + '(1\'b0),\n'
                 
 
             if (grid_col != (grid_width - 1)):
                 for i in range(0, 4):
                     # Connect this tiles side 0 to the column to the right
                     out_wire = 'out_wire_0_' + str(i)
-                    body += '\t\t.' + out_wire + '(horizontal_' + this_tile + '_to_' + tile_right + '_' + str(i) + '),\n'
+                    connector = 'horizontal_' + this_tile + '_to_' + tile_right + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    #body += '\t\t.' + out_wire + '(horizontal_' + this_tile + '_to_' + tile_right + '_' + str(i) + '),\n'
 
                 for i in range(0, 4):
                     out_wire = 'in_wire_0_' + str(i)
-                    body += '\t\t.' + out_wire + '(horizontal_' + tile_right + '_to_' + this_tile + '_' + str(i) + '),\n'
+                    connector = 'horizontal_' + tile_right + '_to_' + this_tile + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
+                    #body += '\t\t.' + out_wire + '(horizontal_' + tile_right + '_to_' + this_tile + '_' + str(i) + '),\n'
             else:
                 for i in range(0, 4):
                     out_wire = 'in_wire_0_' + str(i)
-                    body += '\t\t.' + out_wire + '(1\'b0),\n'
+                    out_wire_c = tile_name + '_in_wire_0_' + str(i) + '_const'
+                    res = '1\'b0'
+                    top_mod.add_wire(out_wire_c)
+                    top_mod.add_wire_connection(out_wire_c, tile_name, out_wire)
+                    top_mod.add_assign(out_wire_c, '1\'b0')
+                    
+                    #body += '\t\t.' + out_wire + '(1\'b0),\n'
             
-            body += '\t\t.clk(clk),\n'
-            body += '\t\t.reset(reset),\n'
-            body += '\t\t.config_addr(config_addr),\n'
-            body += '\t\t.config_data(config_data),\n'
-            body += '\t\t.tile_id(' + str(tile_id) + ')\n'
+            # body += '\t\t.clk(clk),\n'
+            # body += '\t\t.reset(reset),\n'
+            # body += '\t\t.config_addr(config_addr),\n'
+            # body += '\t\t.config_data(config_data),\n'
+            # body += '\t\t.tile_id(' + str(tile_id) + ')\n'
 
-            body += '\t);\n\n'
+            # body += '\t);\n\n'
             tile_id += 1
 
     return module_string(includes, 'top', ports, top_mod.body_string() + '\n' + body)
