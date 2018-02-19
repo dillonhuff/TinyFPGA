@@ -97,8 +97,12 @@ namespace TinyPnR {
 
   }
 
-  TEST_CASE("Load an entire bitstream specification") {
+  TEST_CASE("Load an entire bitstream format for 3 x 3 tile FPGA") {
     BitStreamFormat format = loadBitStreamFormat("./test/top.json");
+
+    SECTION("tileMap has 9 entries") {
+      REQUIRE(format.numTiles() == 9);
+    }
   }
 
   TEST_CASE("Loading a module") {

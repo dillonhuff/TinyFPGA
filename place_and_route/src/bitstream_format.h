@@ -138,6 +138,10 @@ namespace TinyPnR {
     
   public:
 
+    int numTiles() const {
+      return tileMap.size();
+    }
+
     void setAddressWidth(const int i) {
     }
 
