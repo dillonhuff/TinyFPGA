@@ -113,10 +113,47 @@ namespace TinyPnR {
         value modTypeName = getValue(compName, tileToModMapVal);
         assert(modTypeName.is<string>());
         cout << "mod type = " << modTypeName.get<string>() << endl;
-        // Add each module 
-      
-        //cout << "modTp = " << modTp.get<string>() << endl;
+
+        string modTypeNameStr = modTypeName.get<string>();
+        value modDef = getValue(modTypeNameStr, v);
+
+        assert(modDef.is<object>());
+
+        for (auto c : modDef.get<object>()) {
+          cout << "\t" << c.first << endl;
+        }
+
+        value comps = getValue("components", modDef);
+        assert(comps.is<picojson::array>());
+
+        for (auto elem : comps.get<picojson::array>()) {
+          assert(elem.is<object>());
+
+          value cpName = getValue("name", elem);
+          assert(cpName.is<string>());
         
+          value compOffset = getValue("offset", elem);
+          assert(compOffset.is<double>());
+
+          map<string, int> configMap;
+          value confMapV = getValue("config_map", elem);
+          assert(confMapV.is<object>());
+          for (auto confEnt : confMapV.get<object>()) {
+            cout << "\t" << confEnt.first << endl;
+            value confEntOffset = confEnt.second;
+            assert(confEntOffset.is<double>());
+
+            int cfo = static_cast<int>(confEntOffset.get<double>());
+
+            configMap.insert({confEnt.first, cfo});
+            moduleConf->addComponent(cpName.get<string>(),
+                                       static_cast<int>(compOffset.get<double>()),
+                                       configMap);
+          }
+
+          
+
+        }
 
       }
 

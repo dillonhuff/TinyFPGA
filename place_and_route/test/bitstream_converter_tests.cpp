@@ -121,7 +121,7 @@ namespace TinyPnR {
 
         REQUIRE(format.getAddress("pe_tile_1_1", "sb").hex_string() == "32'h00050007");
 
-        REQUIRE(format.getAddress("pe_tile_0_0", "clb").hex_string() == "32'h00010004");
+        REQUIRE(format.getAddress("pe_tile_0_0", "compute_block").hex_string() == "32'h00010004");
       }
 
       SECTION("Config data computation") {
