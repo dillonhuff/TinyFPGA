@@ -114,10 +114,14 @@ namespace TinyPnR {
     SECTION("Compute switch box address and data") {
 
       SECTION("Config address for pe_tile_1_2, cb0") {
-        string tile = "pe_tile_1_2";
-        string module = "cb0";
 
-        REQUIRE(format.getAddress(tile, module).hex_string() == "32'h00060006");
+        REQUIRE(format.getAddress("pe_tile_1_2", "cb0").hex_string() == "32'h00060006");
+
+        REQUIRE(format.getAddress("pe_tile_1_1", "cb1").hex_string() == "32'h00050005");
+
+        REQUIRE(format.getAddress("pe_tile_1_1", "sb").hex_string() == "32'h00050007");
+
+        REQUIRE(format.getAddress("pe_tile_0_0", "clb").hex_string() == "32'h00010004");
       }
 
     }

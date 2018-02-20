@@ -70,6 +70,39 @@ namespace TinyPnR {
     }
 
     // Build the actual tiles
+    //map<string, string> tilesToTileTypes;
+
+    value tileMapVal = getValue("tile_map", obj);
+    assert(tileMapVal.is<object>());
+
+    for (auto entry : tileMapVal.get<object>()) {
+      assert(entry.second.is<string>());
+
+      string tileName = entry.first;
+      string tileType = entry.second.get<string>();
+
+      value modDef = getValue(tileType, v);
+      assert(modDef.is<object>());
+
+      TileConfig* tileConf = format.getTile(tileName);
+
+      value compIds = getValue("mods_to_addrs", modDef);
+      assert(compIds.is<object>());
+      object compIdMap = compIds.get<object>();
+
+      for (auto comp : compIdMap) {
+        string compName = comp.first;
+        value compId = comp.second;
+        assert(compId.is<double>());
+
+        ModuleConfig* tileConfig = tileConf->addModule(compName, static_cast<int>(compId.get<double>()));
+        assert(tileConfig != nullptr);
+      }
+      
+      //tilesToTileTypes.insert({entry.first, entry.second.get<string>()});
+    }
+
+    
     return format;
   }
 }

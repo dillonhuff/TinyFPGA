@@ -223,10 +223,10 @@ def generate_pe_bs_json(pe_tile):
     mod_map = {'cb0' : 'connect_box', 'cb1' : 'connect_box', 'compute_block' : 'clb', 'sb' : pe_tile.switch_box_mod}
 
     mods_to_addrs = {}
-    mods_to_addrs['sb'] = 7
-    mods_to_addrs['cb0'] = 6
-    mods_to_addrs['cb1'] = 5
-    mods_to_addrs['clb'] = 5
+    mods_to_addrs['sb'] = pe_tile.modules['sb'].config_id
+    mods_to_addrs['cb0'] = pe_tile.modules['cb0'].config_id
+    mods_to_addrs['cb1'] = pe_tile.modules['cb1'].config_id
+    mods_to_addrs['clb'] = pe_tile.modules['clb'].config_id
 
     json_val['mods_to_addrs'] = mods_to_addrs
 
