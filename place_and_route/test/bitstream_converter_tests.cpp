@@ -103,6 +103,25 @@ namespace TinyPnR {
     SECTION("tileMap has 9 entries") {
       REQUIRE(format.numTiles() == 9);
     }
+
+    SECTION("Config address layout is correct") {
+      REQUIRE(format.getTileIdStart() == 0);
+      REQUIRE(format.getTileIdEnd() == 15);
+      REQUIRE(format.getComponentIdStart() == 16);
+      REQUIRE(format.getComponentIdEnd() == 31);
+    }
+
+    SECTION("Compute switch box address and data") {
+
+      SECTION("Config address for pe_tile_1_2, cb0") {
+        string tile = "pe_tile_1_2";
+        string module = "cb0";
+
+        REQUIRE(format.getAddress(tile, module).hex_string() == "32'h00060006");
+      }
+      string label = "";
+    }
+
   }
 
   TEST_CASE("Loading a module") {

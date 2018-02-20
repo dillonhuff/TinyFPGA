@@ -142,6 +142,22 @@ namespace TinyPnR {
       return tileMap.size();
     }
 
+    int getTileIdStart() const {
+      return tileIdStart;
+    }
+      
+    int getTileIdEnd() const {
+      return tileIdEnd;
+    }
+
+    int getComponentIdStart() const {
+      return componentIdStart;
+    }
+      
+    int getComponentIdEnd() const {
+      return componentIdEnd;
+    }
+    
     void setAddressWidth(const int i) {
     }
 

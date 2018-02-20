@@ -37,6 +37,23 @@ namespace TinyPnR {
 
     BitStreamFormat format;
     value obj = getValue("top", v);
+
+    value tstart = getValue("tile_id_start", obj);
+    assert(tstart.is<double>());
+    value tend = getValue("tile_id_end", obj);
+    assert(tend.is<double>());
+
+    format.setTileIdRange(static_cast<int>(tend.get<double>()),
+                          static_cast<int>(tstart.get<double>()));
+
+    value cstart = getValue("mod_id_start", obj);
+    assert(cstart.is<double>());
+    value cend = getValue("mod_id_end", obj);
+    assert(cstart.is<double>());
+
+    format.setComponentIdRange(static_cast<int>(cend.get<double>()),
+                               static_cast<int>(cstart.get<double>()));
+    
     value compMap = getValue("tiles_to_ids", obj);
 
     assert(compMap.is<object>());
