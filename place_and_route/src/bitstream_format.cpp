@@ -113,20 +113,13 @@ namespace TinyPnR {
         value tileToModMapVal = getValue("mod_map", modTp);
         assert(tileToModMapVal.is<object>());
 
-        cout << "Trying to find component name = " << compName << endl;
-
         value modTypeName = getValue(compName, tileToModMapVal);
         assert(modTypeName.is<string>());
-        cout << "mod type = " << modTypeName.get<string>() << endl;
 
         string modTypeNameStr = modTypeName.get<string>();
         value modDef = getValue(modTypeNameStr, v);
 
         assert(modDef.is<object>());
-
-        for (auto c : modDef.get<object>()) {
-          cout << "\t" << c.first << endl;
-        }
 
         value comps = getValue("components", modDef);
         assert(comps.is<picojson::array>());
@@ -144,7 +137,6 @@ namespace TinyPnR {
           value confMapV = getValue("config_map", elem);
           assert(confMapV.is<object>());
           for (auto confEnt : confMapV.get<object>()) {
-            cout << "\t" << confEnt.first << endl;
             value confEntOffset = confEnt.second;
             assert(confEntOffset.is<double>());
 
