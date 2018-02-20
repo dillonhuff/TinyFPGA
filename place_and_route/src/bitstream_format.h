@@ -135,7 +135,7 @@ namespace TinyPnR {
 
     int componentIdStart;
     int componentIdEnd;
-    
+
   public:
 
     int numTiles() const {
