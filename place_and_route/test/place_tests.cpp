@@ -41,14 +41,16 @@ namespace TinyPnR {
   class CLB : public TopologyBox {
     std::string name;
     std::set<string> labels;
+    std::set<string> ports;
 
   public:
 
-    CLB() : name(""), labels({}) {}
+    CLB() : name(""), labels({}), ports({}) {}
 
     CLB(const std::string& name_,
-         const std::vector<string>& labels_) :
-      name(name_), labels(begin(labels_), end(labels_)) {}
+        const std::vector<string>& labels_,
+        const std::set<string>& ports_) :
+      name(name_), labels(begin(labels_), end(labels_)), ports(ports_) {}
 
     virtual std::string toString() const {
       return name;
@@ -279,9 +281,10 @@ namespace TinyPnR {
     }
 
     CLBId addCLB(const std::string& name,
-                   const std::vector<string>& labels) {
+                 const std::vector<string>& labels,
+                 const std::set<string>& ports) {
 
-      CLB* clb = new CLB(name, labels);
+      CLB* clb = new CLB(name, labels, ports);
       boxes.insert(clb);
       auto id = topology.addVertex(clb);
       return id;
@@ -305,7 +308,7 @@ namespace TinyPnR {
     }
   };
 
-  typedef DirectedGraph<std::string, int> ApplicationGraph;
+  typedef DirectedGraph<std::string, std::pair<std::string, std::string> > ApplicationGraph;
 
   std::map<vdisc, CLBId>
   placeApplication(const ApplicationGraph& app,
@@ -443,8 +446,8 @@ namespace TinyPnR {
 
     // Create target topology
     TargetTopology topology;
-    auto inCLB = topology.addCLB("in0", {"input"});
-    auto outCLB = topology.addCLB("out0", {"output"});
+    auto inCLB = topology.addCLB("in0", {"input"}, {"port_0"});
+    auto outCLB = topology.addCLB("out0", {"output"}, {"iport"});
     auto sw = topology.addSwitch("vertical_channel_0", 1);
 
     auto ed0 = topology.addEdge(inCLB, sw);
@@ -458,6 +461,7 @@ namespace TinyPnR {
     auto inNode = app.addVertex("input");
     auto outNode = app.addVertex("output");
     auto ed = app.addEdge(inNode, outNode);
+    app.addEdgeLabel(ed, {"port_0", "iport"});
 
     // Place application graph
     map<vdisc, CLBId> placement = placeApplication(app, topology);
