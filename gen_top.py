@@ -355,6 +355,8 @@ def build_top_mod(num_in_ios,
     top_mod.metadata['mod_id_end'] = 31
     top_mod.metadata['mod_id_start'] = 16
     top_mod.metadata['tiles_to_ids'] = tiles_to_ids
+    top_mod.metadata['tile_map'] = tile_map
+    
     # self.tile_id_end = 15
     # self.tile_id_begin = 0
     # self.mod_id_end = 31

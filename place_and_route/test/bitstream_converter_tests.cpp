@@ -119,7 +119,7 @@ namespace TinyPnR {
 
         REQUIRE(format.getAddress(tile, module).hex_string() == "32'h00060006");
       }
-      string label = "";
+
     }
 
   }

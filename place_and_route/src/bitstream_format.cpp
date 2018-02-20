@@ -68,6 +68,8 @@ namespace TinyPnR {
 
       format.addTile(tileName, static_cast<int>(tileNum.get<double>()));
     }
+
+    // Build the actual tiles
     return format;
   }
 }
