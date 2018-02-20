@@ -118,6 +118,11 @@ namespace TinyPnR {
       return mod;
     }
 
+    ModuleConfig* getModule(const std::string& modName) const {
+      assert(contains_key(modName, modMap));
+      return modMap.find(modName)->second;
+    }
+
     int getModuleAddr(const std::string& modName) {
       ModuleConfig* mod = modMap[modName];
       return modsToAddrs[mod];
@@ -189,6 +194,17 @@ namespace TinyPnR {
       return tileMap.find(tileName)->second;
     }
 
+    BitVector getConfigData(const std::string tileName,
+                            const std::string modName,
+                            const std::map<std::string, ConfigLabel>& configLabels) const {
+      assert(contains_key(tileName, tileMap));
+
+      auto tile = tileMap.find(tileName)->second;
+      ModuleConfig* modConfig = tile->getModule(modName);
+
+      return modConfig->configDataForConfiguration(configLabels);
+    }
+    
     BitVector getAddress(const std::string tileName,
                          const std::string modName) {
       auto tile = tileMap[tileName];

@@ -113,7 +113,7 @@ namespace TinyPnR {
 
     SECTION("Compute switch box address and data") {
 
-      SECTION("Config address for pe_tile_1_2, cb0") {
+      SECTION("Config address computation") {
 
         REQUIRE(format.getAddress("pe_tile_1_2", "cb0").hex_string() == "32'h00060006");
 
@@ -122,6 +122,12 @@ namespace TinyPnR {
         REQUIRE(format.getAddress("pe_tile_1_1", "sb").hex_string() == "32'h00050007");
 
         REQUIRE(format.getAddress("pe_tile_0_0", "clb").hex_string() == "32'h00010004");
+      }
+
+      SECTION("Config data computation") {
+        map<string, ConfigLabel> configMap{{"block_out", "track4_in"}};
+
+        REQUIRE(format.getConfigData("pe_tile_2_2", "cb0", configMap).hex_string() == "32'h00000004");
       }
 
     }
