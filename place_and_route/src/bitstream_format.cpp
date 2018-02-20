@@ -59,7 +59,8 @@ namespace TinyPnR {
     assert(compMap.is<object>());
 
     object compMapObj = compMap.get<object>();
-    
+
+    // Add mapping from tiles to ids
     for (auto entry : compMapObj) {
       string tileName = entry.first;
 
@@ -70,7 +71,6 @@ namespace TinyPnR {
     }
 
     // Build the actual tiles
-    //map<string, string> tilesToTileTypes;
 
     value tileMapVal = getValue("tile_map", obj);
     assert(tileMapVal.is<object>());
@@ -79,6 +79,8 @@ namespace TinyPnR {
       assert(entry.second.is<string>());
 
       string tileName = entry.first;
+
+      // pe_tile_top_left, etc.
       string tileType = entry.second.get<string>();
 
       value modDef = getValue(tileType, v);
@@ -95,11 +97,29 @@ namespace TinyPnR {
         value compId = comp.second;
         assert(compId.is<double>());
 
-        ModuleConfig* tileConfig = tileConf->addModule(compName, static_cast<int>(compId.get<double>()));
-        assert(tileConfig != nullptr);
-      }
+        ModuleConfig* moduleConf = tileConf->addModule(compName, static_cast<int>(compId.get<double>()));
+        assert(moduleConf != nullptr);
+
+        // Look up tile type and add components to it
+        value modTp = getValue(tileType, v);
+        assert(modTp.is<object>());
+
+        // Look up the component of the mod map of this tile type
+        value tileToModMapVal = getValue("mod_map", modTp);
+        assert(tileToModMapVal.is<object>());
+
+        cout << "Trying to find component name = " << compName << endl;
+
+        value modTypeName = getValue(compName, tileToModMapVal);
+        assert(modTypeName.is<string>());
+        cout << "mod type = " << modTypeName.get<string>() << endl;
+        // Add each module 
       
-      //tilesToTileTypes.insert({entry.first, entry.second.get<string>()});
+        //cout << "modTp = " << modTp.get<string>() << endl;
+        
+
+      }
+
     }
 
     

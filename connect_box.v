@@ -26,6 +26,7 @@ module connect_box(
           end
      end
 
+   /* verilator lint_off UNOPTFLAT */
    reg block_out_i;
    
    always @(*)

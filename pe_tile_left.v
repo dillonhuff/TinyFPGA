@@ -59,6 +59,29 @@ module pe_tile_left(
 
 	// Local wires for switch box outputs <-> connect box
 	// Set configuration flag
+	reg config_en_compute_block;
+	localparam CONFIG_compute_block = 4;
+	always @(*) begin
+		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_compute_block)) begin
+			config_en_compute_block = 1'b1;
+		end else begin
+			config_en_compute_block = 1'b0;
+		end
+	end
+
+
+
+	// Declare module
+	clb compute_block(
+		.config_data(config_data[1:0]),
+		.clk(clk),
+		.config_enable(config_en_compute_block),
+		.in0(op_0),
+		.in1(op_1),
+		.out(pe_output)
+	);
+
+	// Set configuration flag
 	reg config_en_sb;
 	localparam CONFIG_sb = 7;
 	always @(*) begin
@@ -164,29 +187,6 @@ module pe_tile_left(
 		.track4_in(out_wire_1_0),
 		.track2_in(in_wire_1_2),
 		.track1_in(in_wire_1_1)
-	);
-
-	// Set configuration flag
-	reg config_en_compute_block;
-	localparam CONFIG_compute_block = 4;
-	always @(*) begin
-		if ((config_addr[15:0] == tile_id) && (config_addr[31:16] == CONFIG_compute_block)) begin
-			config_en_compute_block = 1'b1;
-		end else begin
-			config_en_compute_block = 1'b0;
-		end
-	end
-
-
-
-	// Declare module
-	clb compute_block(
-		.config_data(config_data[1:0]),
-		.clk(clk),
-		.config_enable(config_en_compute_block),
-		.in0(op_0),
-		.in1(op_1),
-		.out(pe_output)
 	);
 
 

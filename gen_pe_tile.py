@@ -111,8 +111,8 @@ class PETile:
         sb.connect('clk', 'clk')
         sb.connect('reset', 'reset')
 
-        self.modules['clb'] = ProgrammableModule('clb', 'compute_block', {})
-        clb = self.modules['clb']
+        self.modules['compute_block'] = ProgrammableModule('clb', 'compute_block', {})
+        clb = self.modules['compute_block']
         clb.connect('in0', 'op_0')
         clb.connect('in1', 'op_1')
         clb.connect('clk', 'clk')
@@ -126,7 +126,7 @@ class PETile:
         self.modules['sb'].set_config_id(7)
         self.modules['cb0'].set_config_id(6)
         self.modules['cb1'].set_config_id(5)
-        self.modules['clb'].set_config_id(4)
+        self.modules['compute_block'].set_config_id(4)
 
         self.tile_id_end = 15
         self.tile_id_begin = 0
@@ -226,7 +226,7 @@ def generate_pe_bs_json(pe_tile):
     mods_to_addrs['sb'] = pe_tile.modules['sb'].config_id
     mods_to_addrs['cb0'] = pe_tile.modules['cb0'].config_id
     mods_to_addrs['cb1'] = pe_tile.modules['cb1'].config_id
-    mods_to_addrs['clb'] = pe_tile.modules['clb'].config_id
+    mods_to_addrs['compute_block'] = pe_tile.modules['compute_block'].config_id
 
     json_val['mods_to_addrs'] = mods_to_addrs
 

@@ -70,10 +70,15 @@ namespace TinyPnR {
 
     BitVector
     configDataForConfiguration(const std::map<std::string, ConfigLabel>& configMap) const {
+
+      std::cout << "before conf" << std::endl;
       BitVector configBits(getConfigDataWidth(), 0);
+      std::cout << "after conf" << std::endl;
 
       for (auto config : configMap) {
         assert(contains_key(config.first, components));
+
+        std::cout << "Config = " << config.first << std::endl;
 
         ConfigurableComponent* comp = components.find(config.first)->second;
 
@@ -84,12 +89,16 @@ namespace TinyPnR {
         BitVector compExtended(getConfigDataWidth(), 0);
         BitVector compOriginal = comp->configBitPattern(config.second);
 
+        std::cout << "Built config" << std::endl;
+
         for (int i = 0; i < compOriginal.bitLength(); i++) {
           compExtended.set(i + offset, compOriginal.get(i));
         }
 
         configBits = configBits | compExtended;
       }
+
+      std::cout << "Configbits = " << configBits << std::endl;
 
       return configBits;
     }
@@ -200,7 +209,12 @@ namespace TinyPnR {
       assert(contains_key(tileName, tileMap));
 
       auto tile = tileMap.find(tileName)->second;
+
+      std::cout << "Tile = " << tile << std::endl;
+
       ModuleConfig* modConfig = tile->getModule(modName);
+
+      std::cout << "modConfig = " << modConfig << std::endl;
 
       return modConfig->configDataForConfiguration(configLabels);
     }
