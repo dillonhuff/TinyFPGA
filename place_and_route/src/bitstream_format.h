@@ -71,9 +71,7 @@ namespace TinyPnR {
     BitVector
     configDataForConfiguration(const std::map<std::string, ConfigLabel>& configMap) const {
 
-      std::cout << "before conf" << std::endl;
       BitVector configBits(getConfigDataWidth(), 0);
-      std::cout << "after conf" << std::endl;
 
       for (auto config : configMap) {
         assert(contains_key(config.first, components));
@@ -150,6 +148,8 @@ namespace TinyPnR {
     int componentIdStart;
     int componentIdEnd;
 
+    int configDataWidth;
+
   public:
 
     int numTiles() const {
@@ -171,11 +171,13 @@ namespace TinyPnR {
     int getComponentIdEnd() const {
       return componentIdEnd;
     }
-    
-    void setAddressWidth(const int i) {
-    }
 
-    void setDataWidth(const int i) {
+    int getConfigDataWidth() const {
+      return configDataWidth;
+    }
+    
+    void setConfigDataWidth(const int width) {
+      configDataWidth = width;
     }
     
     void setTileIdRange(const int end, const int start) {
@@ -216,7 +218,16 @@ namespace TinyPnR {
 
       std::cout << "modConfig = " << modConfig << std::endl;
 
-      return modConfig->configDataForConfiguration(configLabels);
+      BitVector configData = modConfig->configDataForConfiguration(configLabels);
+
+      BitVector configDataFinal(getConfigDataWidth(), 0);
+
+      assert(configDataFinal.bitLength() >= configData.bitLength());
+
+      for (int i = 0; i < configData.bitLength(); i++) {
+        configDataFinal.set(i, configData.get(i));
+      }
+      return configDataFinal;
     }
     
     BitVector getAddress(const std::string tileName,

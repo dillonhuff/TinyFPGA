@@ -356,6 +356,7 @@ def build_top_mod(num_in_ios,
     top_mod.metadata['mod_id_start'] = 16
     top_mod.metadata['tiles_to_ids'] = tiles_to_ids
     top_mod.metadata['tile_map'] = tile_map
+    top_mod.metadata['config_data_width'] = 32
     
     return top_mod
 

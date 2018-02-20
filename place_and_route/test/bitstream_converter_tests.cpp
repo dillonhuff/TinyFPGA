@@ -72,7 +72,6 @@ namespace TinyPnR {
 
   TEST_CASE("Computing placement addresses") {
     BitStreamFormat format;
-    format.setAddressWidth(32);
     format.setTileIdRange(31, 16);
     format.setComponentIdRange(15, 0);
 

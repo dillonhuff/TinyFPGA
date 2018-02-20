@@ -38,6 +38,11 @@ namespace TinyPnR {
     BitStreamFormat format;
     value obj = getValue("top", v);
 
+    value cwidth = getValue("config_data_width", obj);
+    assert(cwidth.is<double>());
+
+    format.setConfigDataWidth(static_cast<int>(cwidth.get<double>()));
+    
     value tstart = getValue("tile_id_start", obj);
     assert(tstart.is<double>());
     value tend = getValue("tile_id_end", obj);
