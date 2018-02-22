@@ -23,10 +23,14 @@ namespace TinyPnR {
   class Switch : public TopologyBox {
     std::string name;
     int width;
+    std::set<std::string> ports;
+
   public:
 
-    Switch(const std::string& name_, const int width_) :
-      name(name_), width(width_) {}
+    Switch(const std::string& name_,
+           const int width_,
+           const std::set<std::string>& ports_) :
+      name(name_), width(width_), ports(ports_) {}
 
     virtual std::string toString() const {
       return name + " : " + to_string(width);
@@ -272,8 +276,9 @@ namespace TinyPnR {
     }
 
     SwitchId addSwitch(const std::string& name,
-                       const int width) {
-      Switch* sw = new Switch(name, width);
+                       const int width,
+                       const std::set<string>& ports) {
+      Switch* sw = new Switch(name, width, ports);
       boxes.insert(sw);
       auto id = topology.addVertex(sw);
 
@@ -448,9 +453,10 @@ namespace TinyPnR {
     TargetTopology topology;
     auto inCLB = topology.addCLB("in0", {"input"}, {"port_0"});
     auto outCLB = topology.addCLB("out0", {"output"}, {"iport"});
-    auto sw = topology.addSwitch("vertical_channel_0", 1);
+    auto sw = topology.addSwitch("vertical_channel_0", 1, {"in_0", "vertical_channe_0"});
 
     auto ed0 = topology.addEdge(inCLB, sw);
+    
     auto ed1 = topology.addEdge(sw, outCLB);
 
     // Whats the way to express the connections? They need to be directed
