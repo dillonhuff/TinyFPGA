@@ -267,6 +267,11 @@ namespace TinyPnR {
       return topology.target(ed);
     }
 
+    void addEdgeLabel(const edisc ed,
+                      const std::pair<std::string, std::string>& conn) {
+      topology.addEdgeLabel(ed, conn);
+    }
+
     vdisc source(const edisc ed)  const {
       return topology.source(ed);
     }
@@ -453,11 +458,13 @@ namespace TinyPnR {
     TargetTopology topology;
     auto inCLB = topology.addCLB("in0", {"input"}, {"port_0"});
     auto outCLB = topology.addCLB("out0", {"output"}, {"iport"});
-    auto sw = topology.addSwitch("vertical_channel_0", 1, {"in_0", "vertical_channe_0"});
+    auto sw = topology.addSwitch("vertical_channel_0", 1, {"in_0", "vertical_channel_0"});
 
     auto ed0 = topology.addEdge(inCLB, sw);
+    topology.addEdgeLabel(ed0, {"port_0", "in_0"});
     
     auto ed1 = topology.addEdge(sw, outCLB);
+    topology.addEdgeLabel(ed1, {"vertical_channel_0", "iport"});
 
     // Whats the way to express the connections? They need to be directed
 
