@@ -272,6 +272,10 @@ namespace TinyPnR {
       topology.addEdgeLabel(ed, conn);
     }
 
+    std::pair<std::string, std::string> getConn(const edisc ed) const {
+      return topology.getConn(ed);
+    }
+
     vdisc source(const edisc ed)  const {
       return topology.source(ed);
     }
@@ -384,6 +388,9 @@ namespace TinyPnR {
       cout << "ed = " << ed << endl;
       vdisc start = app.source(ed);
       vdisc end = app.target(ed);
+      pair<string, string> ports = app.getConn(ed);
+      string startPort = ports.first;
+      string endPort = ports.second;
 
       CLBId startId = placement[start];
       CLBId endId = placement[end];
@@ -424,8 +431,9 @@ namespace TinyPnR {
 
             for (auto se : topology.outEdges(id)) {
               auto lastTile = topology.target(se);
+              string lastPort = topology.getConn(se).second;
 
-              if (lastTile == endId) {
+              if ((lastTile == endId) && (lastPort == endPort)) {
                 foundRoute = true;
               }
 
