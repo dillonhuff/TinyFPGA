@@ -1,5 +1,12 @@
 import os
 
+def os_cmd(command_string):
+    res = os.system(command_string)
+
+    if (res != 0):
+        print 'FAILED COMMAND: ', command_string
+        assert(False)
+
 # Module by module tests
 def build_module_with_main(mod_name, main_name):
     v_command = "verilator -Wall -Wno-DECLFILENAME --cc " + mod_name + ".v --exe " + main_name + " --top-module " + mod_name + " -CFLAGS -O3 -CFLAGS -march=native"

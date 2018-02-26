@@ -3,14 +3,7 @@ import json
 from sets import Set
 
 from run_generators import run_generators
-from testbench_utils import build_module_with_main
-
-def os_cmd(command_string):
-    res = os.system(command_string)
-
-    if (res != 0):
-        print 'FAILED COMMAND: ', command_string
-        assert(False)
+from testbench_utils import build_module_with_main, os_cmd
 
 def build_pnr():
     os_cmd("cd place_and_route; cmake .; make -j")
@@ -39,8 +32,16 @@ def run_place_and_route():
 
     os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_format_file + " " + topology_file + " " + bitstream_file);
 
-def verilate_example(mod_name, bistream_file):
+def verilate_example(mod_name, bitstream_name):
     # Create main file
+    main_name = mod_name + '_' + bitstream_name + '_main.cpp'
+
+    mainfile = open(main_name, 'w')
+    mainfile.write('int main() { return 1; }')
+    mainfile.close()
+
+    # Verilate example
+    build_module_with_main(mod_name, main_name)
 
 # --- Begin whole system test
 # Create verilg for the 2 by 2 version of the FPGA
@@ -56,6 +57,6 @@ build_reg_graph()
 run_place_and_route()
 
 # Run verilator on top module, then compile the verilated C++
-verilate_example('top', 'reg_bitstream.txt')
+verilate_example('top', 'reg_bitstream')
 
 # Run the verilated executable and output test result?
