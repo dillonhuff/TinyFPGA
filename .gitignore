@@ -6,3 +6,4 @@ test1.log
 *.pyc
 \#*
 .\#*
+/place_and_route/tiny-pnr

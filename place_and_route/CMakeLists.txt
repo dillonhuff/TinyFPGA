@@ -15,4 +15,7 @@ SET(SRC_FILES ./src/bitstream_format.cpp)
 SET(TEST_FILES ./test/place_tests.cpp
                ./test/bitstream_converter_tests.cpp)
 
+SET(PNR_MAIN_FILES ./src/pnr_main.cpp)
+
 add_executable(all-tests ${SRC_FILES} ${TEST_FILES})
+add_executable(tiny-pnr ${SRC_FILES} ${PNR_MAIN_FILES})
