@@ -32,4 +32,3 @@ def build_module_with_main(mod_name, main_name):
     
 def build_module(mod_name):
     build_module_with_main(mod_name, mod_name + '_main.cpp')
-

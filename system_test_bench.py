@@ -15,15 +15,6 @@ class ApplicationGraph:
     def get_json(self):
         return {}
 
-def build_reg_graph():
-    app_g = ApplicationGraph()
-
-    app_json = app_g.get_json()
-    
-    top_json_file = open('reg_app.json', 'w')
-    top_json_file.write(json.dumps(app_json))
-    top_json_file.close()
-
 def run_place_and_route():
     app_file = 'reg_app.json'
     bitstream_format_file = 'top.json'
@@ -32,7 +23,10 @@ def run_place_and_route():
 
     os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_format_file + " " + topology_file + " " + bitstream_file);
 
-def verilate_example(mod_name, bitstream_name):
+def verilate_example(mod_name,
+                     bitstream_name,
+                     output_file_name,
+                     num_cycles_to_run):
     # Create main file
     main_name = 'auto_gen_tb_' + mod_name + '_' + bitstream_name + '_main.cpp'
 
@@ -43,6 +37,12 @@ def verilate_example(mod_name, bitstream_name):
     # Verilate example
     build_module_with_main(mod_name, main_name)
 
+def simulate_application(app_g, num_cycles_to_run):
+    return []
+
+def compare_simulation_results(application_res, verilator_result_file):
+    assert(True)
+
 # --- Begin whole system test
 # Create verilg for the 2 by 2 version of the FPGA
 run_generators(2)
@@ -50,15 +50,24 @@ run_generators(2)
 # Build the place and route tool and the bitstream writer
 build_pnr()
 
-# Build the application graph.
-build_reg_graph()
+# Build the application graph and write it to json to be consumed by PnR
+app_g = ApplicationGraph()
+
+app_json = app_g.get_json()
+top_json_file = open('reg_app.json', 'w')
+top_json_file.write(json.dumps(app_json))
+top_json_file.close()
 
 # Do place and route and then write the bitstream format to a file
 run_place_and_route()
 
 # Run verilator on top module, then compile the verilated C++, run the verilator code
 # and save the simulation results to a file
-verilate_example('top', 'reg_bitstream')
+num_cycles_to_run = 5
+verilate_example('top', 'reg_bitstream', 'verilator_reg', num_cycles_to_run)
 
-# Run the application graph in simulation and compare against the saved verilator
-# data?
+# Run the application graph in simulation
+res = simulate_application(app_g, num_cycles_to_run)
+
+# Compare Simulation results
+compare_simulation_results(res, 'verilator_reg')
