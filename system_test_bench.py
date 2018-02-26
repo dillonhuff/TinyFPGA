@@ -3,6 +3,7 @@ import json
 from sets import Set
 
 from run_generators import run_generators
+from testbench_utils import build_module_with_main
 
 def os_cmd(command_string):
     res = os.system(command_string)
