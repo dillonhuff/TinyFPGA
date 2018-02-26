@@ -56,7 +56,9 @@ build_reg_graph()
 # Do place and route and then write the bitstream format to a file
 run_place_and_route()
 
-# Run verilator on top module, then compile the verilated C++
+# Run verilator on top module, then compile the verilated C++, run the verilator code
+# and save the simulation results to a file
 verilate_example('top', 'reg_bitstream')
 
-# Run the verilated executable and output test result?
+# Run the application graph in simulation and compare against the saved verilator
+# data?
