@@ -2,6 +2,7 @@ import os
 
 from run_generators import run_generators
 
+# Module by module tests
 def build_module(mod_name):
     v_command = "verilator -Wall -Wno-DECLFILENAME --cc " + mod_name + ".v --exe " + mod_name + "_main.cpp --top-module " + mod_name + " -CFLAGS -O3 -CFLAGS -march=native"
     verilate = os.system(v_command);
@@ -23,6 +24,8 @@ def build_module(mod_name):
     if (run_cmd != 0):
         print 'ERROR: ' + mod_name + ' tests failed'
         assert(False)
+
+run_generators(3)
 
 build_module("switch_box")
 build_module("switch_box_bottom")

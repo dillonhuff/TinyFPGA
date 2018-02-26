@@ -9,6 +9,24 @@ from generator_utils import module_string
 # For now the PnR and bitstream converter should probably be in the
 # same repo.
 
+# Note: The PnR will have to remove wires and move to a pointwise format
+# from the wire based format of the current design.
+
+# Q: How to build the switch box, connect box, and CLB implementations?
+# Maybe have some base programmable modules? Switch and black box that all
+# modules get reduced to?
+
+# Q: Name compatibility with bitstream is also crucial. Do switch names match up?
+
+# Q: How am I going to test this? Create a test where I:
+#    1. Generate an 3 x 3 FPGA design with PnR + bitstream metadata
+#    2. Build an application graph for the FPGA
+#    3. Build the PnR tool + bitstream tool
+#    4. Test the application in verilator
+#    5. Fail out if the application crashes or does not do what Im expecting
+
+# Probably this stuff should be coordinated in python
+
 class ProgrammableModule:
     def __init__(self, module_name, inst_name, connections):
         self.module_name = module_name

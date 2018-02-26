@@ -3,21 +3,21 @@ from gen_pe_tile import generate_pe_tile
 from gen_top import build_verilog_string, build_top_mod, build_top_mod_bitstream_json
 import json
 
-# I need to create a whole chip object that includes instantiations of io pads
-# and pe tiles
-
 # Note: The bitstream format does not need the full connection network info, so
 # all of the connections in gen_top dont need to be included to generate the bitstream
 # However, PnR needs all of those connections, so they will have to be included
 # in the object eventually.
 
-# Q: What is the smallest change I could make to get closer to that goal?
+# Now: How to emit json for the target topology?
+# Emit modules with labels? Each module has a module name, a list of ports
+# and a definition. The definition includes:
+#  1. List of submodules
+#  2. Connections between ports on submodules
+#  3. List of programmable elements in the base modules?
+#  4. List of labels in the base modules? E.G. CLB modes?
+# Leave it to the place and route software to decompress each module?
 
-# Wrap up connections in gen_top into its own class
-# Write connect box and CLB generators
-# Merge generation calls so that files can be emitted at one time
-# Emit json configuration data in one file at the end of generation
-def run_generators():
+def run_generators(grid_len):
     bitstream_json = {}
 
     n_wires_per_side = 4
@@ -85,7 +85,7 @@ def run_generators():
     pe_json = generate_pe_tile('pe_tile_bottom_right', 'switch_box_bottom_right', [2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom_right'] = pe_json
 
-    top_mod = build_top_mod(3, 3, 3, 3)
+    top_mod = build_top_mod(grid_len, grid_len, grid_len, grid_len)
 
     name = 'top'
     top_file = open(name + '.v', 'w')
@@ -111,5 +111,3 @@ def run_generators():
     top_json_file.close()
 
     print 'Done running generators'
-
-run_generators()
