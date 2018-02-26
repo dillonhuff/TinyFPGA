@@ -29,7 +29,13 @@ def build_reg_graph():
     top_json_file = open('reg_app.json', 'w')
     top_json_file.write(json.dumps(app_json))
     top_json_file.close()
-    
+
+def run_place_and_route():
+    app_file = 'reg_app.json'
+    bitstream_file = 'top.json'
+    topology_file = 'top_topology.json'
+
+    os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_file + " " + topology_file);
 # Whole system test
 # Create verilg for the 2 by 2 version of the FPGA
 run_generators(2)
@@ -42,6 +48,7 @@ build_pnr()
 build_reg_graph()
 
 # Do place and route and then write the bitstream format to a file
+run_place_and_route()
 
 # Run verilator on top module, then compile the verilated C++
 
