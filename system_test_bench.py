@@ -32,24 +32,29 @@ def build_reg_graph():
 
 def run_place_and_route():
     app_file = 'reg_app.json'
-    bitstream_file = 'top.json'
+    bitstream_format_file = 'top.json'
     topology_file = 'top_topology.json'
+    bitstream_file = 'reg_bitstream.txt'
 
-    os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_file + " " + topology_file);
-# Whole system test
+    os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_format_file + " " + topology_file + " " + bitstream_file);
+
+def verilate_example(mod_name, bistream_file):
+    # Create main file
+
+# --- Begin whole system test
 # Create verilg for the 2 by 2 version of the FPGA
 run_generators(2)
 
 # Build the place and route tool and the bitstream writer
 build_pnr()
 
-# Build the application graph. In A separate C++ test bench? As python JSON and
-# have the PnR tool load that as well?
+# Build the application graph.
 build_reg_graph()
 
 # Do place and route and then write the bitstream format to a file
 run_place_and_route()
 
 # Run verilator on top module, then compile the verilated C++
+verilate_example('top', 'reg_bitstream.txt')
 
 # Run the verilated executable and output test result?

@@ -3,8 +3,8 @@ import os
 from run_generators import run_generators
 
 # Module by module tests
-def build_module(mod_name):
-    v_command = "verilator -Wall -Wno-DECLFILENAME --cc " + mod_name + ".v --exe " + mod_name + "_main.cpp --top-module " + mod_name + " -CFLAGS -O3 -CFLAGS -march=native"
+def build_module_with_main(mod_name, main_name):
+    v_command = "verilator -Wall -Wno-DECLFILENAME --cc " + mod_name + ".v --exe " + main_name + " --top-module " + mod_name + " -CFLAGS -O3 -CFLAGS -march=native"
     verilate = os.system(v_command);
 
     if (verilate != 0):
@@ -24,6 +24,9 @@ def build_module(mod_name):
     if (run_cmd != 0):
         print 'ERROR: ' + mod_name + ' tests failed'
         assert(False)
+    
+def build_module(mod_name):
+    build_module_with_main(mod_name, mod_name + '_main.cpp')
 
 run_generators(3)
 
