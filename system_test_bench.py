@@ -34,10 +34,10 @@ def run_place_and_route():
 
 def verilate_example(mod_name, bitstream_name):
     # Create main file
-    main_name = mod_name + '_' + bitstream_name + '_main.cpp'
+    main_name = 'auto_gen_tb_' + mod_name + '_' + bitstream_name + '_main.cpp'
 
     mainfile = open(main_name, 'w')
-    mainfile.write('int main() { return 1; }')
+    mainfile.write('int main() { return 0; }')
     mainfile.close()
 
     # Verilate example

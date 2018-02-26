@@ -7,3 +7,4 @@ test1.log
 \#*
 .\#*
 /place_and_route/tiny-pnr
+auto_gen_tb*.cpp
