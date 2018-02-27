@@ -66,8 +66,7 @@ run_place_and_route()
 num_cycles_to_run = 5
 verilate_example('top', 'reg_bitstream', 'verilator_reg', num_cycles_to_run)
 
-# Run the application graph in simulation
+# Run the pre-mapped application graph in simulation
 res = simulate_application(app_g, num_cycles_to_run)
 
-# Compare Simulation results
 compare_simulation_results(res, 'verilator_reg')
