@@ -12,8 +12,8 @@ int main(const int argc, const char** argv) {
   string appFile = argv[1];
   string bitstreamFormatFile = argv[2];
   string topologyFile = argv[3];
-  string applicationFile = argv[4];
+  string bitstreamFile = argv[4];
 
-  ApplicationGraph app = loadApplicationFromJSON(applicationFile);
+  ApplicationGraph app = loadApplicationFromJSON(appFile);
   
 }

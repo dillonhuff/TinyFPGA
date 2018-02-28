@@ -2,6 +2,9 @@
 
 #include "json_utils.h"
 
+#include <fstream>
+#include <streambuf>
+
 using namespace picojson;
 using namespace std;
 
@@ -144,7 +147,21 @@ namespace TinyPnR {
   }
 
   ApplicationGraph loadApplicationFromJSON(const std::string& applicationFile) {
-    assert(false);
+    std::ifstream t(applicationFile);
+
+    cout << "Application file = " << applicationFile << endl;
+    std::istream_iterator<char> input(t);
+    picojson::value v;
+    std::string err;
+    input = picojson::parse(v, input, std::istream_iterator<char>(), &err);
+    if (!err.empty()) {
+      std::cerr << err << std::endl;
+      assert(false);
+    }
+
+    ApplicationGraph g;
+    
+    return g;
   }
 
   
