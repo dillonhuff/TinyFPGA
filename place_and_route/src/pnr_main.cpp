@@ -6,10 +6,6 @@
 using namespace std;
 using namespace TinyPnR;
 
-ApplicationGraph loadApplicationFromJSON(const std::string& applicationFile) {
-  assert(false);
-}
-
 int main(const int argc, const char** argv) {
   assert(argc == 5);
 

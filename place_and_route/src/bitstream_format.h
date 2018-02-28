@@ -2,7 +2,6 @@
 
 #include "algorithm.h"
 #include "dynamic_bit_vector.h"
-#include "picojson.h"
 
 namespace TinyPnR {
 

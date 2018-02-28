@@ -159,5 +159,7 @@ namespace TinyPnR {
   routeApplication(const ApplicationGraph& app,
                    const TargetTopology& topology,
                    std::map<vdisc, CLBId>& placement);
+
+  ApplicationGraph loadApplicationFromJSON(const std::string& applicationFile);
   
 }

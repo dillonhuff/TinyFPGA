@@ -1,5 +1,8 @@
 #include "place.h"
 
+#include "json_utils.h"
+
+using namespace picojson;
 using namespace std;
 
 namespace TinyPnR {
@@ -139,5 +142,10 @@ namespace TinyPnR {
 
     return routeConfig;
   }
+
+  ApplicationGraph loadApplicationFromJSON(const std::string& applicationFile) {
+    assert(false);
+  }
+
   
 }

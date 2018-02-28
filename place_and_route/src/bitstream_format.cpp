@@ -1,5 +1,7 @@
 #include "bitstream_format.h"
 
+#include "json_utils.h"
+
 #include <fstream>
 #include <streambuf>
 
@@ -7,21 +9,6 @@ using namespace picojson;
 using namespace std;
 
 namespace TinyPnR {
-
-  picojson::value getValue(const std::string& name,
-                           const picojson::value& v) {
-    assert(v.is<object>());
-    auto obj = v.get<object>();
-
-    
-    for (auto elem : obj) {
-      if (elem.first == name) {
-        return elem.second;
-      }
-    }
-
-    assert(false);
-  }
 
   BitStreamFormat loadBitStreamFormat(const std::string& jsonFile) {
     std::ifstream t(jsonFile);

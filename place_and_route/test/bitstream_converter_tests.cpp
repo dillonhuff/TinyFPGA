@@ -4,6 +4,7 @@
 #include <streambuf>
 
 #include "bitstream_format.h"
+#include "json_utils.h"
 
 using namespace std;
 
