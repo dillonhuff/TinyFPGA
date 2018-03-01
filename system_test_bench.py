@@ -32,9 +32,28 @@ def verilate_example(mod_name,
 
     mainfile = open(main_name, 'w')
 
-    verilator_main_string = 'int main() {\n'
+    vclass = 'V' + mod_name
+    verilator_main_string = '#include <verilated.h>\n'
+    verilator_main_string += '#include "' +  vclass + '.h"\n\n'
+    verilator_main_string += 'int main(int argc, char **argv) {\n'
 
-    vb = '\t'
+    vb = ''
+
+    # Initialize the verilator object
+    vb += '\tVerilated::commandArgs(argc, argv);\n'
+    vb += '\t' + vclass + '* mod = new ' + vclass + ';\n'
+    vb += '\tmod->clk = 0;\n'
+    vb += '\tmod->eval();\n'
+
+    # Load the chip configuration
+    vb += '\t// Load the configuration\n'
+    vb += '\tfor (int i = 0; i < 0; i++) {\n'
+    vb += '\t}\n'
+    
+    # Run the design for a bunch of cycles, storing all output values in the design
+    vb += '\t// Run the data for ' + str(num_cycles_to_run) + '\n'
+    vb += '\tfor (int i = 0; i < ' + str(2*num_cycles_to_run) + '; i++) {\n'
+    vb += '\t}\n'
 
     verilator_main_string += vb
     verilator_main_string += '}'
