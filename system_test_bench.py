@@ -21,13 +21,25 @@ def run_place_and_route():
     topology_file = 'top_topology.json'
     bitstream_file = 'reg_bitstream.txt'
 
-    os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_format_file + " " + topology_file + " " + bitstream_file);
+    os_cmd("./place_and_route/tiny-pnr " + app_file + " " +
+           bitstream_format_file + " " + topology_file + " " + bitstream_file)
 
 # Need to add a list of inputs along with the bitstream file
 def verilate_example(mod_name,
                      bitstream_name,
                      output_file_name,
-                     num_cycles_to_run):
+                     test_data):
+
+    # Build data file
+    input_data_str = ''
+    num_cycles_to_run = 0
+    for input_name in test_data:
+        input_data = test_data[input_name]
+
+    # Note: The data file needs to map names in the application graph to
+    # names in the placed design. Specifically input nodes in the application graph
+    # to input ports in the design. 
+
     # Create main file
     main_name = 'auto_gen_tb_' + mod_name + '_' + bitstream_name + '_main.cpp'
 
@@ -81,7 +93,8 @@ def compare_simulation_results(application_res, verilator_result_file):
     assert(True)
 
 # --- Begin whole system test
-# Create verilg for the 2 by 2 version of the FPGA
+# Create verilg for the 2 by 2 version of the FPGA. This includes generating
+# json metadata for PnR and bitstream format conversion
 run_generators(2)
 
 # Build the place and route tool and the bitstream writer
@@ -95,13 +108,16 @@ top_json_file = open('reg_app.json', 'w')
 top_json_file.write(json.dumps(app_json))
 top_json_file.close()
 
+# Create some data for each cycle
+test_data = {'in0' : [0, 1, 0, 1, 1, 1, 1, 0, 0, 1]}
+
 # Do place and route and then write the bitstream format to a file
 run_place_and_route()
 
 # Run verilator on top module, then compile the verilated C++, run the verilator code
 # and save the simulation results to a file
 num_cycles_to_run = 5
-verilate_example('top', 'reg_bitstream', 'verilator_reg', num_cycles_to_run)
+verilate_example('top', 'reg_bitstream', 'verilator_reg', test_data)
 
 # Run the pre-mapped application graph in simulation
 res = simulate_application(app_g, num_cycles_to_run)
