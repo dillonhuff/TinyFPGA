@@ -31,7 +31,15 @@ def verilate_example(mod_name,
     main_name = 'auto_gen_tb_' + mod_name + '_' + bitstream_name + '_main.cpp'
 
     mainfile = open(main_name, 'w')
-    mainfile.write('int main() { return 0; }')
+
+    verilator_main_string = 'int main() {\n'
+
+    vb = '\t'
+
+    verilator_main_string += vb
+    verilator_main_string += '}'
+
+    mainfile.write(verilator_main_string)
     mainfile.close()
 
     # Verilate example
