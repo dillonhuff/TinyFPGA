@@ -164,5 +164,9 @@ namespace TinyPnR {
     return g;
   }
 
+  TargetTopology loadTargetTopologyFromJSON(const std::string& topoFile) {
+    TargetTopology tp;
+    return tp;
+  }
   
 }

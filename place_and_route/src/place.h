@@ -161,5 +161,6 @@ namespace TinyPnR {
                    std::map<vdisc, CLBId>& placement);
 
   ApplicationGraph loadApplicationFromJSON(const std::string& applicationFile);
+  TargetTopology loadTargetTopologyFromJSON(const std::string& topoFile);
   
 }
