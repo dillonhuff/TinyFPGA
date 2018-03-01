@@ -51,7 +51,8 @@ def verilate_example(mod_name,
     vb += '\t}\n'
     
     # Run the design for a bunch of cycles, storing all output values in the design
-    vb += '\t// Run the data for ' + str(num_cycles_to_run) + '\n'
+    vb += '\t// Run the data for ' + str(num_cycles_to_run) + ' cycles,\n'
+    vb += '\t// storing outputs along the way\n'
     vb += '\tfor (int i = 0; i < ' + str(2*num_cycles_to_run) + '; i++) {\n'
     vb += '\t}\n'
 
