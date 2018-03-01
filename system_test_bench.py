@@ -23,6 +23,7 @@ def run_place_and_route():
 
     os_cmd("./place_and_route/tiny-pnr " + app_file + " " + bitstream_format_file + " " + topology_file + " " + bitstream_file);
 
+# Need to add a list of inputs along with the bitstream file
 def verilate_example(mod_name,
                      bitstream_name,
                      output_file_name,
@@ -43,12 +44,20 @@ def verilate_example(mod_name,
     vb += '\tVerilated::commandArgs(argc, argv);\n'
     vb += '\t' + vclass + '* mod = new ' + vclass + ';\n'
     vb += '\tmod->clk = 0;\n'
+    vb += '\tmod->eval();\n\n'
+
+    vb += '\t// Run reset\n'
+    vb += '\tmod->clk = 1;\n'
+    vb += '\tmod->reset = 1;\n'
     vb += '\tmod->eval();\n'
 
+    vb += '\tmod->clk = 0;\n'
+    vb += '\tmod->eval();\n\n'
+    
     # Load the chip configuration
     vb += '\t// Load the configuration\n'
     vb += '\tfor (int i = 0; i < 0; i++) {\n'
-    vb += '\t}\n'
+    vb += '\t}\n\n'
     
     # Run the design for a bunch of cycles, storing all output values in the design
     vb += '\t// Run the data for ' + str(num_cycles_to_run) + ' cycles,\n'
