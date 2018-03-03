@@ -71,6 +71,9 @@ def verilate_example(mod_name,
 
     vclass = 'V' + mod_name
     verilator_main_string = '#include <verilated.h>\n'
+    #verilator_main_string += '#include <ifstream>\n'
+    verilator_main_string += '#include <fstream>\n'
+    verilator_main_string += '#include <iostream>\n'
     verilator_main_string += '#include "' +  vclass + '.h"\n\n'
     verilator_main_string += 'int main(int argc, char **argv) {\n'
 
@@ -92,8 +95,13 @@ def verilate_example(mod_name,
     
     # Load the chip configuration
     vb += '\t// Load the configuration\n'
-    vb += '\tfor (int i = 0; i < 0; i++) {\n'
-    vb += '\t}\n\n'
+    vb += '\tstd::ifstream input( "' + bitstream_name + '.txt" );\n'
+
+    #vb += '\twhile (false) {\n'
+    vb += '\tfor (std::string line; getline(input, line); ) {\n'
+    vb += '\t\tstd::cout << line << std::endl;\n'
+    vb += '\t}\n'
+    vb += '\tinput.close();\n\n'
     
     # Run the design for a bunch of cycles, storing all output values in the design
     vb += '\t// Run the data for ' + str(num_cycles_to_run) + ' cycles,\n'
