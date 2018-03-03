@@ -28,14 +28,38 @@ def run_place_and_route():
 def verilate_example(mod_name,
                      bitstream_name,
                      output_file_name,
+                     application_placement,
                      test_data):
 
     # Build data file
-    input_data_str = ''
     num_cycles_to_run = 0
     for input_name in test_data:
-        input_data = test_data[input_name]
+        num_cycles_to_run = len(test_data[input_name])
 
+    per_cycle_data = []
+    for i in range(num_cycles_to_run):
+        per_cycle_data.append([])
+
+    input_names = ''
+    for input_name in test_data:
+        assert(num_cycles_to_run == len(test_data[input_name]))
+        input_names += input_name + ','
+
+        for i in range(0, len(test_data[input_name])):
+            per_cycle_data[i].append(test_data[input_name][i])
+
+    input_data_str = input_names + '\n'
+    for row in per_cycle_data:
+        
+        for val in row:
+            input_data_str += str(val) + ','
+
+        input_data_str += '\n'
+
+    data_in_file = open(mod_name + '_input_data.csv', 'w')
+    data_in_file.write(input_data_str)
+    data_in_file.close()
+    
     # Note: The data file needs to map names in the application graph to
     # names in the placed design. Specifically input nodes in the application graph
     # to input ports in the design. 
@@ -117,7 +141,7 @@ run_place_and_route()
 # Run verilator on top module, then compile the verilated C++, run the verilator code
 # and save the simulation results to a file
 num_cycles_to_run = 5
-verilate_example('top', 'reg_bitstream', 'verilator_reg', test_data)
+verilate_example('top', 'reg_bitstream', 'verilator_reg', {}, test_data)
 
 # Run the pre-mapped application graph in simulation
 res = simulate_application(app_g, num_cycles_to_run)
