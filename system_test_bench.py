@@ -118,15 +118,15 @@ def verilate_example(mod_name,
     vb += '\t\tss2 >> configData;\n'
 
     vb += '\t\tcout << "\taddrStr = " << addrStr << endl;\n'
-    # cout << "\tdataStr = " << dataStr << endl;
+    vb += '\t\tcout << "\tdataStr = " << dataStr << endl;\n'
 
-    # top->config_addr = configAddr; // Insert config
-    # top->config_data = configData; // Insert data
-    # top->clk = 0;
-    # top->eval();
+    vb += '\t\tmod->config_addr = configAddr; // Insert config\n'
+    vb += '\t\tmod->config_data = configData; // Insert data\n'
+    vb += '\t\tmod->clk = 0;\n'
+    vb += '\t\tmod->eval();\n'
     
-    # top->clk = 1;
-    # top->eval();
+    vb += '\t\tmod->clk = 1;\n'
+    vb += '\t\tmod->eval();\n'
     
     vb += '\t}\n'
     vb += '\tinput.close();\n\n'
