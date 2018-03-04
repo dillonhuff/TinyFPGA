@@ -74,7 +74,9 @@ def verilate_example(mod_name,
     #verilator_main_string += '#include <ifstream>\n'
     verilator_main_string += '#include <fstream>\n'
     verilator_main_string += '#include <iostream>\n'
+    verilator_main_string += '#include <sstream>\n'
     verilator_main_string += '#include "' +  vclass + '.h"\n\n'
+    verilator_main_string += 'using namespace std;\n\n'
     verilator_main_string += 'int main(int argc, char **argv) {\n'
 
     vb = ''
@@ -100,6 +102,32 @@ def verilate_example(mod_name,
     #vb += '\twhile (false) {\n'
     vb += '\tfor (std::string line; getline(input, line); ) {\n'
     vb += '\t\tstd::cout << line << std::endl;\n'
+
+    vb += '\t\tstring addrStr = line.substr(0, 8);\n'
+
+    vb += '\t\tunsigned int configAddr;\n'
+    vb += '\t\tstd::stringstream ss;\n'
+    vb += '\t\tss << std::hex << addrStr;\n'
+    vb += '\t\tss >> configAddr;\n'
+
+    vb += '\t\tstring dataStr = line.substr(9, 18);\n'
+
+    vb += '\t\tunsigned int configData;\n'
+    vb += '\t\tstd::stringstream ss2;\n'
+    vb += '\t\tss2 << std::hex << dataStr;\n'
+    vb += '\t\tss2 >> configData;\n'
+
+    vb += '\t\tcout << "\taddrStr = " << addrStr << endl;\n'
+    # cout << "\tdataStr = " << dataStr << endl;
+
+    # top->config_addr = configAddr; // Insert config
+    # top->config_data = configData; // Insert data
+    # top->clk = 0;
+    # top->eval();
+    
+    # top->clk = 1;
+    # top->eval();
+    
     vb += '\t}\n'
     vb += '\tinput.close();\n\n'
     
