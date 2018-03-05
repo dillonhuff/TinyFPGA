@@ -10,10 +10,24 @@ def build_pnr():
 
 class ApplicationGraph:
     def __init__(self):
+        self.next_node = 0
+        self.next_edge = 0
         self.nodes = Set([])
+        self.node_labels = {}
+        self.out_edges = {}
+        self.in_edges = {}
+        self.edges = Set([])
 
     def get_json(self):
         return {}
+
+    def add_node(self, label):
+        self.node_labels[self.next_node] = label
+        self.nodes.add(self.next_node)
+        self.next_node += 1
+
+    def add_edge(self, n0, n1, p0, p1):
+        self.next_edge += 1
 
 def run_place_and_route():
     app_file = 'reg_app.json'
@@ -162,6 +176,12 @@ build_pnr()
 
 # Build the application graph and write it to json to be consumed by PnR
 app_g = ApplicationGraph()
+in_pad = app_g.add_node("io1in_pad")
+out_pad = app_g.add_node("io1out_pad")
+reg_n = app_g.add_node("reg")
+app_g.add_edge(in_pad, reg_n, "out", "in0")
+app_g.add_edge(reg_n, out_pad, "out", "in")
+
 
 app_json = app_g.get_json()
 top_json_file = open('reg_app.json', 'w')
