@@ -23,15 +23,18 @@ class ApplicationGraph:
     def add_node(self, label):
         self.node_labels[self.next_node] = label
 
-        self.out_edges[self.next_node] = {}
-        self.in_edges[self.next_node] = {}
+        self.out_edges[self.next_node] = []
+        self.in_edges[self.next_node] = []
 
+        node_val = self.next_node
         self.next_node += 1
+
+        return node_val
 
     def add_edge(self, n0, n1, p0, p1):
         self.edges[self.next_edge] = (p0, p1)
-        self.out_edges[self.node[n0]].append(n1)
-        self.in_edges[self.node[n1]].append(n0)
+        self.out_edges[n0].append(n1)
+        self.in_edges[n1].append(n0)
         self.next_edge += 1
 
 def run_place_and_route():
