@@ -12,21 +12,26 @@ class ApplicationGraph:
     def __init__(self):
         self.next_node = 0
         self.next_edge = 0
-        self.nodes = Set([])
         self.node_labels = {}
         self.out_edges = {}
         self.in_edges = {}
-        self.edges = Set([])
+        self.edges = {}
 
     def get_json(self):
         return {}
 
     def add_node(self, label):
         self.node_labels[self.next_node] = label
-        self.nodes.add(self.next_node)
+
+        self.out_edges[self.next_node] = {}
+        self.in_edges[self.next_node] = {}
+
         self.next_node += 1
 
     def add_edge(self, n0, n1, p0, p1):
+        self.edges[self.next_edge] = (p0, p1)
+        self.out_edges[self.node[n0]].append(n1)
+        self.in_edges[self.node[n1]].append(n0)
         self.next_edge += 1
 
 def run_place_and_route():
