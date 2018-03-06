@@ -152,12 +152,15 @@ def verilate_example(mod_name,
     
     vb += '\t}\n'
     vb += '\tinput.close();\n\n'
-    
+
+    vb += '\tstd::ofstream outFile("' + output_file_name + '.csv");\n'
     # Run the design for a bunch of cycles, storing all output values in the design
     vb += '\t// Run the data for ' + str(num_cycles_to_run) + ' cycles,\n'
     vb += '\t// storing outputs along the way\n'
     vb += '\tfor (int i = 0; i < ' + str(2*num_cycles_to_run) + '; i++) {\n'
     vb += '\t}\n'
+
+    vb += '\toutFile.close();\n'
 
     verilator_main_string += vb
     verilator_main_string += '}'
@@ -169,9 +172,20 @@ def verilate_example(mod_name,
     build_module_with_main(mod_name, main_name)
 
 def simulate_application(app_g, num_cycles_to_run):
-    return []
+    results = []
+    return results
 
 def compare_simulation_results(application_res, verilator_result_file):
+    # Read in result file table
+    f = open(verilator_result_file, 'r')
+    results = []
+    for line in res_str.split('\n'):
+        print 'Line = ', line
+        if len(line) == 0:
+            print 'Blank'
+
+    # Compare the simulation results
+    
     assert(True)
 
 # --- Begin whole system test
@@ -210,4 +224,4 @@ verilate_example('top', 'reg_bitstream', 'verilator_reg', {}, test_data)
 # Run the pre-mapped application graph in simulation
 res = simulate_application(app_g, num_cycles_to_run)
 
-compare_simulation_results(res, 'verilator_reg')
+compare_simulation_results(res, 'verilator_reg.csv')
