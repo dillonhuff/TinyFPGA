@@ -178,15 +178,29 @@ def simulate_application(app_g, num_cycles_to_run):
 def compare_simulation_results(application_res, verilator_result_file):
     # Read in result file table
     f = open(verilator_result_file, 'r')
-    results = []
-    for line in res_str.split('\n'):
-        print 'Line = ', line
-        if len(line) == 0:
-            print 'Blank'
 
-    # Compare the simulation results
-    
-    assert(True)
+    output_names = []
+    data_start_line = 0
+    found_in_names = False
+    for line in f.read().split('\n'):
+        print 'Line = ', line
+        data_start_line += 1
+        if len(line) == 0:
+            continue
+        else:
+            names = f.split(',')
+            assert(len(names) > 0)
+            found_in_names = True
+            for name in names:
+                output_names.append(name)
+            break
+
+    assert(data_start_line > 0)
+    assert(found_in_names)
+
+    results = []
+
+    return results
 
 # --- Begin whole system test
 # Create verilg for the 2 by 2 version of the FPGA. This includes generating
