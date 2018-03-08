@@ -177,6 +177,19 @@ namespace TinyPnR {
   }
 
   TargetTopology loadTargetTopologyFromJSON(const std::string& topoFile) {
+
+    std::ifstream t(topoFile);
+
+    cout << "Topology file = " << topoFile << endl;
+    std::istream_iterator<char> input(t);
+    picojson::value v;
+    std::string err;
+    input = picojson::parse(v, input, std::istream_iterator<char>(), &err);
+    if (!err.empty()) {
+      std::cerr << err << std::endl;
+      assert(false);
+    }
+
     TargetTopology tp;
     return tp;
   }
