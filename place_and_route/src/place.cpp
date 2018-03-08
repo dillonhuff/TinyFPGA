@@ -162,9 +162,17 @@ namespace TinyPnR {
     ApplicationGraph g;
     map<vdisc, int> graphIndsToInternalInds;
     auto node_labels = getValue("node_labels", v);
-    
-    assert(false);
-    
+    assert(node_labels.is<object>());
+    for (auto elem : node_labels.get<object>()) {
+      string fst = elem.first;
+      auto snd = elem.second;
+      assert(snd.is<string>());
+      string vert_label = snd.get<string>();
+
+      vdisc vert = g.addVertex(vert_label);
+      graphIndsToInternalInds[vert] = stoi(fst);
+    }
+
     return g;
   }
 
