@@ -160,6 +160,10 @@ namespace TinyPnR {
     }
 
     ApplicationGraph g;
+    map<vdisc, int> graphIndsToInternalInds;
+    auto node_labels = getValue("node_labels", v);
+    
+    assert(false);
     
     return g;
   }
