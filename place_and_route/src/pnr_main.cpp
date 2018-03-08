@@ -25,6 +25,9 @@ int main(const int argc, const char** argv) {
   TargetTopology topology = loadTargetTopologyFromJSON(topologyFile);
 
   map<vdisc, CLBId> placement = placeApplication(app, topology);
+
+  assert(placement.size() == app.getVerts().size());
+
   map<vdisc, vdisc> routes =
     routeApplication(app, topology, placement);
 

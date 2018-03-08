@@ -18,7 +18,12 @@ class ApplicationGraph:
         self.edges = {}
 
     def get_json(self):
-        return {}
+        app_json = {}
+        app_json['out_edges'] = self.out_edges
+        app_json['in_edges'] = self.in_edges
+        app_json['edges'] = self.edges
+        app_json['node_labels'] = self.node_labels
+        return app_json
 
     def add_node(self, label):
         self.node_labels[self.next_node] = label
