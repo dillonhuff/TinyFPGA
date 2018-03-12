@@ -38,6 +38,7 @@ def run_generators(grid_len):
     # Remove the duplicates here, merge with switch_box
     sb_json = generate_sb('switch_box_right', [0, 1, 2, 3], 4, n_wires_per_side)
     bitstream_json['switch_box_right'] = sb_json
+
     sb_json = generate_sb('switch_box_bottom', [0, 1, 2, 3], 4, n_wires_per_side)
     bitstream_json['switch_box_bottom'] = sb_json
 
@@ -58,32 +59,41 @@ def run_generators(grid_len):
     # Generating PE tiles
     (pe_json, pe_top) = generate_pe_tile('pe_tile', 'switch_box', [0, 1, 2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile'] = pe_json
+    topology_json['pe_tile'] = pe_top
 
     # Side PEs
     (pe_json, pe_top) = generate_pe_tile('pe_tile_left', 'switch_box_left', [0, 1, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_left'] = pe_json
+    topology_json['pe_tile_left'] = pe_top
 
     (pe_json, pe_top) = generate_pe_tile('pe_tile_right', 'switch_box_right', [1, 2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_right'] = pe_json
+    topology_json['pe_tile_right'] = pe_top
 
     (pe_json, pe_top) = generate_pe_tile('pe_tile_top', 'switch_box_top', [0, 1, 2], 4, n_wires_per_side)
     bitstream_json['pe_tile_top'] = pe_json
+    topology_json['pe_tile_top'] = pe_top
 
     (pe_json, pe_top) = generate_pe_tile('pe_tile_bottom', 'switch_box_bottom', [0, 2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom'] = pe_json
+    topology_json['pe_tile_bottom'] = pe_top
 
     # Corner tiles
     (pe_json, pe_top) = generate_pe_tile('pe_tile_top_left', 'switch_box_top_left', [0, 1], 4, n_wires_per_side)
     bitstream_json['pe_tile_top_left'] = pe_json
+    topology_json['pe_tile_top_left'] = pe_top
 
     (pe_json, pe_top) = generate_pe_tile('pe_tile_top_right', 'switch_box_top_right', [1, 2], 4, n_wires_per_side)
     bitstream_json['pe_tile_top_right'] = pe_json
+    topology_json['pe_tile_top_right'] = pe_top
 
     (pe_json, pe_top) = generate_pe_tile('pe_tile_bottom_left', 'switch_box_bottom_left', [0, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom_left'] = pe_json
+    topology_json['pe_tile_bottom_left'] = pe_top
 
     (pe_json, pe_top) = generate_pe_tile('pe_tile_bottom_right', 'switch_box_bottom_right', [2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom_right'] = pe_json
+    topology_json['pe_tile_bottom_right'] = pe_top
 
     top_mod = build_top_mod(grid_len, grid_len, grid_len, grid_len)
 
