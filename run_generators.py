@@ -19,6 +19,7 @@ import json
 
 def run_generators(grid_len):
     bitstream_json = {}
+    topology_json = {}
 
     n_wires_per_side = 4
     # Center switch box
@@ -28,7 +29,6 @@ def run_generators(grid_len):
 
     # Middle side switch box
     sb_json = generate_sb('switch_box_top', [0, 1, 2], 4, n_wires_per_side)
-
     bitstream_json['switch_box_top'] = sb_json
 
     sb_json = generate_sb('switch_box_left', [0, 1, 3], 4, n_wires_per_side)
@@ -56,33 +56,33 @@ def run_generators(grid_len):
     bitstream_json['switch_box_bottom_right'] = sb_json
 
     # Generating PE tiles
-    pe_json = generate_pe_tile('pe_tile', 'switch_box', [0, 1, 2, 3], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile', 'switch_box', [0, 1, 2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile'] = pe_json
 
     # Side PEs
-    pe_json = generate_pe_tile('pe_tile_left', 'switch_box_left', [0, 1, 3], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_left', 'switch_box_left', [0, 1, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_left'] = pe_json
 
-    pe_json = generate_pe_tile('pe_tile_right', 'switch_box_right', [1, 2, 3], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_right', 'switch_box_right', [1, 2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_right'] = pe_json
 
-    pe_json = generate_pe_tile('pe_tile_top', 'switch_box_top', [0, 1, 2], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_top', 'switch_box_top', [0, 1, 2], 4, n_wires_per_side)
     bitstream_json['pe_tile_top'] = pe_json
 
-    pe_json = generate_pe_tile('pe_tile_bottom', 'switch_box_bottom', [0, 2, 3], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_bottom', 'switch_box_bottom', [0, 2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom'] = pe_json
 
     # Corner tiles
-    pe_json = generate_pe_tile('pe_tile_top_left', 'switch_box_top_left', [0, 1], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_top_left', 'switch_box_top_left', [0, 1], 4, n_wires_per_side)
     bitstream_json['pe_tile_top_left'] = pe_json
 
-    pe_json = generate_pe_tile('pe_tile_top_right', 'switch_box_top_right', [1, 2], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_top_right', 'switch_box_top_right', [1, 2], 4, n_wires_per_side)
     bitstream_json['pe_tile_top_right'] = pe_json
 
-    pe_json = generate_pe_tile('pe_tile_bottom_left', 'switch_box_bottom_left', [0, 3], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_bottom_left', 'switch_box_bottom_left', [0, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom_left'] = pe_json
 
-    pe_json = generate_pe_tile('pe_tile_bottom_right', 'switch_box_bottom_right', [2, 3], 4, n_wires_per_side)
+    (pe_json, pe_top) = generate_pe_tile('pe_tile_bottom_right', 'switch_box_bottom_right', [2, 3], 4, n_wires_per_side)
     bitstream_json['pe_tile_bottom_right'] = pe_json
 
     top_mod = build_top_mod(grid_len, grid_len, grid_len, grid_len)
@@ -112,7 +112,6 @@ def run_generators(grid_len):
     top_json_file.close()
 
     # Write out topology file
-    topology_json = {}
     top_topology_file = open(name + '_topology.json', 'w')
     top_topology_file.write(json.dumps(topology_json))
     top_topology_file.close()

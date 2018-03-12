@@ -258,14 +258,13 @@ def generate_pe_tile(mod_name,
                      n_wires_per_side):
     pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
     verilog_str = generate_pe_tile_verilog(pe_tile)
-
     pe_tile_file = open(mod_name + '.v', 'w')
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()
 
-    json_str = generate_pe_tile_json(pe_tile)
-    pe_tile_file = open(mod_name + '.json', 'w')
-    pe_tile_file.write(json_str)
-    pe_tile_file.close()
+    # json_str = generate_pe_tile_json(pe_tile)
+    # pe_tile_file = open(mod_name + '.json', 'w')
+    # pe_tile_file.write(json_str)
+    # pe_tile_file.close()
 
-    return generate_pe_bs_json(pe_tile)
+    return (generate_pe_bs_json(pe_tile), generate_pe_tile_json(pe_tile))
