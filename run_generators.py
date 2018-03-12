@@ -106,8 +106,15 @@ def run_generators(grid_len):
     ] }
     bitstream_json['connect_box'] = connect_box_json
 
+    # Write out json configuration data
     top_json_file = open(name + '.json', 'w')
     top_json_file.write(json.dumps(bitstream_json))
     top_json_file.close()
+
+    # Write out topology file
+    topology_json = {}
+    top_topology_file = open(name + '_topology.json', 'w')
+    top_topology_file.write(json.dumps(topology_json))
+    top_topology_file.close()
 
     print 'Done running generators'
