@@ -363,6 +363,10 @@ def build_top_mod(num_in_ios,
 def build_top_mod_bitstream_json(top_mod):
     return top_mod.metadata
 
+def build_top_mod_topology_json(top_mod):
+    top_json = {}
+    return top_json
+
 def build_verilog_string(top_mod):
     includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
     return module_string(includes, top_mod.mod_name, top_mod.ports, top_mod.body_string())

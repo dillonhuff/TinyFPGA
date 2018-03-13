@@ -1,6 +1,6 @@
 from gen_switch_box import build_mod_str, generate_sb
 from gen_pe_tile import generate_pe_tile
-from gen_top import build_verilog_string, build_top_mod, build_top_mod_bitstream_json
+from gen_top import build_verilog_string, build_top_mod, build_top_mod_bitstream_json,build_top_mod_topology_json
 import json
 
 # Note: The bitstream format does not need the full connection network info, so
@@ -103,8 +103,10 @@ def run_generators(grid_len):
     top_file.close()
 
     top_json = build_top_mod_bitstream_json(top_mod)
+    top_topology_json = build_top_mod_topology_json(top_mod)
 
     bitstream_json['top'] = top_json
+    topology_json['top'] = top_topology_json
 
     # Manually written CLB
     clb_json = {'mod_name' : 'clb', 'components' : [{ 'config_map' : {'and' : 0, 'or' : 1, 'xor' : 2, 'reg' : 3}, "name" : "clb", "offset" : 0} ] }

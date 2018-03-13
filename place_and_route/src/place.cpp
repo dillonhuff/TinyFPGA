@@ -191,6 +191,7 @@ namespace TinyPnR {
     }
 
     TargetTopology tp;
+    
     return tp;
   }
   
