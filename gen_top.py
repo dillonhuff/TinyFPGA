@@ -18,6 +18,9 @@ from generator_utils import module_string
 # Q: What am I trying to get to? A design where all json is generated uniformly
 #    by each generate call and stored to a single json file. Verilog is generated
 #    file by file (or all at once I guess would work too)
+
+# Note: Should probably remove assigns and replace them with module instantiations
+# This would make the verilog completely structural.
 class VerilogModule():
 
     def __init__(self, mod_name, ports):
@@ -28,6 +31,7 @@ class VerilogModule():
         self.instances = Set([])
         self.inst_to_wires = {}
         self.internal_wires = Set([])
+        # TODO: Remove this feature
         self.assigns = Set([])
         self.wire_widths = {}
 

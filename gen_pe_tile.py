@@ -173,9 +173,9 @@ def generate_pe_tile_json(pe_tile):
     json_val['cb1_connections'] = pe_tile.cb1_connections
     json_val['sb_connections'] = pe_tile.sb_connections
 
-    json_str = json.dumps(json_val)
+    #json_str = json.dumps(json_val)
 
-    return json_str
+    return json_val
 
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
 # outputs?
