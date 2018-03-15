@@ -179,6 +179,8 @@ def generate_pe_tile_json(pe_tile):
 
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
 # outputs?
+
+# Need to add custom modules for configuration state and for assignment
 def generate_pe_tile_verilog(pe_tile):
 
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
