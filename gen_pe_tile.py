@@ -39,6 +39,9 @@ class ProgrammableModule:
     def set_config_id(self, config_id):
         self.config_id = config_id
 
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
 class PETile:
     def __init__(self,
                  mod_name,
@@ -78,7 +81,6 @@ class PETile:
                                                  'cb0',
                                                  {})
 
-        self.cb0_connections = {}
         for wire in range(0, n_wires_per_side):
             self.modules['cb0'].connect('track' + str(wire) + '_in', 'in_wire_0_' + str(wire))
 
@@ -92,7 +94,7 @@ class PETile:
         self.modules['cb0'].connect('clk', 'clk')
 
         self.modules['cb1'] = ProgrammableModule('connect_box', 'cb1', {})
-        self.cb1_connections = {}
+
         cb1 = self.modules['cb1']
         for wire in range(0, n_wires_per_side):
             cb1.connect('track' + str(wire) + '_in', 'in_wire_1_' + str(wire))
@@ -105,8 +107,6 @@ class PETile:
         cb1.connect('config_en', 'config_en_cb1')
         cb1.connect('config_data', 'config_data[2:0]')
         cb1.connect('clk', 'clk')
-
-        self.sb_connections = {}
 
         self.modules['sb'] = ProgrammableModule(switch_box_mod, 'sb', {})
         sb = self.modules['sb']
@@ -158,9 +158,8 @@ def generate_pe_tile_json(pe_tile):
 
     # json_val['tile_name'] = pe_tile.inst_name
 
-    # mods = {}
-    # for mod in pe_tile.modules:
-    #     mods[mod.name] = 0
+    # TODO: Need to serialize module names at least
+    # json_val['modules'] = pe_tile.modules
     
     json_val['switch_box_mod'] = pe_tile.switch_box_mod
 
@@ -168,12 +167,6 @@ def generate_pe_tile_json(pe_tile):
     json_val['output_wires'] = list(pe_tile.output_wires)
 
     json_val['local_output_wires'] = list(pe_tile.local_output_wires)
-
-    json_val['cb0_connections'] = pe_tile.cb0_connections
-    json_val['cb1_connections'] = pe_tile.cb1_connections
-    json_val['sb_connections'] = pe_tile.sb_connections
-
-    #json_str = json.dumps(json_val)
 
     return json_val
 
