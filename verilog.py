@@ -39,8 +39,8 @@ class VerilogModule():
         self.internal_wires.add(wire_name)
         self.wire_widths[wire_name] = width
 
-    def add_instance(self, mod_name, inst_name, parameters=[]):
-        self.instances.add((mod_name, inst_name, parameters))
+    def add_instance(self, mod_name, inst_name):
+        self.instances.add((mod_name, inst_name))
         self.inst_to_wires[inst_name] = []
 
     def add_assign(self, in_wire, driver_value):
