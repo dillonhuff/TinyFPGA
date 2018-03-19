@@ -151,6 +151,10 @@ class PETile:
         self.mod_id_end = 31
         self.mod_id_begin = 16
 
+# Problem is that this does not include any connections between modules
+# I need to add every connection to the metadata.
+
+# Really I would like for everything to be standard structural verilog
 def generate_pe_tile_json(pe_tile):
     json_val = {}
 
@@ -256,10 +260,5 @@ def generate_pe_tile(mod_name,
     pe_tile_file = open(mod_name + '.v', 'w')
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()
-
-    # json_str = generate_pe_tile_json(pe_tile)
-    # pe_tile_file = open(mod_name + '.json', 'w')
-    # pe_tile_file.write(json_str)
-    # pe_tile_file.close()
 
     return (generate_pe_bs_json(pe_tile), generate_pe_tile_json(pe_tile))
