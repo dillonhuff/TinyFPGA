@@ -25,6 +25,8 @@ class VerilogModule():
         self.mod_name = mod_name
         self.ports = ports
 
+        self.num_assigns = 0
+
         self.metadata = {}
         self.instances = Set([])
         self.inst_to_wires = {}
@@ -43,7 +45,15 @@ class VerilogModule():
 
     def add_assign(self, in_wire, driver_value):
         assert(in_wire in self.internal_wires)
+        assign_name = 'assign_' + in_wire + '_' + str(self.num_assigns)
+        
+        self.num_assigns += 1
+        
+        self.add_instance('assign_mod', assign_name)
+        self.add_wire_connection(in_wire, assign_name, 'in')
+
         self.assigns.add((in_wire, driver_value))
+
 
     def add_instance_connection(self, inst_name_0, port_name_0, inst_name_1, port_name_1):
         conn = ((inst_name_0, port_name_0), (inst_name_1, port_name_1))
