@@ -2,6 +2,13 @@ from sets import Set
 
 # Represent structural verilog + assignments
 
+class VerilogModuleInstance():
+
+    def __init__(self, name, mod_name, parameters):
+        self.name = name
+        self.mod_name = mod_name
+        self.parameters = parameters
+
 # Note: This is basically the yosys representation. No mapping back from wires
 # to ports
 
@@ -28,7 +35,7 @@ class VerilogModule():
         self.num_assigns = 0
 
         self.metadata = {}
-        self.instances = Set([])
+        self.instances = {}
         self.inst_to_wires = {}
         self.internal_wires = Set([])
         # TODO: Remove this feature
@@ -39,17 +46,19 @@ class VerilogModule():
         self.internal_wires.add(wire_name)
         self.wire_widths[wire_name] = width
 
-    def add_instance(self, mod_name, inst_name, parameters):
-        self.instances.add((mod_name, inst_name))
+    def add_instance(self, mod_name, inst_name, parameters={}):
+        #self.instances.add((mod_name, inst_name))
+        self.instances[inst_name] = VerilogModuleInstance(inst_name, mod_name, parameters)
         self.inst_to_wires[inst_name] = []
 
+    # TODO: Add wire width parameter?
     def add_assign(self, in_wire, driver_value):
         assert(in_wire in self.internal_wires)
         assign_name = 'assign_' + in_wire + '_' + str(self.num_assigns)
         
         self.num_assigns += 1
         
-        self.add_instance('assign_mod', assign_name)
+        self.add_instance('assign_mod', assign_name, {'width' : self.wire_widths[in_wire]})
         self.add_wire_connection(in_wire, assign_name, 'in')
 
         self.assigns.add((in_wire, driver_value))
@@ -86,11 +95,23 @@ class VerilogModule():
             body += '\twire [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
         body += '\t// End of internal wires\n'
 
-        for inst in self.instances:
-            mod_name = inst[0]
-            inst_name = inst[1]
+        for inst_name in self.instances:
+            mod_name = self.instances[inst_name].mod_name
+            params = self.instances[inst_name].parameters
 
             body += '\t' + mod_name
+            if (len(params) > 0):
+                body += ' #('
+                i = 0
+
+                for param in params:
+                    body += '.' + param + '(' + str(params[param]) + ')'
+                    if (i != (len(params) - 1)):
+                        body += ', '
+                    i += 1
+
+                body += ') '
+
             body += ' ' + inst_name + '(\n'
 
             print 'inst = ', inst_name
