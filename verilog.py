@@ -38,8 +38,6 @@ class VerilogModule():
         self.instances = {}
         self.inst_to_wires = {}
         self.internal_wires = Set([])
-        # TODO: Remove this feature
-        self.assigns = Set([])
         self.wire_widths = {}
 
         self.unique_int = 0
@@ -52,6 +50,8 @@ class VerilogModule():
         i = self.unique_int
         self.add_wire('wire_' + str(i), width)
         self.unique_int += 1
+
+        return 'wire_' + str(i)
 
     def add_instance(self, mod_name, inst_name, parameters={}):
         self.instances[inst_name] = VerilogModuleInstance(inst_name, mod_name, parameters)
@@ -66,14 +66,14 @@ class VerilogModule():
         self.num_assigns += 1
         
         self.add_instance('assign_mod', assign_name, {'width' : self.wire_widths[in_wire]})
-        self.add_instance('const_mod', assign_name, {'value' : driver_value, 'width' : self.wire_widths[in_wire]})
+        self.add_instance('const_mod', const_name, {'value' : driver_value, 'width' : self.wire_widths[in_wire]})
 
         self.add_wire_connection(in_wire, assign_name, 'out')
-        # self.assigns.add((in_wire, driver_value))
 
-        self.add_instance_connection(assign_name, 'in',
-                                     const_name, 'out')
+        const_wire = self.fresh_wire(self.wire_widths[in_wire])
 
+        self.add_wire_connection(const_wire, assign_name, 'in')
+        self.add_wire_connection(const_wire, const_name, 'out')
 
     def add_instance_connection(self, inst_name_0, port_name_0, inst_name_1, port_name_1):
         conn = ((inst_name_0, port_name_0), (inst_name_1, port_name_1))
@@ -88,8 +88,6 @@ class VerilogModule():
         self.inst_to_wires[inst_name_1].append((port_name_1, wire_name))
 
     def add_port_connection(self, module_port_name, inst_name_0, inst_port_name):
-        # assert(module_port_name in self.ports)
-
         self.inst_to_wires[inst_name_0].append((inst_port_name, module_port_name))
 
     # same as add port connection. Merge or add check for port to add_port_connection?
@@ -136,9 +134,9 @@ class VerilogModule():
                 i += 1
             body += '\t);\n'
 
-        body += '\t// Assignments \n'
-        for assign in self.assigns:
-            body += '\tassign ' + assign[0] + ' = ' + assign[1] + ';\n'
+        # body += '\t// Assignments \n'
+        # for assign in self.assigns:
+        #     body += '\tassign ' + assign[0] + ' = ' + assign[1] + ';\n'
         
         return body
 
