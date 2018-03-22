@@ -66,10 +66,13 @@ class VerilogModule():
         self.num_assigns += 1
         
         self.add_instance('assign_mod', assign_name, {'width' : self.wire_widths[in_wire]})
-        self.add_instance('const_mod', assign_name, {'value' : driver_value})
-        self.add_wire_connection(in_wire, assign_name, 'in')
+        self.add_instance('const_mod', assign_name, {'value' : driver_value, 'width' : self.wire_widths[in_wire]})
 
-        self.assigns.add((in_wire, driver_value))
+        self.add_wire_connection(in_wire, assign_name, 'out')
+        # self.assigns.add((in_wire, driver_value))
+
+        self.add_instance_connection(assign_name, 'in',
+                                     const_name, 'out')
 
 
     def add_instance_connection(self, inst_name_0, port_name_0, inst_name_1, port_name_1):
