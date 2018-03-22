@@ -3,6 +3,7 @@ from sets import Set
 import json
 
 from generator_utils import module_string
+from verilog import VerilogModule, VerilogModuleInstance
 
 # Note: Place and router needs more info if it is going to generate a
 # string format object that communicates with the bitstream converter

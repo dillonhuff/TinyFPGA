@@ -132,11 +132,7 @@ class VerilogModule():
                     body += ','
                 body += '\n'
                 i += 1
-            body += '\t);\n'
+            body += '\t);\n\n'
 
-        # body += '\t// Assignments \n'
-        # for assign in self.assigns:
-        #     body += '\tassign ' + assign[0] + ' = ' + assign[1] + ';\n'
-        
         return body
 
