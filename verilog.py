@@ -42,23 +42,31 @@ class VerilogModule():
         self.assigns = Set([])
         self.wire_widths = {}
 
+        self.unique_int = 0
+
     def add_wire(self, wire_name, width=1):
         self.internal_wires.add(wire_name)
         self.wire_widths[wire_name] = width
 
+    def fresh_wire(self, width=1):
+        i = self.unique_int
+        self.add_wire('wire_' + str(i), width)
+        self.unique_int += 1
+
     def add_instance(self, mod_name, inst_name, parameters={}):
-        #self.instances.add((mod_name, inst_name))
         self.instances[inst_name] = VerilogModuleInstance(inst_name, mod_name, parameters)
         self.inst_to_wires[inst_name] = []
 
-    # TODO: Add wire width parameter?
     def add_assign(self, in_wire, driver_value):
         assert(in_wire in self.internal_wires)
+
         assign_name = 'assign_' + in_wire + '_' + str(self.num_assigns)
+        const_name = assign_name + '_const'
         
         self.num_assigns += 1
         
         self.add_instance('assign_mod', assign_name, {'width' : self.wire_widths[in_wire]})
+        self.add_instance('const_mod', assign_name, {'value' : driver_value})
         self.add_wire_connection(in_wire, assign_name, 'in')
 
         self.assigns.add((in_wire, driver_value))

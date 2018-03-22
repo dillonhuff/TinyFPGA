@@ -191,7 +191,7 @@ module top(
 		.clk(clk),
 		.pin(out_pad_2_pin_to_pe_tile_2_2_out_wire_1_0)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0_in_wire_3_3_const_2(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0_in_wire_3_3_const_2(
 		.in(pe_tile_0_0_in_wire_3_3_const)
 	);
 	io1out_pad out_pad_0(
@@ -204,16 +204,16 @@ module top(
 		.clk(clk),
 		.pin(out_pad_1_pin_to_pe_tile_2_1_out_wire_1_0)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_0in_wire_2_1_const_21(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_0in_wire_2_1_const_21(
 		.in(pe_tile_1_0in_wire_2_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_1_in_wire_3_1_const_8(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_1_in_wire_3_1_const_8(
 		.in(pe_tile_0_1_in_wire_3_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_0_1_const_50(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_0_1_const_50(
 		.in(pe_tile_2_2_in_wire_0_1_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_2_0_id_wire_39(
+	const_mod #(.value(7))  assign_pe_tile_2_0_id_wire_39(
 		.in(pe_tile_2_0_id_wire)
 	);
 	pe_tile pe_tile_1_1(
@@ -255,16 +255,16 @@ module top(
 		.config_data(config_data),
 		.tile_id(pe_tile_1_1_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0in_wire_2_0_const_3(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0in_wire_2_0_const_3(
 		.in(pe_tile_0_0in_wire_2_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_1_in_wire_3_2_const_9(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_1_in_wire_3_2_const_9(
 		.in(pe_tile_0_1_in_wire_3_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_1_in_wire_1_0_const_40(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_1_in_wire_1_0_const_40(
 		.in(pe_tile_2_1_in_wire_1_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0in_wire_2_2_const_5(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0in_wire_2_2_const_5(
 		.in(pe_tile_0_0in_wire_2_2_const)
 	);
 	pe_tile_right pe_tile_1_2(
@@ -337,16 +337,16 @@ module top(
 		.config_data(config_data),
 		.tile_id(pe_tile_1_0_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_0in_wire_2_2_const_22(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_0in_wire_2_2_const_22(
 		.in(pe_tile_1_0in_wire_2_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_2_in_wire_0_2_const_28(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_2_in_wire_0_2_const_28(
 		.in(pe_tile_1_2_in_wire_0_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0in_wire_2_3_const_38(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0in_wire_2_3_const_38(
 		.in(pe_tile_2_0in_wire_2_3_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_0_2_id_wire_19(
+	const_mod #(.value(3))  assign_pe_tile_0_2_id_wire_19(
 		.in(pe_tile_0_2_id_wire)
 	);
 	pe_tile_top_right pe_tile_0_2(
@@ -446,16 +446,16 @@ module top(
 		.config_data(config_data),
 		.tile_id(pe_tile_0_0_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0_in_wire_1_0_const_31(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0_in_wire_1_0_const_31(
 		.in(pe_tile_2_0_in_wire_1_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0in_wire_2_3_const_6(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0in_wire_2_3_const_6(
 		.in(pe_tile_0_0in_wire_2_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_2_in_wire_0_1_const_27(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_2_in_wire_0_1_const_27(
 		.in(pe_tile_1_2_in_wire_0_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_2_in_wire_0_3_const_29(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_2_in_wire_0_3_const_29(
 		.in(pe_tile_1_2_in_wire_0_3_const)
 	);
 	pe_tile_bottom pe_tile_2_1(
@@ -558,103 +558,103 @@ module top(
 		.config_data(config_data),
 		.tile_id(pe_tile_2_2_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_0_0_const_15(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_0_0_const_15(
 		.in(pe_tile_0_2_in_wire_0_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_1_2_const_47(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_1_2_const_47(
 		.in(pe_tile_2_2_in_wire_1_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0_in_wire_3_1_const_0(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0_in_wire_3_1_const_0(
 		.in(pe_tile_0_0_in_wire_3_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_1_1_const_46(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_1_1_const_46(
 		.in(pe_tile_2_2_in_wire_1_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0in_wire_2_0_const_35(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0in_wire_2_0_const_35(
 		.in(pe_tile_2_0in_wire_2_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0_in_wire_1_1_const_32(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0_in_wire_1_1_const_32(
 		.in(pe_tile_2_0_in_wire_1_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_0_3_const_18(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_0_3_const_18(
 		.in(pe_tile_0_2_in_wire_0_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_0_0_const_49(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_0_0_const_49(
 		.in(pe_tile_2_2_in_wire_0_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_1_in_wire_3_3_const_10(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_1_in_wire_3_3_const_10(
 		.in(pe_tile_0_1_in_wire_3_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_1_0_const_45(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_1_0_const_45(
 		.in(pe_tile_2_2_in_wire_1_0_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_0_0_id_wire_7(
+	const_mod #(.value(1))  assign_pe_tile_0_0_id_wire_7(
 		.in(pe_tile_0_0_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_3_3_const_14(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_3_3_const_14(
 		.in(pe_tile_0_2_in_wire_3_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0in_wire_2_2_const_37(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0in_wire_2_2_const_37(
 		.in(pe_tile_2_0in_wire_2_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_3_1_const_12(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_3_1_const_12(
 		.in(pe_tile_0_2_in_wire_3_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_0_1_const_16(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_0_1_const_16(
 		.in(pe_tile_0_2_in_wire_0_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0_in_wire_3_2_const_1(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0_in_wire_3_2_const_1(
 		.in(pe_tile_0_0_in_wire_3_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_1_in_wire_1_2_const_42(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_1_in_wire_1_2_const_42(
 		.in(pe_tile_2_1_in_wire_1_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_2_in_wire_0_0_const_26(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_2_in_wire_0_0_const_26(
 		.in(pe_tile_1_2_in_wire_0_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_0_2_const_17(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_0_2_const_17(
 		.in(pe_tile_0_2_in_wire_0_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_0in_wire_2_0_const_20(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_0in_wire_2_0_const_20(
 		.in(pe_tile_1_0in_wire_2_0_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_0_2_const_51(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_0_2_const_51(
 		.in(pe_tile_2_2_in_wire_0_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_2_in_wire_3_2_const_13(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_2_in_wire_3_2_const_13(
 		.in(pe_tile_0_2_in_wire_3_2_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_0_0in_wire_2_1_const_4(
+	const_mod #(.value(1'b0))  assign_pe_tile_0_0in_wire_2_1_const_4(
 		.in(pe_tile_0_0in_wire_2_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_1_in_wire_1_3_const_43(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_1_in_wire_1_3_const_43(
 		.in(pe_tile_2_1_in_wire_1_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_1_3_const_48(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_1_3_const_48(
 		.in(pe_tile_2_2_in_wire_1_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0_in_wire_1_2_const_33(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0_in_wire_1_2_const_33(
 		.in(pe_tile_2_0_in_wire_1_2_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_2_2_id_wire_53(
+	const_mod #(.value(9))  assign_pe_tile_2_2_id_wire_53(
 		.in(pe_tile_2_2_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0in_wire_2_1_const_36(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0in_wire_2_1_const_36(
 		.in(pe_tile_2_0in_wire_2_1_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_1_0in_wire_2_3_const_23(
+	const_mod #(.value(1'b0))  assign_pe_tile_1_0in_wire_2_3_const_23(
 		.in(pe_tile_1_0in_wire_2_3_const)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_0_in_wire_1_3_const_34(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_0_in_wire_1_3_const_34(
 		.in(pe_tile_2_0_in_wire_1_3_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_0_1_id_wire_11(
+	const_mod #(.value(2))  assign_pe_tile_0_1_id_wire_11(
 		.in(pe_tile_0_1_id_wire)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_2_in_wire_0_3_const_52(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_2_in_wire_0_3_const_52(
 		.in(pe_tile_2_2_in_wire_0_3_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_1_1_id_wire_25(
+	const_mod #(.value(5))  assign_pe_tile_1_1_id_wire_25(
 		.in(pe_tile_1_1_id_wire)
 	);
 	io1in_pad in_pad_2(
@@ -662,7 +662,7 @@ module top(
 		.top_pin(in_wire_2),
 		.pin(in_pad_2_pin_to_pe_tile_0_2_in_wire_3_0)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_1_0_id_wire_24(
+	const_mod #(.value(4))  assign_pe_tile_1_0_id_wire_24(
 		.in(pe_tile_1_0_id_wire)
 	);
 	io1in_pad in_pad_0(
@@ -675,13 +675,13 @@ module top(
 		.top_pin(in_wire_1),
 		.pin(in_pad_1_pin_to_pe_tile_0_1_in_wire_3_0)
 	);
-	assign_mod #(.width(1))  assign_pe_tile_2_1_in_wire_1_1_const_41(
+	const_mod #(.value(1'b0))  assign_pe_tile_2_1_in_wire_1_1_const_41(
 		.in(pe_tile_2_1_in_wire_1_1_const)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_2_1_id_wire_44(
+	const_mod #(.value(8))  assign_pe_tile_2_1_id_wire_44(
 		.in(pe_tile_2_1_id_wire)
 	);
-	assign_mod #(.width(16))  assign_pe_tile_1_2_id_wire_30(
+	const_mod #(.value(6))  assign_pe_tile_1_2_id_wire_30(
 		.in(pe_tile_1_2_id_wire)
 	);
 	// Assignments 
