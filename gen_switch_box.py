@@ -1,10 +1,15 @@
 from sets import Set
+from verilog import VerilogModule, VerilogModuleInstance
+from generator_utils import module_string
 
 import json
 
 # Note: Maybe the programmable elements should have a base set like CLB / switch
 # that are instantiated, combinational modules that take config inputs
 
+# Maybe next steps are:
+# 1. Change switch box to use verilog module
+# 2. Build PE tile data structure that the PE tile verilog and json both consume
 def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     assert(len(sides_to_use) <= n_sides)
 
@@ -90,40 +95,41 @@ def generate_sb_json(mod_name, output_map, input_wires):
     return json_str
 
 def generate_sb_verilog(mod_name, output_map, input_wires):
-    # Generate the actual string
-    mod_str = 'module ' + mod_name + '(\n'
-
+    ports = []
     for in_wire in input_wires:
-        mod_str += '\tinput ' + in_wire + ',\n'
+        ports.append('input ' + in_wire)
 
     for output in output_map:
-        mod_str += '\toutput ' + output[0] + ',\n'
+        ports.append('output ' + output[0])
 
-    mod_str += '\tinput pe_output_0,\n'
-    mod_str += '\tinput [31:0] config_data,\n'
-    mod_str += '\tinput config_en,\n'
-    mod_str += '\tinput clk,\n'
-    mod_str += '\tinput reset\n'
-    mod_str += '\t);\n\n'
+    ports.append('input pe_output_0')
+    ports.append('input [31:0] config_data')
+    ports.append('input config_en')
+    ports.append('input clk')
+    ports.append('input reset')
 
-    mod_str += '\t/* verilator lint_off UNUSED */\n'
-    mod_str += '\treg [31:0] config_data_reg;\n'
-    mod_str += '\talways @(posedge clk) begin\n'
-    mod_str += '\t\tif (reset) begin\n'
-    mod_str += '\t\t\tconfig_data_reg <= 32\'b0;\n'
-    mod_str += '\t\tend else if (config_en) begin\n'
-    mod_str += '\t\t\tconfig_data_reg <= config_data;\n'
-    mod_str += '\t\tend\n'
-    mod_str += '\tend\n\n\n'
+    sb_mod = VerilogModule(mod_name, ports)
 
+    sb_mod.add_wire('config_data_reg', 32)
+    sb_mod.add_instance('sb_config', 'configuration', {'width' : 32})
+    sb_mod.add_wire_connection('config_data_reg', 'configuration', 'config_data')
+    sb_mod.add_port_connection('clk', 'configuration', 'clk')
+    sb_mod.add_port_connection('reset', 'configuration', 'reset')
+    sb_mod.add_port_connection('config_en', 'configuration', 'config_en')
+
+    return module_string([], sb_mod.mod_name, sb_mod.ports, sb_mod.body_string())
+
+#     for output in output_map:
+#         mod_str += '\t/* verilator lint_off UNOPTFLAT */\n'
+#         mod_str += '\treg ' + output[0] + '_i;\n'
+
+#     mod_str += '\n'
+
+     data_reg_start = 0
     for output in output_map:
-        mod_str += '\t/* verilator lint_off UNOPTFLAT */\n'
-        mod_str += '\treg ' + output[0] + '_i;\n'
-
-    mod_str += '\n'
-
-    data_reg_start = 0
-    for output in output_map:
+        # Add wires to module and create programmable switch module to control this
+        # box
+        sb_mod.add_reg()
         out_wire = output[0]
         data_reg_start = output[2]
 
@@ -145,13 +151,6 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
         mod_str += '\tend\n\n'
 
         mod_str += '\tassign ' + out_wire + ' = ' + out_wire + '_i;\n\n';
-        
-        
-    mod_str += '\n\n'
-
-    mod_str += 'endmodule'
-
-    return mod_str
 
 def build_sb_bitstream_json(mod_name, output_map):
     json_val = {}
