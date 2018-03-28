@@ -240,6 +240,9 @@ module top(
 	wire [1 - 1 : 0] horizontal_tile_2_0_to_tile_2_1_0;
 	wire [1 - 1 : 0] horizontal_tile_2_1_to_tile_2_0_3;
 	// End of internal wires
+
+	// End of internal regs
+
 	io1out_pad out_pad_2(
 		.top_pin(out_wire_2),
 		.clk(clk),

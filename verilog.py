@@ -38,6 +38,7 @@ class VerilogModule():
         self.instances = {}
         self.inst_to_wires = {}
         self.internal_wires = Set([])
+        self.internal_regs = Set([])
         self.wire_widths = {}
 
         self.unique_int = 0
@@ -46,6 +47,10 @@ class VerilogModule():
         self.internal_wires.add(wire_name)
         self.wire_widths[wire_name] = width
 
+    def add_reg(self, reg_name, width=1):
+        self.internal_regs.add(reg_name)
+        self.wire_widths[reg_name] = width
+        
     def fresh_wire(self, width=1):
         i = self.unique_int
         self.add_wire('wire_' + str(i), width)
@@ -53,6 +58,13 @@ class VerilogModule():
 
         return 'wire_' + str(i)
 
+    def fresh_reg(self, width=1):
+        i = self.unique_int
+        self.add_reg('reg_' + str(i), width)
+        self.unique_int += 1
+
+        return 'reg_' + str(i)
+    
     def add_instance(self, mod_name, inst_name, parameters={}):
         self.instances[inst_name] = VerilogModuleInstance(inst_name, mod_name, parameters)
         self.inst_to_wires[inst_name] = []
@@ -102,8 +114,13 @@ class VerilogModule():
         for wire in self.internal_wires:
             width = self.wire_widths[wire]
             body += '\twire [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
-        body += '\t// End of internal wires\n'
+        body += '\t// End of internal wires\n\n'
 
+        for wire in self.internal_regs:
+            width = self.wire_widths[wire]
+            body += '\twire [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
+        body += '\t// End of internal regs\n\n'
+        
         for inst_name in self.instances:
             mod_name = self.instances[inst_name].mod_name
             params = self.instances[inst_name].parameters

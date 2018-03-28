@@ -117,40 +117,43 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
     sb_mod.add_port_connection('reset', 'configuration', 'reset')
     sb_mod.add_port_connection('config_en', 'configuration', 'config_en')
 
-    return module_string([], sb_mod.mod_name, sb_mod.ports, sb_mod.body_string())
+    #     for output in output_map:
+    #         mod_str += '\t/* verilator lint_off UNOPTFLAT */\n'
+    #         mod_str += '\treg ' + output[0] + '_i;\n'
+    
+    #     mod_str += '\n'
 
-#     for output in output_map:
-#         mod_str += '\t/* verilator lint_off UNOPTFLAT */\n'
-#         mod_str += '\treg ' + output[0] + '_i;\n'
-
-#     mod_str += '\n'
-
-     data_reg_start = 0
+    data_reg_start = 0
     for output in output_map:
         # Add wires to module and create programmable switch module to control this
         # box
-        sb_mod.add_reg()
+        sb_mod.add_reg(output[0] + '_i', 1)
         out_wire = output[0]
         data_reg_start = output[2]
 
-        mod_str += '\talways @(*) begin\n'
+        config_slice_wire = sb_mod.fresh_wire(2)
 
-        mod_str += '\t\tcase (config_data_reg[' + str(data_reg_start + 1) + ':' + str(data_reg_start) + '])\n'
 
-        data_reg_start += 2
+        sb_mod.add_instance('slice_mod', config_slice_wire + '_slice', {'start_ind' : data_reg_start, 'end_ind' : data_reg_start + 1, 'width' : 32})
 
-        for ind_wire_pair in output[1]:
-            i = ind_wire_pair[0]
-            in_wire = ind_wire_pair[1]
-                
-            mod_str += '\t\t\t2\'d' + str(i) + ': ' + out_wire + '_i = ' + in_wire + ';\n'
+        #data_reg_start += 2
+        #mod_str += '\talways @(*) begin\n'
 
-        mod_str += '\t\t\tdefault: ' + out_wire + '_i = 1\'b0;\n'
-        mod_str += '\t\tendcase\n'
+        #mod_str += '\t\tcase (config_data_reg[' + str(data_reg_start + 1) + ':' + str(data_reg_start) + '])\n'
 
-        mod_str += '\tend\n\n'
+        # for ind_wire_pair in output[1]:
+        #     i = ind_wire_pair[0]
+        #     in_wire = ind_wire_pair[1]
+        #     mod_str += '\t\t\t2\'d' + str(i) + ': ' + out_wire + '_i = ' + in_wire + ';\n'
 
-        mod_str += '\tassign ' + out_wire + ' = ' + out_wire + '_i;\n\n';
+        # mod_str += '\t\t\tdefault: ' + out_wire + '_i = 1\'b0;\n'
+        # mod_str += '\t\tendcase\n'
+
+        # mod_str += '\tend\n\n'
+
+        # mod_str += '\tassign ' + out_wire + ' = ' + out_wire + '_i;\n\n';
+
+    return module_string([], sb_mod.mod_name, sb_mod.ports, sb_mod.body_string())
 
 def build_sb_bitstream_json(mod_name, output_map):
     json_val = {}
