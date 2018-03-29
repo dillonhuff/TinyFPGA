@@ -41,23 +41,23 @@ module switch_box(
 	);
 
 	// Internal wires
-	wire [2 - 1 : 0] wire_8;
-	wire [2 - 1 : 0] wire_9;
-	wire [2 - 1 : 0] wire_0;
-	wire [2 - 1 : 0] wire_1;
-	wire [2 - 1 : 0] wire_2;
-	wire [2 - 1 : 0] wire_3;
-	wire [2 - 1 : 0] wire_4;
-	wire [2 - 1 : 0] wire_5;
-	wire [2 - 1 : 0] wire_6;
-	wire [2 - 1 : 0] wire_7;
-	wire [32 - 1 : 0] config_data_reg;
-	wire [2 - 1 : 0] wire_12;
-	wire [2 - 1 : 0] wire_13;
-	wire [2 - 1 : 0] wire_10;
-	wire [2 - 1 : 0] wire_11;
-	wire [2 - 1 : 0] wire_14;
-	wire [2 - 1 : 0] wire_15;
+	wire [1 - 1 : 0] wire_8;
+	wire [1 - 1 : 0] wire_9;
+	wire [1 - 1 : 0] wire_0;
+	wire [1 - 1 : 0] wire_1;
+	wire [1 - 1 : 0] wire_2;
+	wire [1 - 1 : 0] wire_3;
+	wire [1 - 1 : 0] wire_4;
+	wire [1 - 1 : 0] wire_5;
+	wire [1 - 1 : 0] wire_6;
+	wire [1 - 1 : 0] wire_7;
+	wire [1 - 1 : 0] config_data_reg;
+	wire [1 - 1 : 0] wire_12;
+	wire [1 - 1 : 0] wire_13;
+	wire [1 - 1 : 0] wire_10;
+	wire [1 - 1 : 0] wire_11;
+	wire [1 - 1 : 0] wire_14;
+	wire [1 - 1 : 0] wire_15;
 	// End of internal wires
 
 	reg [1 - 1 : 0] out_wire_1_2_i;

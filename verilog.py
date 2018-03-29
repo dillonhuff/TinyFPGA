@@ -37,14 +37,38 @@ class VerilogModule():
         self.metadata = {}
         self.instances = {}
         self.inst_to_wires = {}
+
         self.internal_wires = Set([])
         self.internal_regs = Set([])
+
         self.wire_widths = {}
+
+        self.registered_wires = Set([])
+        self.input_wires = Set([])
+        self.output_wires = Set([])
+        self.inout_wires = Set([])
 
         self.unique_int = 0
 
-    def add_wire(self, wire_name, width=1):
+    # TODO: Single add function for wire, reg, port. Needs to accomodate both
+    # port specific fields (inout, input, output) and reg / wire distinction
+    def add_wire(self, wire_name, is_reg=False, is_port=False, port_type='', width=1):
         self.internal_wires.add(wire_name)
+        self.wire_widths[wire_name] = width
+
+        if is_reg:
+            self.registered_wires.add(wire_name)
+
+        if is_port:
+            if (port_type == 'input'):
+                self.input_wires.add(wire_name)
+            elif (port_type == 'output'):
+                self.output_wires.add(wire_name)
+            elif (port_type == 'inout'):
+                self.inout_wires.add(wire_name)
+            else:
+                assert(False)
+
         self.wire_widths[wire_name] = width
 
     def add_reg(self, reg_name, width=1):
