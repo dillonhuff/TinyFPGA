@@ -41,42 +41,40 @@ module switch_box_right(
 	);
 
 	// Internal wires
-	wire [1 - 1 : 0] wire_8;
-	wire [1 - 1 : 0] wire_9;
-	wire [1 - 1 : 0] wire_0;
-	wire [1 - 1 : 0] wire_1;
-	wire [1 - 1 : 0] wire_2;
-	wire [1 - 1 : 0] wire_3;
-	wire [1 - 1 : 0] wire_4;
-	wire [1 - 1 : 0] wire_5;
-	wire [1 - 1 : 0] wire_6;
-	wire [1 - 1 : 0] wire_7;
-	wire [1 - 1 : 0] config_data_reg;
-	wire [1 - 1 : 0] wire_12;
-	wire [1 - 1 : 0] wire_13;
-	wire [1 - 1 : 0] wire_10;
-	wire [1 - 1 : 0] wire_11;
-	wire [1 - 1 : 0] wire_14;
-	wire [1 - 1 : 0] wire_15;
-	// End of internal wires
-
-	reg [1 - 1 : 0] out_wire_1_2_i;
-	reg [1 - 1 : 0] out_wire_3_1_i;
+	wire [2 - 1 : 0] wire_8;
+	wire [2 - 1 : 0] wire_9;
 	reg [1 - 1 : 0] out_wire_2_1_i;
 	reg [1 - 1 : 0] out_wire_1_1_i;
 	reg [1 - 1 : 0] out_wire_0_1_i;
-	reg [1 - 1 : 0] out_wire_1_3_i;
-	reg [1 - 1 : 0] out_wire_0_3_i;
-	reg [1 - 1 : 0] out_wire_3_2_i;
-	reg [1 - 1 : 0] out_wire_2_0_i;
+	wire [2 - 1 : 0] wire_0;
+	wire [2 - 1 : 0] wire_1;
+	wire [2 - 1 : 0] wire_2;
+	wire [2 - 1 : 0] wire_3;
+	wire [2 - 1 : 0] wire_4;
+	wire [2 - 1 : 0] wire_5;
 	reg [1 - 1 : 0] out_wire_0_0_i;
-	reg [1 - 1 : 0] out_wire_0_2_i;
-	reg [1 - 1 : 0] out_wire_3_3_i;
+	wire [2 - 1 : 0] wire_7;
 	reg [1 - 1 : 0] out_wire_2_3_i;
 	reg [1 - 1 : 0] out_wire_2_2_i;
+	reg [1 - 1 : 0] out_wire_1_2_i;
+	reg [1 - 1 : 0] out_wire_1_3_i;
+	reg [1 - 1 : 0] config_data_reg;
 	reg [1 - 1 : 0] out_wire_3_0_i;
 	reg [1 - 1 : 0] out_wire_1_0_i;
-	// End of internal regs
+	reg [1 - 1 : 0] out_wire_3_1_i;
+	reg [1 - 1 : 0] out_wire_2_0_i;
+	reg [1 - 1 : 0] out_wire_3_2_i;
+	reg [1 - 1 : 0] out_wire_3_3_i;
+	wire [2 - 1 : 0] wire_6;
+	wire [2 - 1 : 0] wire_12;
+	wire [2 - 1 : 0] wire_13;
+	wire [2 - 1 : 0] wire_10;
+	wire [2 - 1 : 0] wire_11;
+	wire [2 - 1 : 0] wire_14;
+	wire [2 - 1 : 0] wire_15;
+	reg [1 - 1 : 0] out_wire_0_3_i;
+	reg [1 - 1 : 0] out_wire_0_2_i;
+	// End of wire declarations
 
 	slice_mod #(.width(32), .end_ind(3), .start_ind(2))  wire_1_slice(
 	);

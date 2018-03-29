@@ -68,7 +68,7 @@ module top(
 	wire [1 - 1 : 0] vertical_tile_1_1_to_tile_2_1_0;
 	wire [1 - 1 : 0] pe_tile_0_0_in_wire_3_3_const;
 	wire [1 - 1 : 0] out_pad_0_pin_to_pe_tile_2_0_out_wire_1_0;
-	wire [1 - 1 : 0] pe_tile_0_2_id_wire;
+	reg [1 - 1 : 0] pe_tile_0_2_id_wire;
 	wire [1 - 1 : 0] pe_tile_1_0in_wire_2_0_const;
 	wire [1 - 1 : 0] wire_22;
 	wire [1 - 1 : 0] pe_tile_2_2_in_wire_0_3_const;
@@ -80,7 +80,7 @@ module top(
 	wire [1 - 1 : 0] pe_tile_1_2_in_wire_0_2_const;
 	wire [1 - 1 : 0] pe_tile_1_0in_wire_2_3_const;
 	wire [1 - 1 : 0] wire_24;
-	wire [1 - 1 : 0] pe_tile_0_1_id_wire;
+	reg [1 - 1 : 0] pe_tile_0_1_id_wire;
 	wire [1 - 1 : 0] vertical_tile_1_1_to_tile_0_1_1;
 	wire [1 - 1 : 0] vertical_tile_1_1_to_tile_0_1_0;
 	wire [1 - 1 : 0] vertical_tile_1_1_to_tile_0_1_3;
@@ -93,7 +93,7 @@ module top(
 	wire [1 - 1 : 0] wire_49;
 	wire [1 - 1 : 0] wire_48;
 	wire [1 - 1 : 0] wire_43;
-	wire [1 - 1 : 0] pe_tile_0_0_id_wire;
+	reg [1 - 1 : 0] pe_tile_0_0_id_wire;
 	wire [1 - 1 : 0] horizontal_tile_2_0_to_tile_2_1_1;
 	wire [1 - 1 : 0] horizontal_tile_2_1_to_tile_2_0_0;
 	wire [1 - 1 : 0] horizontal_tile_2_0_to_tile_2_1_3;
@@ -119,7 +119,7 @@ module top(
 	wire [1 - 1 : 0] wire_52;
 	wire [1 - 1 : 0] wire_53;
 	wire [1 - 1 : 0] wire_50;
-	wire [1 - 1 : 0] pe_tile_2_0_id_wire;
+	reg [1 - 1 : 0] pe_tile_2_0_id_wire;
 	wire [1 - 1 : 0] pe_tile_0_0_in_wire_3_1_const;
 	wire [1 - 1 : 0] in_pad_1_pin_to_pe_tile_0_1_in_wire_3_0;
 	wire [1 - 1 : 0] pe_tile_2_0_in_wire_1_2_const;
@@ -155,7 +155,7 @@ module top(
 	wire [1 - 1 : 0] vertical_tile_2_0_to_tile_1_0_1;
 	wire [1 - 1 : 0] vertical_tile_2_0_to_tile_1_0_0;
 	wire [1 - 1 : 0] pe_tile_1_2_in_wire_0_3_const;
-	wire [1 - 1 : 0] pe_tile_1_1_id_wire;
+	reg [1 - 1 : 0] pe_tile_1_1_id_wire;
 	wire [1 - 1 : 0] vertical_tile_2_2_to_tile_1_2_3;
 	wire [1 - 1 : 0] vertical_tile_2_2_to_tile_1_2_2;
 	wire [1 - 1 : 0] vertical_tile_2_2_to_tile_1_2_1;
@@ -166,12 +166,12 @@ module top(
 	wire [1 - 1 : 0] wire_37;
 	wire [1 - 1 : 0] wire_38;
 	wire [1 - 1 : 0] wire_39;
-	wire [1 - 1 : 0] pe_tile_2_2_id_wire;
+	reg [1 - 1 : 0] pe_tile_2_2_id_wire;
 	wire [1 - 1 : 0] vertical_tile_0_2_to_tile_1_2_1;
 	wire [1 - 1 : 0] vertical_tile_0_2_to_tile_1_2_0;
 	wire [1 - 1 : 0] vertical_tile_0_2_to_tile_1_2_3;
 	wire [1 - 1 : 0] vertical_tile_0_2_to_tile_1_2_2;
-	wire [1 - 1 : 0] pe_tile_2_1_id_wire;
+	reg [1 - 1 : 0] pe_tile_2_1_id_wire;
 	wire [1 - 1 : 0] pe_tile_0_0in_wire_2_0_const;
 	wire [1 - 1 : 0] pe_tile_2_1_in_wire_1_0_const;
 	wire [1 - 1 : 0] horizontal_tile_0_1_to_tile_0_2_0;
@@ -214,9 +214,9 @@ module top(
 	wire [1 - 1 : 0] horizontal_tile_1_2_to_tile_1_1_1;
 	wire [1 - 1 : 0] horizontal_tile_1_2_to_tile_1_1_0;
 	wire [1 - 1 : 0] wire_40;
-	wire [1 - 1 : 0] pe_tile_1_0_id_wire;
+	reg [1 - 1 : 0] pe_tile_1_0_id_wire;
 	wire [1 - 1 : 0] wire_32;
-	wire [1 - 1 : 0] pe_tile_1_2_id_wire;
+	reg [1 - 1 : 0] pe_tile_1_2_id_wire;
 	wire [1 - 1 : 0] wire_18;
 	wire [1 - 1 : 0] wire_19;
 	wire [1 - 1 : 0] pe_tile_1_0in_wire_2_1_const;
@@ -239,9 +239,7 @@ module top(
 	wire [1 - 1 : 0] vertical_tile_2_2_to_tile_1_2_0;
 	wire [1 - 1 : 0] horizontal_tile_2_0_to_tile_2_1_0;
 	wire [1 - 1 : 0] horizontal_tile_2_1_to_tile_2_0_3;
-	// End of internal wires
-
-	// End of internal regs
+	// End of wire declarations
 
 	io1out_pad out_pad_2(
 		.top_pin(out_wire_2),
