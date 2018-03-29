@@ -70,7 +70,7 @@ class VerilogModule():
         self.inst_to_wires[inst_name] = []
 
     def add_assign(self, in_wire, driver_value):
-        assert(in_wire in self.internal_wires)
+        assert((in_wire in self.internal_wires))
 
         assign_name = 'assign_' + in_wire + '_' + str(self.num_assigns)
         const_name = assign_name + '_const'
@@ -118,7 +118,7 @@ class VerilogModule():
 
         for wire in self.internal_regs:
             width = self.wire_widths[wire]
-            body += '\twire [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
+            body += '\treg [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
         body += '\t// End of internal regs\n\n'
         
         for inst_name in self.instances:

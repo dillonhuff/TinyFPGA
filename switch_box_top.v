@@ -52,18 +52,18 @@ module switch_box_top(
 	wire [2 - 1 : 0] wire_11;
 	// End of internal wires
 
-	wire [1 - 1 : 0] out_wire_1_2_i;
-	wire [1 - 1 : 0] out_wire_2_1_i;
-	wire [1 - 1 : 0] out_wire_1_1_i;
-	wire [1 - 1 : 0] out_wire_0_1_i;
-	wire [1 - 1 : 0] out_wire_1_3_i;
-	wire [1 - 1 : 0] out_wire_0_3_i;
-	wire [1 - 1 : 0] out_wire_2_0_i;
-	wire [1 - 1 : 0] out_wire_0_0_i;
-	wire [1 - 1 : 0] out_wire_0_2_i;
-	wire [1 - 1 : 0] out_wire_2_3_i;
-	wire [1 - 1 : 0] out_wire_2_2_i;
-	wire [1 - 1 : 0] out_wire_1_0_i;
+	reg [1 - 1 : 0] out_wire_1_2_i;
+	reg [1 - 1 : 0] out_wire_2_1_i;
+	reg [1 - 1 : 0] out_wire_1_1_i;
+	reg [1 - 1 : 0] out_wire_0_1_i;
+	reg [1 - 1 : 0] out_wire_1_3_i;
+	reg [1 - 1 : 0] out_wire_0_3_i;
+	reg [1 - 1 : 0] out_wire_2_0_i;
+	reg [1 - 1 : 0] out_wire_0_0_i;
+	reg [1 - 1 : 0] out_wire_0_2_i;
+	reg [1 - 1 : 0] out_wire_2_3_i;
+	reg [1 - 1 : 0] out_wire_2_2_i;
+	reg [1 - 1 : 0] out_wire_1_0_i;
 	// End of internal regs
 
 	slice_mod #(.width(32), .end_ind(3), .start_ind(2))  wire_1_slice(

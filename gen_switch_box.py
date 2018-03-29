@@ -127,15 +127,18 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
     for output in output_map:
         # Add wires to module and create programmable switch module to control this
         # box
+        output_reg = output[0] + '_i'
         sb_mod.add_reg(output[0] + '_i', 1)
         out_wire = output[0]
         data_reg_start = output[2]
 
         config_slice_wire = sb_mod.fresh_wire(2)
 
-
         sb_mod.add_instance('slice_mod', config_slice_wire + '_slice', {'start_ind' : data_reg_start, 'end_ind' : data_reg_start + 1, 'width' : 32})
 
+        # sb_mod.add_assign(output[0], output_reg)
+
+        
         #data_reg_start += 2
         #mod_str += '\talways @(*) begin\n'
 
