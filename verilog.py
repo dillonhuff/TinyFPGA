@@ -71,6 +71,8 @@ class VerilogModule():
 
         self.wire_widths[wire_name] = width
 
+        return wire_name
+
     def add_reg(self, reg_name, width=1):
         self.add_wire(reg_name, True, False, '', width)
         

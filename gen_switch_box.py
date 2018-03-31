@@ -127,17 +127,30 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
     for output in output_map:
         # Add wires to module and create programmable switch module to control this
         # box
-        output_reg = output[0] + '_i'
-        sb_mod.add_reg(output[0] + '_i', 1)
+        #output_reg = output[0] + '_i'
+        #sb_mod.add_reg(output[0] + '_i', 1)
         out_wire = output[0]
         data_reg_start = output[2]
 
-        config_slice_wire = sb_mod.fresh_wire(2)
+        #config_slice_wire = sb_mod.fresh_wire(2)
 
-        sb_mod.add_instance('slice_mod', config_slice_wire + '_slice', {'start_ind' : data_reg_start, 'end_ind' : data_reg_start + 1, 'width' : 32})
+        config_slice_wire = 'slice_' + out_wire
+        slice_name = config_slice_wire + '_slice'
+        sb_mod.add_instance('slice_mod', slice_name, {'start_ind' : data_reg_start, 'end_ind' : data_reg_start + 1, 'width' : 32})
+        sb_mod.add_port_connection('config_data_reg', slice_name, 'in')
 
-        # sb_mod.add_assign(output[0], output_reg)
+        slice_out = sb_mod.add_wire(config_slice_wire + '_sel_out', 2)
+        sb_mod.add_port_connection(slice_out, slice_name, 'out')
 
+        switch_name = config_slice_wire + '_mux_4'
+        sb_mod.add_instance('mux_4', switch_name, {'width' : 1})
+        sb_mod.add_port_connection(out_wire, switch_name, 'out')
+        sb_mod.add_port_connection(slice_out, switch_name, 'sel')
+        for ind_wire_pair in output[1]:
+            i = ind_wire_pair[0]
+            in_wire = ind_wire_pair[1]
+            sb_mod.add_port_connection(in_wire, switch_name, 'in' + str(i))
+            #mod_str += '\t\t\t2\'d' + str(i) + ': ' + out_wire + '_i = ' + in_wire +            
         
         #data_reg_start += 2
         #mod_str += '\talways @(*) begin\n'

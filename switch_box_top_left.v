@@ -33,29 +33,122 @@ module switch_box_top_left(
 	);
 
 	// Internal wires
-	reg [1 - 1 : 0] out_wire_1_2_i;
-	reg [1 - 1 : 0] out_wire_1_3_i;
-	reg [1 - 1 : 0] out_wire_1_1_i;
-	reg [1 - 1 : 0] out_wire_0_1_i;
-	wire [2 - 1 : 0] wire_0;
-	wire [2 - 1 : 0] wire_1;
-	wire [2 - 1 : 0] wire_2;
-	wire [2 - 1 : 0] wire_3;
-	wire [2 - 1 : 0] wire_4;
-	wire [2 - 1 : 0] wire_5;
-	reg [1 - 1 : 0] out_wire_0_0_i;
-	wire [2 - 1 : 0] wire_7;
-	reg [1 - 1 : 0] out_wire_0_2_i;
-	wire [2 - 1 : 0] wire_6;
+	reg [1 - 1 : 0] slice_out_wire_0_3_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_0_2_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_0_1_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_0_0_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_1_1_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_1_2_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_1_3_sel_out;
+	reg [1 - 1 : 0] slice_out_wire_1_0_sel_out;
 	reg [1 - 1 : 0] config_data_reg;
-	reg [1 - 1 : 0] out_wire_0_3_i;
-	reg [1 - 1 : 0] out_wire_1_0_i;
 	// End of wire declarations
 
-	slice_mod #(.width(32), .end_ind(3), .start_ind(2))  wire_1_slice(
+	mux_4 #(.width(1))  slice_out_wire_0_0_mux_4(
+		.out(out_wire_0_0),
+		.sel(slice_out_wire_0_0_sel_out),
+		.in0(in_wire_1_0),
+		.in1(in_wire_2_1),
+		.in2(in_wire_3_2),
+		.in3(pe_output_0)
 	);
 
-	slice_mod #(.width(32), .end_ind(7), .start_ind(6))  wire_3_slice(
+	mux_4 #(.width(1))  slice_out_wire_0_2_mux_4(
+		.out(out_wire_0_2),
+		.sel(slice_out_wire_0_2_sel_out),
+		.in0(in_wire_1_2),
+		.in1(in_wire_2_3),
+		.in2(in_wire_3_0),
+		.in3(pe_output_0)
+	);
+
+	mux_4 #(.width(1))  slice_out_wire_0_1_mux_4(
+		.out(out_wire_0_1),
+		.sel(slice_out_wire_0_1_sel_out),
+		.in0(in_wire_1_1),
+		.in1(in_wire_2_2),
+		.in2(in_wire_3_3),
+		.in3(pe_output_0)
+	);
+
+	slice_mod #(.width(32), .end_ind(9), .start_ind(8))  slice_out_wire_1_0_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_1_0_sel_out)
+	);
+
+	mux_4 #(.width(1))  slice_out_wire_0_3_mux_4(
+		.out(out_wire_0_3),
+		.sel(slice_out_wire_0_3_sel_out),
+		.in0(in_wire_1_3),
+		.in1(in_wire_2_0),
+		.in2(in_wire_3_1),
+		.in3(pe_output_0)
+	);
+
+	slice_mod #(.width(32), .end_ind(15), .start_ind(14))  slice_out_wire_1_3_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_1_3_sel_out)
+	);
+
+	slice_mod #(.width(32), .end_ind(7), .start_ind(6))  slice_out_wire_0_3_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_0_3_sel_out)
+	);
+
+	mux_4 #(.width(1))  slice_out_wire_1_0_mux_4(
+		.out(out_wire_1_0),
+		.sel(slice_out_wire_1_0_sel_out),
+		.in0(in_wire_2_1),
+		.in1(in_wire_3_2),
+		.in2(in_wire_0_3),
+		.in3(pe_output_0)
+	);
+
+	slice_mod #(.width(32), .end_ind(3), .start_ind(2))  slice_out_wire_0_1_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_0_1_sel_out)
+	);
+
+	mux_4 #(.width(1))  slice_out_wire_1_2_mux_4(
+		.out(out_wire_1_2),
+		.sel(slice_out_wire_1_2_sel_out),
+		.in0(in_wire_2_3),
+		.in1(in_wire_3_0),
+		.in2(in_wire_0_1),
+		.in3(pe_output_0)
+	);
+
+	mux_4 #(.width(1))  slice_out_wire_1_1_mux_4(
+		.out(out_wire_1_1),
+		.sel(slice_out_wire_1_1_sel_out),
+		.in0(in_wire_2_2),
+		.in1(in_wire_3_3),
+		.in2(in_wire_0_0),
+		.in3(pe_output_0)
+	);
+
+	slice_mod #(.width(32), .end_ind(5), .start_ind(4))  slice_out_wire_0_2_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_0_2_sel_out)
+	);
+
+	slice_mod #(.width(32), .end_ind(11), .start_ind(10))  slice_out_wire_1_1_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_1_1_sel_out)
+	);
+
+	slice_mod #(.width(32), .end_ind(1), .start_ind(0))  slice_out_wire_0_0_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_0_0_sel_out)
+	);
+
+	mux_4 #(.width(1))  slice_out_wire_1_3_mux_4(
+		.out(out_wire_1_3),
+		.sel(slice_out_wire_1_3_sel_out),
+		.in0(in_wire_2_0),
+		.in1(in_wire_3_1),
+		.in2(in_wire_0_2),
+		.in3(pe_output_0)
 	);
 
 	sb_config #(.width(32))  configuration(
@@ -65,22 +158,9 @@ module switch_box_top_left(
 		.config_en(config_en)
 	);
 
-	slice_mod #(.width(32), .end_ind(13), .start_ind(12))  wire_6_slice(
-	);
-
-	slice_mod #(.width(32), .end_ind(15), .start_ind(14))  wire_7_slice(
-	);
-
-	slice_mod #(.width(32), .end_ind(9), .start_ind(8))  wire_4_slice(
-	);
-
-	slice_mod #(.width(32), .end_ind(1), .start_ind(0))  wire_0_slice(
-	);
-
-	slice_mod #(.width(32), .end_ind(5), .start_ind(4))  wire_2_slice(
-	);
-
-	slice_mod #(.width(32), .end_ind(11), .start_ind(10))  wire_5_slice(
+	slice_mod #(.width(32), .end_ind(13), .start_ind(12))  slice_out_wire_1_2_slice(
+		.in(config_data_reg),
+		.out(slice_out_wire_1_2_sel_out)
 	);
 
 
