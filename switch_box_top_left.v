@@ -33,15 +33,15 @@ module switch_box_top_left(
 	);
 
 	// Internal wires
-	reg [1 - 1 : 0] slice_out_wire_0_3_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_0_2_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_0_1_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_0_0_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_1_1_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_1_2_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_1_3_sel_out;
-	reg [1 - 1 : 0] slice_out_wire_1_0_sel_out;
-	reg [1 - 1 : 0] config_data_reg;
+	wire [2 - 1 : 0] slice_out_wire_0_3_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_0_2_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_0_1_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_0_0_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_1_1_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_1_2_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_1_3_sel_out;
+	wire [2 - 1 : 0] slice_out_wire_1_0_sel_out;
+	reg [32 - 1 : 0] config_data_reg;
 	// End of wire declarations
 
 	mux_4 #(.width(1))  slice_out_wire_0_0_mux_4(

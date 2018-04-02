@@ -110,7 +110,7 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
 
     sb_mod = VerilogModule(mod_name, ports)
 
-    sb_mod.add_wire('config_data_reg', 32)
+    sb_mod.add_wire('config_data_reg', True, False, '', 32)
     sb_mod.add_instance('sb_config', 'configuration', {'width' : 32})
     sb_mod.add_wire_connection('config_data_reg', 'configuration', 'config_data')
     sb_mod.add_port_connection('clk', 'configuration', 'clk')
@@ -139,7 +139,7 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
         sb_mod.add_instance('slice_mod', slice_name, {'start_ind' : data_reg_start, 'end_ind' : data_reg_start + 1, 'width' : 32})
         sb_mod.add_port_connection('config_data_reg', slice_name, 'in')
 
-        slice_out = sb_mod.add_wire(config_slice_wire + '_sel_out', 2)
+        slice_out = sb_mod.add_wire(config_slice_wire + '_sel_out', False, False, '', 2)
         sb_mod.add_port_connection(slice_out, slice_name, 'out')
 
         switch_name = config_slice_wire + '_mux_4'
