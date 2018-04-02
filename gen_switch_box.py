@@ -110,9 +110,10 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
 
     sb_mod = VerilogModule(mod_name, ports)
 
-    sb_mod.add_wire('config_data_reg', True, False, '', 32)
+    sb_mod.add_wire('config_data_reg', False, False, '', 32)
     sb_mod.add_instance('sb_config', 'configuration', {'width' : 32})
-    sb_mod.add_wire_connection('config_data_reg', 'configuration', 'config_data')
+    sb_mod.add_wire_connection('config_data', 'configuration', 'config_data_in')
+    sb_mod.add_wire_connection('config_data_reg', 'configuration', 'config_data_out')
     sb_mod.add_port_connection('clk', 'configuration', 'clk')
     sb_mod.add_port_connection('reset', 'configuration', 'reset')
     sb_mod.add_port_connection('config_en', 'configuration', 'config_en')

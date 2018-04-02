@@ -39,7 +39,6 @@ class VerilogModule():
         self.inst_to_wires = {}
 
         self.internal_wires = Set([])
-#        self.internal_regs = Set([])
 
         self.wire_widths = {}
 

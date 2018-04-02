@@ -1,7 +1,8 @@
 module sb_config #(parameter width=1) (input reset,
                                        input                  clk,
-                                       input config_en,
-                                       output [width - 1 : 0] config_data);
+                                       input                  config_en,
+                                       input [width - 1 : 0]  config_data_in,
+                                       output [width - 1 : 0] config_data_out);
 
     reg [width - 1:0] config_data_reg;
 
@@ -13,6 +14,6 @@ module sb_config #(parameter width=1) (input reset,
        end
     end
 
-   assign config_data = config_data_reg;
+   assign config_data_out = config_data_reg;
    
 endmodule
