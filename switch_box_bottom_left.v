@@ -38,6 +38,7 @@ module switch_box_bottom_left(
 
 	// Internal wires
 	wire [2 - 1 : 0] slice_out_wire_3_0_sel_out;
+	wire [32 - 1 : 0] config_data;
 	wire [2 - 1 : 0] slice_out_wire_3_3_sel_out;
 	wire [2 - 1 : 0] slice_out_wire_3_1_sel_out;
 	wire [2 - 1 : 0] slice_out_wire_3_2_sel_out;
@@ -49,7 +50,7 @@ module switch_box_bottom_left(
 	wire [2 - 1 : 0] slice_out_wire_1_2_sel_out;
 	wire [2 - 1 : 0] slice_out_wire_1_3_sel_out;
 	wire [2 - 1 : 0] slice_out_wire_1_0_sel_out;
-	reg [32 - 1 : 0] config_data_reg;
+	wire [32 - 1 : 0] config_data_reg;
 	// End of wire declarations
 
 	mux_4 #(.width(1))  slice_out_wire_0_1_mux_4(
@@ -86,7 +87,8 @@ module switch_box_bottom_left(
 	);
 
 	sb_config #(.width(32))  configuration(
-		.config_data(config_data_reg),
+		.config_data_in(config_data),
+		.config_data_out(config_data_reg),
 		.clk(clk),
 		.reset(reset),
 		.config_en(config_en)

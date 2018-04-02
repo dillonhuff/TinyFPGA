@@ -108,7 +108,8 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
     ports.append('input clk')
     ports.append('input reset')
 
-    sb_mod = VerilogModule(mod_name, ports)
+    sb_mod = VerilogModule(mod_name) #, ports)
+    sb_mod.add_wire('config_data', False, True, 'input', 32)
 
     sb_mod.add_wire('config_data_reg', False, False, '', 32)
     sb_mod.add_instance('sb_config', 'configuration', {'width' : 32})
@@ -170,7 +171,7 @@ def generate_sb_verilog(mod_name, output_map, input_wires):
 
         # mod_str += '\tassign ' + out_wire + ' = ' + out_wire + '_i;\n\n';
 
-    return module_string([], sb_mod.mod_name, sb_mod.ports, sb_mod.body_string())
+    return module_string([], sb_mod.mod_name, ports, sb_mod.body_string())
 
 def build_sb_bitstream_json(mod_name, output_map):
     json_val = {}

@@ -28,9 +28,9 @@ class VerilogModuleInstance():
 # This would make the verilog completely structural.
 class VerilogModule():
 
-    def __init__(self, mod_name, ports):
+    def __init__(self, mod_name):
         self.mod_name = mod_name
-        self.ports = ports
+        #self.ports = ports
 
         self.num_assigns = 0
 

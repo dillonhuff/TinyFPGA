@@ -19,7 +19,7 @@ def build_top_mod(num_in_ios,
     for pad_no in range(0, num_out_ios):
         ports.append('output out_wire_' + str(pad_no))
 
-    top_mod = VerilogModule('top', ports)
+    top_mod = VerilogModule('top')
 
     for pad_no in range(0, num_in_ios):
         pad_name = 'in_pad_' + str(pad_no)
@@ -276,5 +276,5 @@ def build_top_mod_topology_json(top_mod):
 
 def build_verilog_string(top_mod):
     includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
-    return module_string(includes, top_mod.mod_name, top_mod.ports, top_mod.body_string())
+    return module_string(includes, top_mod.mod_name, ports, top_mod.body_string())
 
