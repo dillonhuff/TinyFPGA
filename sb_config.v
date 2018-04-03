@@ -10,7 +10,7 @@ module sb_config #(parameter width=1) (input reset,
        if (reset) begin
           config_data_reg <= 32'b0;
        end else if (config_en) begin
-          config_data_reg <= config_data;
+          config_data_reg <= config_data_in;
        end
     end
 

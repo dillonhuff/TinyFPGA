@@ -13,13 +13,20 @@ def build_top_mod(num_in_ios,
 
     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data']
 
+    top_mod = VerilogModule('top')
+    
     for pad_no in range(0, num_in_ios):
-        ports.append('input in_wire_' + str(pad_no))
+        top_mod.add_wire('in_wire_' + str(pad_no), False, True, 'input', 1)
+        #ports.append('input in_wire_' + str(pad_no))
 
     for pad_no in range(0, num_out_ios):
-        ports.append('output out_wire_' + str(pad_no))
+        top_mod.add_wire('out_wire_' + str(pad_no), False, True, 'output', 1)
+        #ports.append('output out_wire_' + str(pad_no))
 
-    top_mod = VerilogModule('top')
+    top_mod.add_wire('clk', False, True, 'input', 1);
+    top_mod.add_wire('reset', False, True, 'input', 1);
+    top_mod.add_wire('config_addr', False, True, 'input', 32);
+    top_mod.add_wire('config_data', False, True, 'input', 32);
 
     for pad_no in range(0, num_in_ios):
         pad_name = 'in_pad_' + str(pad_no)
@@ -276,5 +283,5 @@ def build_top_mod_topology_json(top_mod):
 
 def build_verilog_string(top_mod):
     includes = ['pe_tile', 'io1in_pad', 'io1out_pad']
-    return module_string(includes, top_mod.mod_name, ports, top_mod.body_string())
+    return module_string(includes, top_mod.mod_name, top_mod.get_port_strings(), top_mod.body_string())
 

@@ -130,6 +130,18 @@ class VerilogModule():
     def add_wire_connection(self, wire_name, inst_name_0, inst_port_name):
         assert(wire_name in self.internal_wires)
         self.inst_to_wires[inst_name_0].append((inst_port_name, wire_name))
+
+    def get_port_strings(self):
+        port_strings = []
+        for port in self.input_wires:
+            width = self.wire_widths[port]
+            port_strings.append('input [' + str(width - 1) + ' : 0] ' + port);
+
+        for port in self.output_wires:
+            width = self.wire_widths[port]
+            port_strings.append('output [' + str(width - 1) + ' : 0] ' + port);
+
+        return port_strings
         
     def body_string(self):
         body = ''
