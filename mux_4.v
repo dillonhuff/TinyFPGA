@@ -6,7 +6,9 @@ module mux_4 #(parameter width=1)(input [1:0] sel,
                                   output [width - 1 : 0] out);
 
 
+   /* verilator lint_off UNOPTFLAT */   
    reg [width - 1 : 0]                                   out_i;
+
    always @(*) begin
       case (sel)
 
