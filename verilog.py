@@ -175,7 +175,6 @@ class VerilogModule():
 
             body += ' ' + inst_name + '(\n'
 
-            print 'inst = ', inst_name
             i = 0
             for port_wire_pair in self.inst_to_wires[inst_name]:
                 body += '\t\t'
