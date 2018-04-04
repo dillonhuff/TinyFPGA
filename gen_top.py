@@ -257,7 +257,7 @@ def build_top_mod(num_in_ios,
             top_mod.add_port_connection('config_data', tile_name, 'config_data')
 
             tile_id_wire = tile_name + '_id_wire'
-            top_mod.add_wire(tile_id_wire, 16)
+            top_mod.add_wire(tile_id_wire, False, False, '', 16)
             top_mod.add_assign(tile_id_wire, str(tile_id))
             top_mod.add_port_connection(tile_id_wire, tile_name, 'tile_id')
 
