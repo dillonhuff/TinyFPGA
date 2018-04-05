@@ -256,8 +256,11 @@ def generate_pe_tile(mod_name,
                      sides_to_use,
                      n_sides,
                      n_wires_per_side):
-    pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
-    verilog_str = generate_pe_tile_verilog(pe_tile)
+    #pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
+    # Creating real pe tile
+    pe_tile = VerilogModule(mod_name)
+    
+    verilog_str = pe_tile.body_string() #generate_pe_tile_verilog(pe_tile)
     pe_tile_file = open(mod_name + '.v', 'w')
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()
