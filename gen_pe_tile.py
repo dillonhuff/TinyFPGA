@@ -159,24 +159,85 @@ class PETile:
 def generate_pe_tile_json(pe_tile):
     json_val = {}
 
-    json_val['mod_name'] = pe_tile.mod_name
+    # json_val['mod_name'] = pe_tile.mod_name
 
-    # json_val['tile_name'] = pe_tile.inst_name
+    # # json_val['tile_name'] = pe_tile.inst_name
 
-    # TODO: Need to serialize module names at least
-    # json_val['modules'] = pe_tile.modules
+    # # TODO: Need to serialize module names at least
+    # # json_val['modules'] = pe_tile.modules
     
-    json_val['switch_box_mod'] = pe_tile.switch_box_mod
+    # json_val['switch_box_mod'] = pe_tile.switch_box_mod
 
-    json_val['input_wires'] = list(pe_tile.input_wires)
-    json_val['output_wires'] = list(pe_tile.output_wires)
+    # json_val['input_wires'] = list(pe_tile.input_wires)
+    # json_val['output_wires'] = list(pe_tile.output_wires)
 
-    json_val['local_output_wires'] = list(pe_tile.local_output_wires)
+    # json_val['local_output_wires'] = list(pe_tile.local_output_wires)
 
     return json_val
 
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
 # outputs?
+
+def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side):
+    mod = VerilogModule(mod_name)
+
+    mod.add_wire('clk', False, True, 'input', 1)
+    mod.add_wire('reset', False, True, 'input', 1)
+    mod.add_wire('config_addr', False, True, 'input', 32)
+    mod.add_wire('config_data', False, True, 'input', 32)
+    mod.add_wire('tile_id', False, True, 'input', 16)
+    
+    #ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
+
+    # for in_wire in pe_tile.input_wires:
+    #     ports.append(in_wire)
+
+    # for out_wire in pe_tile.output_wires:
+    #     ports.append(out_wire)
+
+    # body = '\n'
+
+    # body += '\twire op_0;\n'
+    # body += '\twire op_1;\n'
+    # body += '\t/* verilator lint_off UNOPTFLAT */\n'
+    # body += '\twire pe_output;\n\n'
+
+    # body += '\t// Local wires for switch box outputs <-> connect box\n'
+    # for wire in pe_tile.local_output_wires:
+    #     body += '\t' + wire + ';\n'
+
+    # for mod_name in pe_tile.modules:
+    #     mod = pe_tile.modules[mod_name]
+    #     body += '\t// Set configuration flag\n'
+
+    #     config_reg = 'config_en_' + mod.inst_name
+    #     config_flag_value = 'CONFIG_' + mod.inst_name
+    #     body += '\treg ' + config_reg + ';\n'
+    #     body += '\tlocalparam ' + config_flag_value + ' = ' + str(mod.config_id) + ';\n'
+    #     body += '\talways @(*) begin\n'
+    #     body += '\t\tif ((config_addr[' + str(pe_tile.tile_id_end) + ':' + str(pe_tile.tile_id_begin) + '] == tile_id) && (config_addr[' + str(pe_tile.mod_id_end) + ':' + str(pe_tile.mod_id_begin) + '] == ' + config_flag_value + ')) begin\n'
+    #     body += '\t\t\t' + config_reg + ' = 1\'b1;\n'
+    #     body += '\t\tend else begin\n'
+    #     body += '\t\t\t' + config_reg + ' = 1\'b0;\n'
+    #     body += '\t\tend\n'
+    #     body += '\tend\n\n'
+
+    #     body += '\n\n'
+
+    #     body += '\t// Declare module\n'
+    #     body += '\t' + mod.module_name + ' ' + mod.inst_name + '(\n'
+
+    #     i = 0
+    #     for port in mod.connections:
+    #         body += '\t\t.' + port + '(' + mod.connections[port] + ')'
+    #         if (i < (len(mod.connections) - 1)):
+    #             body += ','
+    #         body += '\n'
+    #         i += 1
+        
+    #     body += '\t);\n\n'
+
+    return mod
 
 # Need to add custom modules for configuration state and for assignment
 def generate_pe_tile_verilog(pe_tile):
@@ -238,17 +299,17 @@ def generate_pe_tile_verilog(pe_tile):
 
 def generate_pe_bs_json(pe_tile):
     json_val = {}
-    mod_map = {'cb0' : 'connect_box', 'cb1' : 'connect_box', 'compute_block' : 'clb', 'sb' : pe_tile.switch_box_mod}
+    # mod_map = {'cb0' : 'connect_box', 'cb1' : 'connect_box', 'compute_block' : 'clb', 'sb' : pe_tile.switch_box_mod}
 
-    mods_to_addrs = {}
-    mods_to_addrs['sb'] = pe_tile.modules['sb'].config_id
-    mods_to_addrs['cb0'] = pe_tile.modules['cb0'].config_id
-    mods_to_addrs['cb1'] = pe_tile.modules['cb1'].config_id
-    mods_to_addrs['compute_block'] = pe_tile.modules['compute_block'].config_id
+    # mods_to_addrs = {}
+    # mods_to_addrs['sb'] = pe_tile.modules['sb'].config_id
+    # mods_to_addrs['cb0'] = pe_tile.modules['cb0'].config_id
+    # mods_to_addrs['cb1'] = pe_tile.modules['cb1'].config_id
+    # mods_to_addrs['compute_block'] = pe_tile.modules['compute_block'].config_id
 
-    json_val['mods_to_addrs'] = mods_to_addrs
+    # json_val['mods_to_addrs'] = mods_to_addrs
 
-    json_val['mod_map'] = mod_map
+    # json_val['mod_map'] = mod_map
     return json_val
 
 def generate_pe_tile(mod_name,
@@ -258,9 +319,9 @@ def generate_pe_tile(mod_name,
                      n_wires_per_side):
     #pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
     # Creating real pe tile
-    pe_tile = VerilogModule(mod_name)
+    pe_tile = generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
     
-    verilog_str = pe_tile.body_string() #generate_pe_tile_verilog(pe_tile)
+    verilog_str = pe_tile.module_string() #generate_pe_tile_verilog(pe_tile)
     pe_tile_file = open(mod_name + '.v', 'w')
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()

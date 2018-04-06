@@ -131,6 +131,21 @@ class VerilogModule():
         assert(wire_name in self.internal_wires)
         self.inst_to_wires[inst_name_0].append((inst_port_name, wire_name))
 
+    def module_string(self):
+        body_str = 'module ' + self.mod_name + '('
+
+        i = 0
+        for port in self.get_port_strings():
+            body_str += port
+            if (i != (len(self.get_port_strings()) - 1)):
+                body_str += ', '
+            i += 1
+
+        body_str += ');\n'
+
+        body_str += 'endmodule'
+        return body_str
+
     def get_port_strings(self):
         port_strings = []
         for port in self.input_wires:
