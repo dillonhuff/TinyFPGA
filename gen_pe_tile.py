@@ -186,8 +186,6 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire('config_addr', False, True, 'input', 32)
     mod.add_wire('config_data', False, True, 'input', 32)
     mod.add_wire('tile_id', False, True, 'input', 16)
-    
-    #ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
 
     # for in_wire in pe_tile.input_wires:
     #     ports.append(in_wire)
