@@ -196,12 +196,9 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
             for wire in range(0, n_wires_per_side):
                 mod.add_wire('out_wire_' + str(side) + '_' + str(wire), False, True, 'output', 1)
 
-    # body = '\n'
-
-    # body += '\twire op_0;\n'
-    # body += '\twire op_1;\n'
-    # body += '\t/* verilator lint_off UNOPTFLAT */\n'
-    # body += '\twire pe_output;\n\n'
+    mod.add_wire('op_0', False, False, '', 1)
+    mod.add_wire('op_1', False, False, '', 1)
+    mod.add_wire('pe_output', False, False, '', 1)
 
     # body += '\t// Local wires for switch box outputs <-> connect box\n'
     # for wire in pe_tile.local_output_wires:
