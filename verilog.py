@@ -143,6 +143,8 @@ class VerilogModule():
 
         body_str += ');\n'
 
+        body_str += self.body_string()
+
         body_str += 'endmodule'
         return body_str
 
@@ -163,12 +165,13 @@ class VerilogModule():
 
         body += '\t// Internal wires\n'
         for wire in self.internal_wires:
-            width = self.wire_widths[wire]
-            prefix = 'wire'
-            if wire in self.registered_wires:
-                prefix = 'reg'
+            if (not (wire in self.inout_wires)) and (not (wire in self.input_wires)) and (not (wire in self.output_wires)):
+                width = self.wire_widths[wire]
+                prefix = 'wire'
+                if wire in self.registered_wires:
+                    prefix = 'reg'
 
-            body += '\t' + prefix + ' [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
+                body += '\t' + prefix + ' [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
         body += '\t// End of wire declarations\n\n'
         
         for inst_name in self.instances:

@@ -38,7 +38,6 @@ module switch_box_bottom_left(
 
 	// Internal wires
 	wire [2 - 1 : 0] slice_out_wire_3_0_sel_out;
-	wire [32 - 1 : 0] config_data;
 	wire [2 - 1 : 0] slice_out_wire_3_3_sel_out;
 	wire [2 - 1 : 0] slice_out_wire_3_1_sel_out;
 	wire [2 - 1 : 0] slice_out_wire_3_2_sel_out;
