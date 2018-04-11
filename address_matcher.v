@@ -1,4 +1,5 @@
-module address_matcher(output config_reg);
+module address_matcher #(parameter config_id=1, parameter tile_id=1, parameter config_flag_value=1)
+   (output config_reg);
 
          // config_reg = 'config_en_' + mod.inst_name
          // config_flag_value = 'CONFIG_' + mod.inst_name

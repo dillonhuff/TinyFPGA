@@ -5,4 +5,7 @@ module pe_tile_bottom_right(input [0 : 0] reset, input [31 : 0] config_data, inp
 	wire [1 - 1 : 0] pe_output;
 	// End of wire declarations
 
+	address_matcher #(.tile_id(1), .config_id(1))  cb0_address_matcher(
+	);
+
 endmodule

@@ -200,6 +200,9 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire('op_1', False, False, '', 1)
     mod.add_wire('pe_output', False, False, '', 1)
 
+    # TODO: Add real tile ids
+    mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+
     # body += '\t// Local wires for switch box outputs <-> connect box\n'
     # for wire in pe_tile.local_output_wires:
     #     body += '\t' + wire + ';\n'
