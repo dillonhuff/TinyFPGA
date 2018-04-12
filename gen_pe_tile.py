@@ -201,33 +201,38 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire('pe_output', False, False, '', 1)
 
     # TODO: Add real tile ids
+    mod.add_wire('config_en_cb0', False, False, '', 1)
     mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_wire_connection('config_en_cb0', 'cb0_address_matcher', 'config_reg')
 
-    # body += '\t// Local wires for switch box outputs <-> connect box\n'
-    # for wire in pe_tile.local_output_wires:
-    #     body += '\t' + wire + ';\n'
 
-    # for mod_name in pe_tile.modules:
-    #     mod = pe_tile.modules[mod_name]
-    #     body += '\t// Set configuration flag\n'
+    mod.add_wire('config_en_cb1', False, False, '', 1)
+    mod.add_instance('address_matcher', 'cb1_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_wire_connection('config_en_cb1', 'cb1_address_matcher', 'config_reg')
 
-    #     config_reg = 'config_en_' + mod.inst_name
-    #     config_flag_value = 'CONFIG_' + mod.inst_name
-    #     body += '\treg ' + config_reg + ';\n'
-    #     body += '\tlocalparam ' + config_flag_value + ' = ' + str(mod.config_id) + ';\n'
-    #     body += '\talways @(*) begin\n'
-    #     body += '\t\tif ((config_addr[' + str(pe_tile.tile_id_end) + ':' + str(pe_tile.tile_id_begin) + '] == tile_id) && (config_addr[' + str(pe_tile.mod_id_end) + ':' + str(pe_tile.mod_id_begin) + '] == ' + config_flag_value + ')) begin\n'
-    #     body += '\t\t\t' + config_reg + ' = 1\'b1;\n'
-    #     body += '\t\tend else begin\n'
-    #     body += '\t\t\t' + config_reg + ' = 1\'b0;\n'
-    #     body += '\t\tend\n'
-    #     body += '\tend\n\n'
 
-    #     body += '\n\n'
+    mod.add_wire('config_en_sb', False, False, '', 1)
+    mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_wire_connection('config_en_sb', 'sb_address_matcher', 'config_reg')
 
-    #     body += '\t// Declare module\n'
-    #     body += '\t' + mod.module_name + ' ' + mod.inst_name + '(\n'
+    mod.add_wire('config_en_pe', False, False, '', 1)
+    mod.add_instance('address_matcher', 'pe_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_wire_connection('config_en_pe', 'pe_address_matcher', 'config_reg')
 
+    mod.add_instance('connect_box', 'cb0')
+    # for wire in range(0, n_wires_per_side):
+    #     mod.add_wire()
+    #     mod.add_wire_connection['cb0'].connect('track' + str(wire) + '_in', 'in_wire_0_' + str(wire))
+
+    # for wire in range(n_wires_per_side, 2*n_wires_per_side):
+    #     wire_no = wire - n_wires_per_side
+    #     self.modules['cb0'].connect('track' + str(wire) + '_in', 'out_wire_0_' + str(wire_no))
+
+    # self.modules['cb0'].connect('block_out', 'op_0')
+    # self.modules['cb0'].connect('config_en', 'config_en_cb0')
+    # self.modules['cb0'].connect('config_data', 'config_data[2:0]')
+    # self.modules['cb0'].connect('clk', 'clk')
+    
     #     i = 0
     #     for port in mod.connections:
     #         body += '\t\t.' + port + '(' + mod.connections[port] + ')'
