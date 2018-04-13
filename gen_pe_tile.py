@@ -220,14 +220,42 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire_connection('config_en_pe', 'pe_address_matcher', 'config_reg')
 
     mod.add_instance('connect_box', 'cb0')
-    # for wire in range(0, n_wires_per_side):
-    #     mod.add_wire()
-    #     mod.add_wire_connection['cb0'].connect('track' + str(wire) + '_in', 'in_wire_0_' + str(wire))
+    mod.add_wire_connection('config_en_cb0', 'cb0', 'config_en')
 
-    # for wire in range(n_wires_per_side, 2*n_wires_per_side):
-    #     wire_no = wire - n_wires_per_side
-    #     self.modules['cb0'].connect('track' + str(wire) + '_in', 'out_wire_0_' + str(wire_no))
+    mod.add_instance('connect_box', 'cb1')
+    mod.add_wire_connection('config_en_cb1', 'cb1', 'config_en')
 
+    mod.add_instance(switch_box_mod, 'sb')
+    mod.add_wire_connection('config_en_sb', 'sb', 'config_en')
+
+    for wire in range(0, n_wires_per_side):
+        wire_name = 'track' + str(wire) + '_in'
+        in_wire = 'in_wire_0_' + str(wire)
+        mod.add_wire(in_wire, False, False, '', 1)
+        mod.add_wire_connection(in_wire, 'cb0', wire_name)
+
+    for wire in range(n_wires_per_side, 2*n_wires_per_side):
+        wire_no = wire - n_wires_per_side
+        wire_name = 'track' + str(wire) + '_in'
+        in_wire = 'out_wire_0_' + str(wire_no)
+        mod.add_wire(in_wire, False, False, '', 1)
+
+        mod.add_wire_connection(in_wire, 'cb0', wire_name)
+
+    for wire in range(0, n_wires_per_side):
+        wire_name = 'track' + str(wire) + '_in'
+        in_wire = 'in_wire_0_' + str(wire)
+        mod.add_wire(in_wire, False, False, '', 1)
+        mod.add_wire_connection(in_wire, 'cb1', wire_name)
+
+    for wire in range(n_wires_per_side, 2*n_wires_per_side):
+        wire_no = wire - n_wires_per_side
+        wire_name = 'track' + str(wire) + '_in'
+        in_wire = 'out_wire_0_' + str(wire_no)
+        mod.add_wire(in_wire, False, False, '', 1)
+
+        mod.add_wire_connection(in_wire, 'cb1', wire_name)
+        
     # self.modules['cb0'].connect('block_out', 'op_0')
     # self.modules['cb0'].connect('config_en', 'config_en_cb0')
     # self.modules['cb0'].connect('config_data', 'config_data[2:0]')

@@ -4,6 +4,10 @@ module pe_tile_top_right(input [0 : 0] reset, input [31 : 0] config_data, input 
 	wire [1 - 1 : 0] config_en_cb0;
 	wire [1 - 1 : 0] op_0;
 	wire [1 - 1 : 0] op_1;
+	wire [1 - 1 : 0] out_wire_0_0;
+	wire [1 - 1 : 0] out_wire_0_1;
+	wire [1 - 1 : 0] out_wire_0_2;
+	wire [1 - 1 : 0] out_wire_0_3;
 	wire [1 - 1 : 0] config_en_pe;
 	wire [1 - 1 : 0] config_en_sb;
 	wire [1 - 1 : 0] pe_output;
@@ -13,19 +17,44 @@ module pe_tile_top_right(input [0 : 0] reset, input [31 : 0] config_data, input 
 		.config_reg(config_en_pe)
 	);
 
+	address_matcher #(.tile_id(1), .config_id(1))  sb_address_matcher(
+		.config_reg(config_en_sb)
+	);
+
 	address_matcher #(.tile_id(1), .config_id(1))  cb1_address_matcher(
 		.config_reg(config_en_cb1)
 	);
 
 	connect_box cb0(
+		.config_en(config_en_cb0),
+		.track0_in(in_wire_0_0),
+		.track1_in(in_wire_0_1),
+		.track2_in(in_wire_0_2),
+		.track3_in(in_wire_0_3),
+		.track4_in(out_wire_0_0),
+		.track5_in(out_wire_0_1),
+		.track6_in(out_wire_0_2),
+		.track7_in(out_wire_0_3)
+	);
+
+	connect_box cb1(
+		.config_en(config_en_cb1),
+		.track0_in(in_wire_0_0),
+		.track1_in(in_wire_0_1),
+		.track2_in(in_wire_0_2),
+		.track3_in(in_wire_0_3),
+		.track4_in(out_wire_0_0),
+		.track5_in(out_wire_0_1),
+		.track6_in(out_wire_0_2),
+		.track7_in(out_wire_0_3)
+	);
+
+	switch_box_top_right sb(
+		.config_en(config_en_sb)
 	);
 
 	address_matcher #(.tile_id(1), .config_id(1))  cb0_address_matcher(
 		.config_reg(config_en_cb0)
-	);
-
-	address_matcher #(.tile_id(1), .config_id(1))  sb_address_matcher(
-		.config_reg(config_en_sb)
 	);
 
 endmodule
