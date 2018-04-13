@@ -4,6 +4,10 @@ module pe_tile_bottom_right(input [0 : 0] reset, input [31 : 0] config_data, inp
 	wire [1 - 1 : 0] config_en_cb0;
 	wire [1 - 1 : 0] op_0;
 	wire [1 - 1 : 0] op_1;
+	wire [1 - 1 : 0] out_wire_1_1;
+	wire [1 - 1 : 0] out_wire_1_0;
+	wire [1 - 1 : 0] out_wire_1_3;
+	wire [1 - 1 : 0] out_wire_1_2;
 	wire [1 - 1 : 0] out_wire_0_1;
 	wire [1 - 1 : 0] out_wire_0_0;
 	wire [1 - 1 : 0] config_en_logic_block;
@@ -59,7 +63,39 @@ module pe_tile_bottom_right(input [0 : 0] reset, input [31 : 0] config_data, inp
 	switch_box_bottom_right sb(
 		.config_en(config_en_sb),
 		.reset(reset),
-		.clk(clk)
+		.clk(clk),
+		.in_wire_0_0(in_wire_0_0),
+		.in_wire_0_1(in_wire_0_1),
+		.in_wire_0_2(in_wire_0_2),
+		.in_wire_0_3(in_wire_0_3),
+		.in_wire_1_0(in_wire_1_0),
+		.in_wire_1_1(in_wire_1_1),
+		.in_wire_1_2(in_wire_1_2),
+		.in_wire_1_3(in_wire_1_3),
+		.in_wire_2_0(in_wire_2_0),
+		.in_wire_2_1(in_wire_2_1),
+		.in_wire_2_2(in_wire_2_2),
+		.in_wire_2_3(in_wire_2_3),
+		.in_wire_3_0(in_wire_3_0),
+		.in_wire_3_1(in_wire_3_1),
+		.in_wire_3_2(in_wire_3_2),
+		.in_wire_3_3(in_wire_3_3),
+		.out_wire_0_0(out_wire_0_0),
+		.out_wire_0_1(out_wire_0_1),
+		.out_wire_0_2(out_wire_0_2),
+		.out_wire_0_3(out_wire_0_3),
+		.out_wire_1_0(out_wire_1_0),
+		.out_wire_1_1(out_wire_1_1),
+		.out_wire_1_2(out_wire_1_2),
+		.out_wire_1_3(out_wire_1_3),
+		.out_wire_2_0(out_wire_2_0),
+		.out_wire_2_1(out_wire_2_1),
+		.out_wire_2_2(out_wire_2_2),
+		.out_wire_2_3(out_wire_2_3),
+		.out_wire_3_0(out_wire_3_0),
+		.out_wire_3_1(out_wire_3_1),
+		.out_wire_3_2(out_wire_3_2),
+		.out_wire_3_3(out_wire_3_3)
 	);
 
 	address_matcher #(.tile_id(1), .config_id(1))  cb0_address_matcher(

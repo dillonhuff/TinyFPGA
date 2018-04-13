@@ -237,6 +237,21 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire_connection('clk', 'cb1', 'clk')
     mod.add_wire_connection('clk', 'sb', 'clk')
     mod.add_wire_connection('clk', 'logic_block', 'clk')
+
+    for side_no in range(0, n_sides):
+        for wire_no in range(0, n_wires_per_side):
+            port_name = 'in_wire_' + str(side_no) + '_' + str(wire_no)
+            mod.add_wire(port_name, False, False, '', 1)
+            mod.add_wire_connection(port_name, 'sb', port_name)
+
+    for side_no in range(0, n_sides):
+        # Outputs from side 0 and 1 are always routed to the connect boxes so
+        # they are always needed
+        if (side_no in sides_to_use) or (side_no in [0, 1]):
+            for wire_no in range(0, n_wires_per_side):
+                port_name = 'out_wire_' + str(side_no) + '_' + str(wire_no)
+                mod.add_wire(port_name, False, False, '', 1)
+                mod.add_wire_connection(port_name, 'sb', port_name)
     
     for wire in range(0, n_wires_per_side):
         wire_name = 'track' + str(wire) + '_in'
@@ -266,21 +281,6 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
 
         mod.add_wire_connection(in_wire, 'cb1', wire_name)
         
-    # self.modules['cb0'].connect('block_out', 'op_0')
-    # self.modules['cb0'].connect('config_en', 'config_en_cb0')
-    # self.modules['cb0'].connect('config_data', 'config_data[2:0]')
-    # self.modules['cb0'].connect('clk', 'clk')
-    
-    #     i = 0
-    #     for port in mod.connections:
-    #         body += '\t\t.' + port + '(' + mod.connections[port] + ')'
-    #         if (i < (len(mod.connections) - 1)):
-    #             body += ','
-    #         body += '\n'
-    #         i += 1
-        
-    #     body += '\t);\n\n'
-
     return mod
 
 # Need to add custom modules for configuration state and for assignment

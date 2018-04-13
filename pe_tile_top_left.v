@@ -55,7 +55,31 @@ module pe_tile_top_left(input [0 : 0] reset, input [31 : 0] config_data, input [
 	switch_box_top_left sb(
 		.config_en(config_en_sb),
 		.reset(reset),
-		.clk(clk)
+		.clk(clk),
+		.in_wire_0_0(in_wire_0_0),
+		.in_wire_0_1(in_wire_0_1),
+		.in_wire_0_2(in_wire_0_2),
+		.in_wire_0_3(in_wire_0_3),
+		.in_wire_1_0(in_wire_1_0),
+		.in_wire_1_1(in_wire_1_1),
+		.in_wire_1_2(in_wire_1_2),
+		.in_wire_1_3(in_wire_1_3),
+		.in_wire_2_0(in_wire_2_0),
+		.in_wire_2_1(in_wire_2_1),
+		.in_wire_2_2(in_wire_2_2),
+		.in_wire_2_3(in_wire_2_3),
+		.in_wire_3_0(in_wire_3_0),
+		.in_wire_3_1(in_wire_3_1),
+		.in_wire_3_2(in_wire_3_2),
+		.in_wire_3_3(in_wire_3_3),
+		.out_wire_0_0(out_wire_0_0),
+		.out_wire_0_1(out_wire_0_1),
+		.out_wire_0_2(out_wire_0_2),
+		.out_wire_0_3(out_wire_0_3),
+		.out_wire_1_0(out_wire_1_0),
+		.out_wire_1_1(out_wire_1_1),
+		.out_wire_1_2(out_wire_1_2),
+		.out_wire_1_3(out_wire_1_3)
 	);
 
 	address_matcher #(.tile_id(1), .config_id(1))  cb0_address_matcher(
