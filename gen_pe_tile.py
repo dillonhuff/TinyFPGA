@@ -215,10 +215,10 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1, 'tile_id' : 1})
     mod.add_wire_connection('config_en_sb', 'sb_address_matcher', 'config_reg')
 
-    mod.add_wire('config_en_pe', False, False, '', 1)
-    mod.add_instance('address_matcher', 'pe_address_matcher', {'config_id' : 1, 'tile_id' : 1})
-    mod.add_wire_connection('config_en_pe', 'pe_address_matcher', 'config_reg')
-
+    mod.add_wire('config_en_logic_block', False, False, '', 1)
+    mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_wire_connection('config_en_logic_block', 'logic_block_address_matcher', 'config_reg')
+    
     mod.add_instance('connect_box', 'cb0')
     mod.add_wire_connection('config_en_cb0', 'cb0', 'config_en')
 
@@ -228,6 +228,16 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_instance(switch_box_mod, 'sb')
     mod.add_wire_connection('config_en_sb', 'sb', 'config_en')
 
+    mod.add_instance('clb', 'logic_block')
+    mod.add_wire_connection('config_en_logic_block', 'logic_block', 'config_enable')
+
+    mod.add_wire_connection('reset', 'sb', 'reset')
+    
+    mod.add_wire_connection('clk', 'cb0', 'clk')
+    mod.add_wire_connection('clk', 'cb1', 'clk')
+    mod.add_wire_connection('clk', 'sb', 'clk')
+    mod.add_wire_connection('clk', 'logic_block', 'clk')
+    
     for wire in range(0, n_wires_per_side):
         wire_name = 'track' + str(wire) + '_in'
         in_wire = 'in_wire_0_' + str(wire)
@@ -241,10 +251,6 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
         mod.add_wire(in_wire, False, False, '', 1)
 
         mod.add_wire_connection(in_wire, 'cb0', wire_name)
-
-    mod.add_wire_connection('clk', 'cb0', 'clk')
-    mod.add_wire_connection('clk', 'cb1', 'clk')
-    mod.add_wire_connection('clk', 'sb', 'clk')
 
     for wire in range(0, n_wires_per_side):
         wire_name = 'track' + str(wire) + '_in'
