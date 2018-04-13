@@ -128,6 +128,9 @@ class VerilogModule():
 
     # same as add port connection. Merge or add check for port to add_port_connection?
     def add_wire_connection(self, wire_name, inst_name_0, inst_port_name):
+        if not (wire_name in self.internal_wires):
+            print wire_name, ' not in internal wires'
+
         assert(wire_name in self.internal_wires)
         self.inst_to_wires[inst_name_0].append((inst_port_name, wire_name))
 
