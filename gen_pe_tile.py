@@ -242,6 +242,10 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
 
         mod.add_wire_connection(in_wire, 'cb0', wire_name)
 
+    mod.add_wire_connection('clk', 'cb0', 'clk')
+    mod.add_wire_connection('clk', 'cb1', 'clk')
+    mod.add_wire_connection('clk', 'sb', 'clk')
+
     for wire in range(0, n_wires_per_side):
         wire_name = 'track' + str(wire) + '_in'
         in_wire = 'in_wire_0_' + str(wire)

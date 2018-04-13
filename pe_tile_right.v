@@ -34,11 +34,13 @@ module pe_tile_right(input [0 : 0] reset, input [31 : 0] config_data, input [0 :
 		.track4_in(out_wire_0_0),
 		.track5_in(out_wire_0_1),
 		.track6_in(out_wire_0_2),
-		.track7_in(out_wire_0_3)
+		.track7_in(out_wire_0_3),
+		.clk(clk)
 	);
 
 	connect_box cb1(
 		.config_en(config_en_cb1),
+		.clk(clk),
 		.track0_in(in_wire_0_0),
 		.track1_in(in_wire_0_1),
 		.track2_in(in_wire_0_2),
@@ -50,7 +52,8 @@ module pe_tile_right(input [0 : 0] reset, input [31 : 0] config_data, input [0 :
 	);
 
 	switch_box_right sb(
-		.config_en(config_en_sb)
+		.config_en(config_en_sb),
+		.clk(clk)
 	);
 
 	address_matcher #(.tile_id(1), .config_id(1))  cb0_address_matcher(
