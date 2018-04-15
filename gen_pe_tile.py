@@ -218,21 +218,27 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire('config_en_logic_block', False, False, '', 1)
     mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1, 'tile_id' : 1})
     mod.add_wire_connection('config_en_logic_block', 'logic_block_address_matcher', 'config_reg')
-    
+
+    mod.add_wire('pe_output', False, False, '', 1)
+
     mod.add_instance('connect_box', 'cb0')
     mod.add_wire_connection('config_en_cb0', 'cb0', 'config_en')
+    mod.add_wire_connection('op_0', 'cb0', 'block_out')
 
     mod.add_instance('connect_box', 'cb1')
     mod.add_wire_connection('config_en_cb1', 'cb1', 'config_en')
+    mod.add_wire_connection('op_1', 'cb1', 'block_out')
 
     mod.add_instance(switch_box_mod, 'sb')
     mod.add_wire_connection('config_en_sb', 'sb', 'config_en')
     mod.add_wire_connection('config_data', 'sb', 'config_data')
+    mod.add_wire_connection('pe_output', 'sb', 'pe_output_0')
 
     mod.add_instance('clb', 'logic_block')
     mod.add_wire_connection('config_en_logic_block', 'logic_block', 'config_enable')
-    mod.add_wire_connection('op0', 'logic_block', 'in0')
-    mod.add_wire_connection('op1', 'logic_block', 'in1')
+    mod.add_wire_connection('op_0', 'logic_block', 'in0')
+    mod.add_wire_connection('op_1', 'logic_block', 'in1')
+    mod.add_wire_connection('pe_output', 'logic_block', 'out')
 
     mod.add_wire_connection('reset', 'sb', 'reset')
     
