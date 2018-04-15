@@ -231,6 +231,8 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
 
     mod.add_instance('clb', 'logic_block')
     mod.add_wire_connection('config_en_logic_block', 'logic_block', 'config_enable')
+    mod.add_wire_connection('op0', 'logic_block', 'in0')
+    mod.add_wire_connection('op1', 'logic_block', 'in1')
 
     mod.add_wire_connection('reset', 'sb', 'reset')
     
