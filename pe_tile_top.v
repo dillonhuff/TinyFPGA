@@ -33,10 +33,10 @@ module pe_tile_top(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 0
 		.track1_in(in_wire_0_1),
 		.track2_in(in_wire_0_2),
 		.track3_in(in_wire_0_3),
-		.track4_in(out_wire_0_0),
-		.track5_in(out_wire_0_1),
-		.track6_in(out_wire_0_2),
-		.track7_in(out_wire_0_3)
+		.track4_in(in_wire_0_3),
+		.track5_in(in_wire_0_3),
+		.track6_in(in_wire_0_3),
+		.track7_in(in_wire_0_3)
 	);
 
 	connect_box cb1(
@@ -54,6 +54,7 @@ module pe_tile_top(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 0
 
 	switch_box_top sb(
 		.config_en(config_en_sb),
+		.config_data(config_data),
 		.reset(reset),
 		.clk(clk),
 		.in_wire_0_0(in_wire_0_0),
