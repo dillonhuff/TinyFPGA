@@ -202,22 +202,26 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
 
     # TODO: Add real tile ids
     mod.add_wire('config_en_cb0', False, False, '', 1)
-    mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_cb0', 'cb0_address_matcher', 'config_reg')
+    mod.add_wire_connection('tile_id', 'cb0_address_matcher', 'tile_id')
 
 
     mod.add_wire('config_en_cb1', False, False, '', 1)
-    mod.add_instance('address_matcher', 'cb1_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_instance('address_matcher', 'cb1_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_cb1', 'cb1_address_matcher', 'config_reg')
+    mod.add_wire_connection('tile_id', 'cb1_address_matcher', 'tile_id')
 
 
     mod.add_wire('config_en_sb', False, False, '', 1)
-    mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_sb', 'sb_address_matcher', 'config_reg')
+    mod.add_wire_connection('tile_id', 'sb_address_matcher', 'tile_id')
 
     mod.add_wire('config_en_logic_block', False, False, '', 1)
-    mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1, 'tile_id' : 1})
+    mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_logic_block', 'logic_block_address_matcher', 'config_reg')
+    mod.add_wire_connection('tile_id', 'logic_block_address_matcher', 'tile_id')
 
     mod.add_wire('pe_output', False, False, '', 1)
 
