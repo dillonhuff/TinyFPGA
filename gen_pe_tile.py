@@ -201,6 +201,12 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire('pe_output', False, False, '', 1)
 
     # TODO: Add real tile ids
+
+    mod.add_instance('slice_mod', 'cb0_slice', {'start_ind' : 0, 'end_ind' : 2})
+    mod.add_wire_connection('config_addr', 'cb0_slice', 'in')
+    mod.add_wire('cb0_config_addr', False, False, '', 3)
+    mod.add_wire_connection('cb0_config_data', 'cb0_slice', 'out')
+
     mod.add_wire('config_en_cb0', False, False, '', 1)
     mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_cb0', 'cb0_address_matcher', 'config_reg')
@@ -228,7 +234,8 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_instance('connect_box', 'cb0')
     mod.add_wire_connection('config_en_cb0', 'cb0', 'config_en')
     mod.add_wire_connection('op_0', 'cb0', 'block_out')
-
+    mod.add_wire_connection('cb0_config_data', 'cb0', 'config_data')
+    
     mod.add_instance('connect_box', 'cb1')
     mod.add_wire_connection('config_en_cb1', 'cb1', 'config_en')
     mod.add_wire_connection('op_1', 'cb1', 'block_out')
