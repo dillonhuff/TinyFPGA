@@ -4,7 +4,9 @@ module pe_tile_bottom_left(input [0 : 0] reset, input [31 : 0] config_data, inpu
 	wire [1 - 1 : 0] config_en_cb0;
 	wire [1 - 1 : 0] op_0;
 	wire [1 - 1 : 0] op_1;
-	wire [3 - 1 : 0] cb0_config_addr;
+	wire [3 - 1 : 0] cb0_config_data;
+	wire [2 - 1 : 0] clb_config_data;
+	wire [3 - 1 : 0] cb1_config_data;
 	wire [1 - 1 : 0] config_en_sb;
 	wire [1 - 1 : 0] pe_output;
 	wire [1 - 1 : 0] config_en_logic_block;
@@ -12,7 +14,18 @@ module pe_tile_bottom_left(input [0 : 0] reset, input [31 : 0] config_data, inpu
 
 	address_matcher #(.config_id(1))  logic_block_address_matcher(
 		.config_reg(config_en_logic_block),
-		.tile_id(tile_id)
+		.tile_id(tile_id),
+		.config_addr(config_addr)
+	);
+
+	slice_mod #(.end_ind(1), .start_ind(0))  clb_slice(
+		.in(config_addr),
+		.out(clb_config_data)
+	);
+
+	slice_mod #(.end_ind(2), .start_ind(0))  cb1_slice(
+		.in(config_addr),
+		.out(cb1_config_data)
 	);
 
 	clb logic_block(
@@ -20,23 +33,26 @@ module pe_tile_bottom_left(input [0 : 0] reset, input [31 : 0] config_data, inpu
 		.in0(op_0),
 		.in1(op_1),
 		.out(pe_output),
+		.config_data(clb_config_data),
 		.clk(clk)
 	);
 
 	address_matcher #(.config_id(1))  sb_address_matcher(
 		.config_reg(config_en_sb),
-		.tile_id(tile_id)
+		.tile_id(tile_id),
+		.config_addr(config_addr)
 	);
 
 	address_matcher #(.config_id(1))  cb1_address_matcher(
 		.config_reg(config_en_cb1),
-		.tile_id(tile_id)
+		.tile_id(tile_id),
+		.config_addr(config_addr)
 	);
 
 	connect_box cb0(
 		.config_en(config_en_cb0),
 		.block_out(op_0),
-		.config_addr(cb0_config_addr),
+		.config_data(cb0_config_data),
 		.clk(clk),
 		.track0_in(in_wire_0_0),
 		.track1_in(in_wire_0_1),
@@ -50,7 +66,7 @@ module pe_tile_bottom_left(input [0 : 0] reset, input [31 : 0] config_data, inpu
 
 	slice_mod #(.end_ind(2), .start_ind(0))  cb0_slice(
 		.in(config_addr),
-		.out(cb0_config_addr)
+		.out(cb0_config_data)
 	);
 
 	switch_box_bottom_left sb(
@@ -91,12 +107,14 @@ module pe_tile_bottom_left(input [0 : 0] reset, input [31 : 0] config_data, inpu
 
 	address_matcher #(.config_id(1))  cb0_address_matcher(
 		.config_reg(config_en_cb0),
-		.tile_id(tile_id)
+		.tile_id(tile_id),
+		.config_addr(config_addr)
 	);
 
 	connect_box cb1(
 		.config_en(config_en_cb1),
 		.block_out(op_1),
+		.config_data(cb1_config_data),
 		.clk(clk),
 		.track0_in(in_wire_0_0),
 		.track1_in(in_wire_0_1),

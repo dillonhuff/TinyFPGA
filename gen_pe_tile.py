@@ -204,30 +204,44 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
 
     mod.add_instance('slice_mod', 'cb0_slice', {'start_ind' : 0, 'end_ind' : 2})
     mod.add_wire_connection('config_addr', 'cb0_slice', 'in')
-    mod.add_wire('cb0_config_addr', False, False, '', 3)
+    mod.add_wire('cb0_config_data', False, False, '', 3)
     mod.add_wire_connection('cb0_config_data', 'cb0_slice', 'out')
 
+    mod.add_instance('slice_mod', 'cb1_slice', {'start_ind' : 0, 'end_ind' : 2})
+    mod.add_wire_connection('config_addr', 'cb1_slice', 'in')
+    mod.add_wire('cb1_config_data', False, False, '', 3)
+    mod.add_wire_connection('cb1_config_data', 'cb1_slice', 'out')
+
+    mod.add_instance('slice_mod', 'clb_slice', {'start_ind' : 0, 'end_ind' : 1})
+    mod.add_wire_connection('config_addr', 'clb_slice', 'in')
+    mod.add_wire('clb_config_data', False, False, '', 2)
+    mod.add_wire_connection('clb_config_data', 'clb_slice', 'out')
+    
     mod.add_wire('config_en_cb0', False, False, '', 1)
     mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_cb0', 'cb0_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'cb0_address_matcher', 'tile_id')
+    mod.add_wire_connection('config_addr', 'cb0_address_matcher', 'config_addr')
 
 
     mod.add_wire('config_en_cb1', False, False, '', 1)
     mod.add_instance('address_matcher', 'cb1_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_cb1', 'cb1_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'cb1_address_matcher', 'tile_id')
+    mod.add_wire_connection('config_addr', 'cb1_address_matcher', 'config_addr')
 
 
     mod.add_wire('config_en_sb', False, False, '', 1)
     mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_sb', 'sb_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'sb_address_matcher', 'tile_id')
+    mod.add_wire_connection('config_addr', 'sb_address_matcher', 'config_addr')
 
     mod.add_wire('config_en_logic_block', False, False, '', 1)
     mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_logic_block', 'logic_block_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'logic_block_address_matcher', 'tile_id')
+    mod.add_wire_connection('config_addr', 'logic_block_address_matcher', 'config_addr')
 
     mod.add_wire('pe_output', False, False, '', 1)
 
@@ -239,6 +253,7 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_instance('connect_box', 'cb1')
     mod.add_wire_connection('config_en_cb1', 'cb1', 'config_en')
     mod.add_wire_connection('op_1', 'cb1', 'block_out')
+    mod.add_wire_connection('cb1_config_data', 'cb1', 'config_data')
 
     mod.add_instance(switch_box_mod, 'sb')
     mod.add_wire_connection('config_en_sb', 'sb', 'config_en')
@@ -250,6 +265,7 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire_connection('op_0', 'logic_block', 'in0')
     mod.add_wire_connection('op_1', 'logic_block', 'in1')
     mod.add_wire_connection('pe_output', 'logic_block', 'out')
+    mod.add_wire_connection('clb_config_data', 'logic_block', 'config_data')
 
     mod.add_wire_connection('reset', 'sb', 'reset')
     
