@@ -12,7 +12,7 @@ module pe_tile_left(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 
 	wire [1 - 1 : 0] config_en_logic_block;
 	// End of wire declarations
 
-	address_matcher #(.config_id(1))  logic_block_address_matcher(
+	address_matcher #(.mod_id_end(31), .tile_id_end(15), .mod_id_begin(16), .config_id(1), .tile_id_begin(0))  logic_block_address_matcher(
 		.config_reg(config_en_logic_block),
 		.tile_id(tile_id),
 		.config_addr(config_addr)
@@ -37,13 +37,13 @@ module pe_tile_left(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 
 		.clk(clk)
 	);
 
-	address_matcher #(.config_id(1))  sb_address_matcher(
+	address_matcher #(.mod_id_end(31), .tile_id_end(15), .mod_id_begin(16), .config_id(1), .tile_id_begin(0))  sb_address_matcher(
 		.config_reg(config_en_sb),
 		.tile_id(tile_id),
 		.config_addr(config_addr)
 	);
 
-	address_matcher #(.config_id(1))  cb1_address_matcher(
+	address_matcher #(.mod_id_end(31), .tile_id_end(15), .mod_id_begin(16), .config_id(1), .tile_id_begin(0))  cb1_address_matcher(
 		.config_reg(config_en_cb1),
 		.tile_id(tile_id),
 		.config_addr(config_addr)
@@ -105,7 +105,7 @@ module pe_tile_left(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 
 		.out_wire_3_3(out_wire_3_3)
 	);
 
-	address_matcher #(.config_id(1))  cb0_address_matcher(
+	address_matcher #(.mod_id_end(31), .tile_id_end(15), .mod_id_begin(16), .config_id(1), .tile_id_begin(0))  cb0_address_matcher(
 		.config_reg(config_en_cb0),
 		.tile_id(tile_id),
 		.config_addr(config_addr)
