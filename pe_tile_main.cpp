@@ -131,6 +131,26 @@ void test_xor(int argc, char** argv) {
   top->in_wire_0_2 = 1;
   top->eval();
 
+  cout << "top->out_wire_0_0 = " << (int) top->out_wire_0_0 << endl;
+  cout << "top->out_wire_0_1 = " << (int) top->out_wire_0_1 << endl;
+  cout << "top->out_wire_0_2 = " << (int) top->out_wire_0_2 << endl;
+  cout << "top->out_wire_0_3 = " << (int) top->out_wire_0_3 << endl;
+
+  cout << "top->out_wire_1_0 = " << (int) top->out_wire_1_0 << endl;
+  cout << "top->out_wire_1_1 = " << (int) top->out_wire_1_1 << endl;
+  cout << "top->out_wire_1_2 = " << (int) top->out_wire_1_2 << endl;
+  cout << "top->out_wire_1_3 = " << (int) top->out_wire_1_3 << endl;
+
+  cout << "top->out_wire_2_0 = " << (int) top->out_wire_2_0 << endl;
+  cout << "top->out_wire_2_1 = " << (int) top->out_wire_2_1 << endl;
+  cout << "top->out_wire_2_2 = " << (int) top->out_wire_2_2 << endl;
+  cout << "top->out_wire_2_3 = " << (int) top->out_wire_2_3 << endl;
+
+  cout << "top->out_wire_3_0 = " << (int) top->out_wire_3_0 << endl;
+  cout << "top->out_wire_3_1 = " << (int) top->out_wire_3_1 << endl;
+  cout << "top->out_wire_3_2 = " << (int) top->out_wire_3_2 << endl;
+  cout << "top->out_wire_3_3 = " << (int) top->out_wire_3_3 << endl;
+  
   assert(top->out_wire_0_0 == 1);
 
   cout << "$$$$ PE tile tests pass" << endl;
