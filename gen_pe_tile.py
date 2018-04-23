@@ -223,28 +223,28 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod_id_begin = 16
 
     mod.add_wire('config_en_cb0', False, False, '', 1)
-    mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_id' : 1, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})
+    mod.add_instance('address_matcher', 'cb0_address_matcher', {'config_flag_value' : 6, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})
     mod.add_wire_connection('config_en_cb0', 'cb0_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'cb0_address_matcher', 'tile_id')
     mod.add_wire_connection('config_addr', 'cb0_address_matcher', 'config_addr')
 
 
     mod.add_wire('config_en_cb1', False, False, '', 1)
-    mod.add_instance('address_matcher', 'cb1_address_matcher', {'config_id' : 1, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})    
+    mod.add_instance('address_matcher', 'cb1_address_matcher', {'config_flag_value' : 5, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})    
     mod.add_wire_connection('config_en_cb1', 'cb1_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'cb1_address_matcher', 'tile_id')
     mod.add_wire_connection('config_addr', 'cb1_address_matcher', 'config_addr')
 
 
     mod.add_wire('config_en_sb', False, False, '', 1)
-    mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})        
+    mod.add_instance('address_matcher', 'sb_address_matcher', {'config_flag_value' : 7, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})        
     #mod.add_instance('address_matcher', 'sb_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_sb', 'sb_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'sb_address_matcher', 'tile_id')
     mod.add_wire_connection('config_addr', 'sb_address_matcher', 'config_addr')
 
     mod.add_wire('config_en_logic_block', False, False, '', 1)
-    mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})            
+    mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_flag_value' : 4, 'tile_id_end' : tile_id_end, 'tile_id_begin' : tile_id_begin, 'mod_id_end' : mod_id_end, 'mod_id_begin' : mod_id_begin})            
     #mod.add_instance('address_matcher', 'logic_block_address_matcher', {'config_id' : 1})
     mod.add_wire_connection('config_en_logic_block', 'logic_block_address_matcher', 'config_reg')
     mod.add_wire_connection('tile_id', 'logic_block_address_matcher', 'tile_id')

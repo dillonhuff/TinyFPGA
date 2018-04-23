@@ -1,4 +1,4 @@
-module address_matcher #(parameter config_id=1, parameter config_flag_value=1, parameter tile_id_end=1, parameter tile_id_begin=1, parameter mod_id_end=1, parameter mod_id_begin=1)
+module address_matcher #(parameter config_flag_value=1, parameter tile_id_end=1, parameter tile_id_begin=1, parameter mod_id_end=1, parameter mod_id_begin=1)
    (input [31:0] config_addr,
     input [15:0] tile_id,
     output       config_reg);
