@@ -15,5 +15,10 @@ module sb_config #(parameter width=1) (input reset,
     end
 
    assign config_data_out = config_data_reg;
+
+   always @(posedge clk) begin
+      $display("sb config_data_out = %b", config_data_out);
+      
+   end
    
 endmodule

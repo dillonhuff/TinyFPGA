@@ -18,6 +18,10 @@ module clb(input in0,
 
    wire                and_out, or_out, xor_out;
 
+   always @(posedge clk) begin
+      $display("config_data_reg = %b", config_data_reg);
+   end
+
    assign and_out = in0 & in1;
    assign or_out = in0 | in1;
    assign xor_out = in0 ^ in1;

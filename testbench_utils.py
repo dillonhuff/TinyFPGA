@@ -32,3 +32,7 @@ def build_module_with_main(mod_name, main_name):
     
 def build_module(mod_name):
     build_module_with_main(mod_name, mod_name + '_main.cpp')
+# To run one mod
+# verilator --cc pe_tile.v --exe pe_tile_main.cpp --top-module pe_tile
+# make -C ./obj_dir/ -j -f Vpe_tile.mk Vpe_tile
+# ./obj_dir/Vpe_tile

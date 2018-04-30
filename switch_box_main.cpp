@@ -35,5 +35,18 @@ int main(int argc, char** argv) {
 
   assert(top->out_wire_0_0 == top->pe_output_0);
 
+  top->clk = 0;
+  top->config_data = 0;
+  top->eval();
+
+  top->clk = 1;
+  top->config_data = 0;
+  top->pe_output_0 = 7;
+
+  top->eval();
+
+
+  assert(top->out_wire_0_0 == top->pe_output_0);
+  
   cout << "$$$$ switch_box tests pass" << endl;
 }
