@@ -19,12 +19,12 @@ module pe_tile_top_left(input [0 : 0] reset, input [31 : 0] config_data, input [
 	);
 
 	slice_mod #(.end_ind(1), .start_ind(0))  clb_slice(
-		.in(config_addr),
+		.in(config_data),
 		.out(clb_config_data)
 	);
 
 	slice_mod #(.end_ind(2), .start_ind(0))  cb1_slice(
-		.in(config_addr),
+		.in(config_data),
 		.out(cb1_config_data)
 	);
 
@@ -65,7 +65,7 @@ module pe_tile_top_left(input [0 : 0] reset, input [31 : 0] config_data, input [
 	);
 
 	slice_mod #(.end_ind(2), .start_ind(0))  cb0_slice(
-		.in(config_addr),
+		.in(config_data),
 		.out(cb0_config_data)
 	);
 
