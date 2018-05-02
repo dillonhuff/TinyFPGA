@@ -304,24 +304,20 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     for wire in range(n_wires_per_side, 2*n_wires_per_side):
         wire_no = wire - n_wires_per_side
         wire_name = 'track' + str(wire) + '_in'
-        #in_wire = 'out_wire_0_' + str(wire_no)
-        #mod.add_wire(in_wire, False, True, '', 1)
-
-        mod.add_wire_connection(in_wire, 'cb0', wire_name)
+        out_wire = 'out_wire_0_' + str(wire_no)
+        mod.add_wire_connection(out_wire, 'cb0', wire_name)
 
     for wire in range(0, n_wires_per_side):
         wire_name = 'track' + str(wire) + '_in'
-        in_wire = 'in_wire_0_' + str(wire)
-        #mod.add_wire(in_wire, False, True, '', 1)
+        in_wire = 'in_wire_1_' + str(wire)
         mod.add_wire_connection(in_wire, 'cb1', wire_name)
 
     for wire in range(n_wires_per_side, 2*n_wires_per_side):
         wire_no = wire - n_wires_per_side
         wire_name = 'track' + str(wire) + '_in'
-        in_wire = 'out_wire_0_' + str(wire_no)
-        #mod.add_wire(in_wire, False, True, '', 1)
+        out_wire = 'out_wire_1_' + str(wire_no)
 
-        mod.add_wire_connection(in_wire, 'cb1', wire_name)
+        mod.add_wire_connection(out_wire, 'cb1', wire_name)
         
     return mod
 

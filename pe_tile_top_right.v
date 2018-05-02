@@ -58,10 +58,10 @@ module pe_tile_top_right(input [0 : 0] reset, input [31 : 0] config_data, input 
 		.track1_in(in_wire_0_1),
 		.track2_in(in_wire_0_2),
 		.track3_in(in_wire_0_3),
-		.track4_in(in_wire_0_3),
-		.track5_in(in_wire_0_3),
-		.track6_in(in_wire_0_3),
-		.track7_in(in_wire_0_3)
+		.track4_in(out_wire_0_0),
+		.track5_in(out_wire_0_1),
+		.track6_in(out_wire_0_2),
+		.track7_in(out_wire_0_3)
 	);
 
 	slice_mod #(.end_ind(2), .start_ind(0))  cb0_slice(
@@ -116,14 +116,14 @@ module pe_tile_top_right(input [0 : 0] reset, input [31 : 0] config_data, input 
 		.block_out(op_1),
 		.config_data(cb1_config_data),
 		.clk(clk),
-		.track0_in(in_wire_0_0),
-		.track1_in(in_wire_0_1),
-		.track2_in(in_wire_0_2),
-		.track3_in(in_wire_0_3),
-		.track4_in(out_wire_0_0),
-		.track5_in(out_wire_0_1),
-		.track6_in(out_wire_0_2),
-		.track7_in(out_wire_0_3)
+		.track0_in(in_wire_1_0),
+		.track1_in(in_wire_1_1),
+		.track2_in(in_wire_1_2),
+		.track3_in(in_wire_1_3),
+		.track4_in(out_wire_1_0),
+		.track5_in(out_wire_1_1),
+		.track6_in(out_wire_1_2),
+		.track7_in(out_wire_1_3)
 	);
 
 endmodule

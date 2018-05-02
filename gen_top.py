@@ -17,11 +17,9 @@ def build_top_mod(num_in_ios,
     
     for pad_no in range(0, num_in_ios):
         top_mod.add_wire('in_wire_' + str(pad_no), False, True, 'input', 1)
-        #ports.append('input in_wire_' + str(pad_no))
 
     for pad_no in range(0, num_out_ios):
         top_mod.add_wire('out_wire_' + str(pad_no), False, True, 'output', 1)
-        #ports.append('output out_wire_' + str(pad_no))
 
     top_mod.add_wire('clk', False, True, 'input', 1);
     top_mod.add_wire('reset', False, True, 'input', 1);
