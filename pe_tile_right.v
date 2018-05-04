@@ -1,22 +1,32 @@
-module pe_tile_right(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 0] in_wire_2_1, input [0 : 0] in_wire_0_0, input [0 : 0] in_wire_0_1, input [0 : 0] in_wire_0_2, input [0 : 0] clk, input [0 : 0] in_wire_2_2, input [0 : 0] in_wire_2_3, input [0 : 0] in_wire_1_2, input [0 : 0] in_wire_0_3, input [0 : 0] in_wire_1_1, input [0 : 0] in_wire_1_0, input [0 : 0] in_wire_1_3, input [31 : 0] config_addr, input [0 : 0] in_wire_3_3, input [0 : 0] in_wire_3_2, input [0 : 0] in_wire_3_1, input [0 : 0] in_wire_3_0, input [15 : 0] tile_id, input [0 : 0] in_wire_2_0, output [0 : 0] out_wire_3_3, output [0 : 0] out_wire_3_2, output [0 : 0] out_wire_3_1, output [0 : 0] out_wire_3_0, output [0 : 0] out_wire_2_2, output [0 : 0] out_wire_2_3, output [0 : 0] out_wire_2_0, output [0 : 0] out_wire_2_1);
+module pe_tile_right(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 0] in_wire_2_1, input [0 : 0] in_wire_0_0, input [0 : 0] in_wire_0_1, input [0 : 0] in_wire_0_2, input [0 : 0] clk, input [0 : 0] in_wire_2_2, input [0 : 0] in_wire_2_3, input [0 : 0] in_wire_1_2, input [0 : 0] in_wire_0_3, input [0 : 0] in_wire_1_1, input [0 : 0] in_wire_1_0, input [0 : 0] in_wire_1_3, input [31 : 0] config_addr, input [0 : 0] in_wire_3_3, input [0 : 0] in_wire_3_2, input [0 : 0] in_wire_3_1, input [0 : 0] in_wire_3_0, input [15 : 0] tile_id, input [0 : 0] in_wire_2_0, output [0 : 0] out_wire_3_3, output [0 : 0] out_wire_3_2, output [0 : 0] out_wire_3_1, output [0 : 0] out_wire_3_0, output [0 : 0] out_wire_2_2, output [0 : 0] out_wire_2_3, output [0 : 0] out_wire_2_0, output [0 : 0] out_wire_2_1, output [0 : 0] out_wire_1_1, output [0 : 0] out_wire_1_0, output [0 : 0] out_wire_1_3, output [0 : 0] out_wire_1_2);
 	// Internal wires
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] config_en_cb1;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] config_en_cb0;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] op_0;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] op_1;
-	wire [1 - 1 : 0] out_wire_1_1;
-	wire [1 - 1 : 0] out_wire_1_0;
-	wire [1 - 1 : 0] out_wire_1_3;
-	wire [1 - 1 : 0] out_wire_1_2;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] out_wire_0_0;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] out_wire_0_1;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] out_wire_0_2;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] out_wire_0_3;
+	/* verilator lint_off UNOPTFLAT */
 	wire [3 - 1 : 0] cb0_config_data;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] clb_config_data;
+	/* verilator lint_off UNOPTFLAT */
 	wire [3 - 1 : 0] cb1_config_data;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] config_en_sb;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_output;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] config_en_logic_block;
 	// End of wire declarations
 

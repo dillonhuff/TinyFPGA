@@ -174,6 +174,7 @@ class VerilogModule():
                 if wire in self.registered_wires:
                     prefix = 'reg'
 
+                body += '\t/* verilator lint_off UNOPTFLAT */\n'
                 body += '\t' + prefix + ' [' + str(width) + ' - 1 : 0] ' + wire + ';\n'
         body += '\t// End of wire declarations\n\n'
         

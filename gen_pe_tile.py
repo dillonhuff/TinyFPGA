@@ -194,7 +194,7 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     for side in range(0, n_sides):
         if side in sides_to_use or (side == 0) or (side == 1):
 
-            if (side == 0) or (side == 1):
+            if ((side == 0) or (side == 1)) and not (side in sides_to_use):
                 for wire in range(0, n_wires_per_side):
                     mod.add_wire('out_wire_' + str(side) + '_' + str(wire), False, False, 'output', 1)
             else:

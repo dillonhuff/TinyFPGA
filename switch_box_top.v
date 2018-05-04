@@ -37,18 +37,31 @@ module switch_box_top(
 	);
 
 	// Internal wires
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_2_2_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_2_0_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_2_3_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_0_3_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_0_2_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_0_1_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_0_0_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_2_1_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_1_1_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_1_2_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_1_3_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_1_0_sel_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [32 - 1 : 0] config_data_reg;
 	// End of wire declarations
 
