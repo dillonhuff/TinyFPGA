@@ -178,7 +178,8 @@ def generate_pe_tile_json(pe_tile):
 # Note: perhaps the connect box should be attached to outputs? or to both inputs and
 # outputs?
 
-def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side):
+# TODO: Add out_1_0 wire to bottom tiles!
+def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom, is_top):
     mod = VerilogModule(mod_name)
 
     mod.add_wire('clk', False, True, 'input', 1)
@@ -401,10 +402,12 @@ def generate_pe_tile(mod_name,
                      switch_box_mod,
                      sides_to_use,
                      n_sides,
-                     n_wires_per_side):
+                     n_wires_per_side,
+                     is_bottom=False,
+                     is_top=False):
     #pe_tile = PETile(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
     # Creating real pe tile
-    pe_tile = generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side)
+    pe_tile = generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom, is_top)
     
     verilog_str = pe_tile.module_string() #generate_pe_tile_verilog(pe_tile)
     pe_tile_file = open(mod_name + '.v', 'w')
