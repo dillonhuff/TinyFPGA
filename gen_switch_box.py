@@ -8,8 +8,7 @@ import json
 # that are instantiated, combinational modules that take config inputs
 
 # Maybe next steps are:
-# 1. Change switch box to use verilog module
-# 2. Build PE tile data structure that the PE tile verilog and json both consume
+# Extract this into a more general topology builder?
 def build_box_topology(sides_to_use, n_sides, n_wires_per_side):
     assert(len(sides_to_use) <= n_sides)
 

@@ -17,6 +17,8 @@ import json
 #  4. List of labels in the base modules? E.G. CLB modes?
 # Leave it to the place and route software to decompress each module?
 
+# Really need a more general way to describe the topology. Should be able to
+# generate one bottom wire without special flags.
 def run_generators(grid_len):
     bitstream_json = {}
     topology_json = {}

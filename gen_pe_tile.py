@@ -179,6 +179,16 @@ def generate_pe_tile_json(pe_tile):
 # outputs?
 
 # TODO: Add out_1_0 wire to bottom tiles!
+
+# Really a few different data structures to express topology
+# Switch box inputs / outputs
+# PE tile inputs / outputs
+# Each of these is an instance
+# Really the data structure needs to express
+# 1. Inputs on each side
+# 2. Outputs on each side
+# 3. How inputs connect to outputs
+# 4. Need labels for which wires are ports and which are internal wires
 def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom, is_top):
     mod = VerilogModule(mod_name)
 
