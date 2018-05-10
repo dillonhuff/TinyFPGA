@@ -1,4 +1,4 @@
-module pe_tile_bottom_right(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 0] in_wire_2_1, input [0 : 0] in_wire_0_0, input [0 : 0] in_wire_0_1, input [0 : 0] in_wire_0_2, input [0 : 0] clk, input [0 : 0] in_wire_2_2, input [0 : 0] in_wire_2_3, input [0 : 0] in_wire_1_2, input [0 : 0] in_wire_0_3, input [0 : 0] in_wire_1_1, input [0 : 0] in_wire_1_0, input [0 : 0] in_wire_1_3, input [31 : 0] config_addr, input [0 : 0] in_wire_3_3, input [0 : 0] in_wire_3_2, input [0 : 0] in_wire_3_1, input [0 : 0] in_wire_3_0, input [15 : 0] tile_id, input [0 : 0] in_wire_2_0, output [0 : 0] out_wire_3_3, output [0 : 0] out_wire_3_2, output [0 : 0] out_wire_3_1, output [0 : 0] out_wire_3_0, output [0 : 0] out_wire_2_2, output [0 : 0] out_wire_2_3, output [0 : 0] out_wire_2_0, output [0 : 0] out_wire_2_1);
+module pe_tile_bottom_right(input [0 : 0] reset, input [31 : 0] config_data, input [0 : 0] in_wire_2_1, input [0 : 0] in_wire_0_0, input [0 : 0] in_wire_0_1, input [0 : 0] in_wire_0_2, input [0 : 0] clk, input [0 : 0] in_wire_2_2, input [0 : 0] in_wire_2_3, input [0 : 0] in_wire_1_2, input [0 : 0] in_wire_0_3, input [0 : 0] in_wire_1_1, input [0 : 0] in_wire_1_0, input [0 : 0] in_wire_1_3, input [31 : 0] config_addr, input [0 : 0] in_wire_3_3, input [0 : 0] in_wire_3_2, input [0 : 0] in_wire_3_1, input [0 : 0] in_wire_3_0, input [15 : 0] tile_id, input [0 : 0] in_wire_2_0, output [0 : 0] out_wire_3_3, output [0 : 0] out_wire_3_2, output [0 : 0] out_wire_3_1, output [0 : 0] out_wire_3_0, output [0 : 0] out_wire_2_2, output [0 : 0] out_wire_2_3, output [0 : 0] out_wire_2_0, output [0 : 0] out_wire_2_1, output [0 : 0] out_wire_1_0);
 	// Internal wires
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] config_en_cb1;
@@ -10,8 +10,6 @@ module pe_tile_bottom_right(input [0 : 0] reset, input [31 : 0] config_data, inp
 	wire [1 - 1 : 0] op_1;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] out_wire_1_1;
-	/* verilator lint_off UNOPTFLAT */
-	wire [1 - 1 : 0] out_wire_1_0;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] out_wire_1_3;
 	/* verilator lint_off UNOPTFLAT */
