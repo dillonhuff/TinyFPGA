@@ -59,7 +59,7 @@ def generate_pe_tile_json(pe_tile):
 # 2. Outputs on each side
 # 3. How inputs connect to outputs
 # 4. Need labels for which wires are ports and which are internal wires
-def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom, is_top):
+def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom):
     mod = VerilogModule(mod_name)
 
     mod.add_wire('clk', False, True, 'input', 1)
@@ -295,10 +295,9 @@ def generate_pe_tile(mod_name,
                      sides_to_use,
                      n_sides,
                      n_wires_per_side,
-                     is_bottom=False,
-                     is_top=False):
+                     is_bottom=False):
     # Creating real pe tile
-    pe_tile = generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom, is_top)
+    pe_tile = generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom)
     
     verilog_str = pe_tile.module_string() #generate_pe_tile_verilog(pe_tile)
     pe_tile_file = open(mod_name + '.v', 'w')
