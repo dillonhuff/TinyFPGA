@@ -10,6 +10,13 @@ from verilog import VerilogModule, VerilogModuleInstance
 # For now the PnR and bitstream converter should probably be in the
 # same repo.
 
+# Now need a way to send config info to PnR.
+# Need to include: metadata with verilog modules about how they are supposed to
+# be labeled. Also need to include info about the topology of each component.
+# I might need a namespace-like concept for this so that when generating JSON
+# for the topology I can know when to stop. Will I need to stop? Just dont
+# generate topology json for hand-written modules
+
 # Note: The PnR will have to remove wires and move to a pointwise format
 # from the wire based format of the current design.
 
