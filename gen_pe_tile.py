@@ -225,62 +225,62 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     return mod
 
 # Need to add custom modules for configuration state and for assignment
-def generate_pe_tile_verilog(pe_tile):
+# def generate_pe_tile_verilog(pe_tile):
 
-    ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
+#     ports = ['input clk', 'input reset', 'input [31:0] config_addr', 'input [31:0] config_data', 'input [15:0] tile_id']
 
-    for in_wire in pe_tile.input_wires:
-        ports.append(in_wire)
+#     for in_wire in pe_tile.input_wires:
+#         ports.append(in_wire)
 
-    for out_wire in pe_tile.output_wires:
-        ports.append(out_wire)
+#     for out_wire in pe_tile.output_wires:
+#         ports.append(out_wire)
 
-    body = '\n'
+#     body = '\n'
 
-    body += '\twire op_0;\n'
-    body += '\twire op_1;\n'
-    body += '\t/* verilator lint_off UNOPTFLAT */\n'
-    body += '\twire pe_output;\n\n'
+#     body += '\twire op_0;\n'
+#     body += '\twire op_1;\n'
+#     body += '\t/* verilator lint_off UNOPTFLAT */\n'
+#     body += '\twire pe_output;\n\n'
 
-    body += '\t// Local wires for switch box outputs <-> connect box\n'
-    for wire in pe_tile.local_output_wires:
-        body += '\t' + wire + ';\n'
+#     body += '\t// Local wires for switch box outputs <-> connect box\n'
+#     for wire in pe_tile.local_output_wires:
+#         body += '\t' + wire + ';\n'
 
-    for mod_name in pe_tile.modules:
-        mod = pe_tile.modules[mod_name]
-        body += '\t// Set configuration flag\n'
+#     for mod_name in pe_tile.modules:
+#         mod = pe_tile.modules[mod_name]
+#         body += '\t// Set configuration flag\n'
 
-        config_reg = 'config_en_' + mod.inst_name
-        config_flag_value = 'CONFIG_' + mod.inst_name
-        body += '\treg ' + config_reg + ';\n'
-        body += '\tlocalparam ' + config_flag_value + ' = ' + str(mod.config_id) + ';\n'
-        body += '\talways @(*) begin\n'
-        body += '\t\tif ((config_addr[' + str(pe_tile.tile_id_end) + ':' + str(pe_tile.tile_id_begin) + '] == tile_id) && (config_addr[' + str(pe_tile.mod_id_end) + ':' + str(pe_tile.mod_id_begin) + '] == ' + config_flag_value + ')) begin\n'
-        body += '\t\t\t' + config_reg + ' = 1\'b1;\n'
-        body += '\t\tend else begin\n'
-        body += '\t\t\t' + config_reg + ' = 1\'b0;\n'
-        body += '\t\tend\n'
-        body += '\tend\n\n'
+#         config_reg = 'config_en_' + mod.inst_name
+#         config_flag_value = 'CONFIG_' + mod.inst_name
+#         body += '\treg ' + config_reg + ';\n'
+#         body += '\tlocalparam ' + config_flag_value + ' = ' + str(mod.config_id) + ';\n'
+#         body += '\talways @(*) begin\n'
+#         body += '\t\tif ((config_addr[' + str(pe_tile.tile_id_end) + ':' + str(pe_tile.tile_id_begin) + '] == tile_id) && (config_addr[' + str(pe_tile.mod_id_end) + ':' + str(pe_tile.mod_id_begin) + '] == ' + config_flag_value + ')) begin\n'
+#         body += '\t\t\t' + config_reg + ' = 1\'b1;\n'
+#         body += '\t\tend else begin\n'
+#         body += '\t\t\t' + config_reg + ' = 1\'b0;\n'
+#         body += '\t\tend\n'
+#         body += '\tend\n\n'
 
-        body += '\n\n'
+#         body += '\n\n'
 
-        body += '\t// Declare module\n'
-        body += '\t' + mod.module_name + ' ' + mod.inst_name + '(\n'
+#         body += '\t// Declare module\n'
+#         body += '\t' + mod.module_name + ' ' + mod.inst_name + '(\n'
 
-        i = 0
-        for port in mod.connections:
-            body += '\t\t.' + port + '(' + mod.connections[port] + ')'
-            if (i < (len(mod.connections) - 1)):
-                body += ','
-            body += '\n'
-            i += 1
+#         i = 0
+#         for port in mod.connections:
+#             body += '\t\t.' + port + '(' + mod.connections[port] + ')'
+#             if (i < (len(mod.connections) - 1)):
+#                 body += ','
+#             body += '\n'
+#             i += 1
         
-        body += '\t);\n\n'
+#         body += '\t);\n\n'
 
-    return module_string(['clb.v', 'connect_box.v', 'switch_box.v'],
-                         pe_tile.mod_name,
-                         ports,
-                         body)
+#     return module_string(['clb.v', 'connect_box.v', 'switch_box.v'],
+#                          pe_tile.mod_name,
+#                          ports,
+#                          body)
 
 def generate_pe_bs_json(pe_tile):
     json_val = {}
@@ -306,7 +306,7 @@ def generate_pe_tile(mod_name,
     # Creating real pe tile
     pe_tile = generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires_per_side, is_bottom)
     
-    verilog_str = pe_tile.module_string() #generate_pe_tile_verilog(pe_tile)
+    verilog_str = pe_tile.module_string()
     pe_tile_file = open(mod_name + '.v', 'w')
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()
