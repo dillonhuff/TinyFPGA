@@ -15,10 +15,33 @@ void hand_written_test() {
   RESET(top->reset);
 
   vector<unsigned long> config_addrs{1, 2, 4, 5, 8};
+  //vector<unsigned long> config_datas{};
   // IO in 0 -> 1 -> 4 -> 5,
   // IO in 1 -> 2 -> 5
   // 5 computes XOR
   // 5 output -> 8 -> IO out 1
+
+  top->in_wire_0 = 1;
+  top->in_wire_1 = 0;
+
+  POSEDGE(top->clk);
+
+  assert(top->out_wire_1 == 1);
+
+  top->in_wire_0 = 0;
+  top->in_wire_1 = 0;
+
+  POSEDGE(top->clk);
+
+  assert(top->out_wire_1 == 0);
+
+  top->in_wire_0 = 1;
+  top->in_wire_1 = 1;
+
+  POSEDGE(top->clk);
+
+  assert(top->out_wire_1 == 0);
+  
 }
 
 int main() {
