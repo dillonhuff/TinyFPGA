@@ -46,6 +46,22 @@ struct config_address_structure {
   const int tile_id_begin;
   const int tile_id_end;
 
+  config_address_structure(const int width_,
+                           const int mod_id_begin_,
+                           const int mod_id_end_,
+                           const int tile_id_begin_,
+                           const int tile_id_end_) :
+    width(width_),
+    mod_id_begin(mod_id_begin_),
+    mod_id_end(mod_id_end_),
+    tile_id_begin(tile_id_begin_),
+    tile_id_end(tile_id_end_) {
+
+    // Only support width 32 addresses for now
+    assert(width == 32);
+    assert((mod_id_end - mod_id_begin) + (tile_id_end - tile_id_begin) == width);
+  }
+
   uint32_t component_address(const PE_component component) {
     if (component == PE_COMPONENT_CB0) {
       return 6;
