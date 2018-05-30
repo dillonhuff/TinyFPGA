@@ -45,12 +45,35 @@ struct config_address_structure {
   const int mod_id_end;
   const int tile_id_begin;
   const int tile_id_end;
-};
 
-uint32_t config_address(const uint32_t tile_id,
-                        const PE_component component) {
-  
-}
+  uint32_t component_address(const PE_component component) {
+    if (component == PE_COMPONENT_CB0) {
+      return 6;
+    }
+
+    if (component == PE_COMPONENT_CB1) {
+      return 5;
+    }
+
+    if (component == PE_COMPONENT_SB) {
+      return 7;
+    }
+
+    if (component == PE_COMPONENT_CLB) {
+      return 4;
+    }
+    
+    assert(false);
+  }
+
+  uint32_t config_address(const uint32_t tile_id,
+                          const PE_component component) {
+    uint32_t addr = 0;
+    addr |= (tile_id << tile_id_begin);
+    addr |= (component_address(component) << mod_id_begin);
+    return addr;
+  }
+};
 
 void hand_written_test() {
   Vtop* top = new Vtop;

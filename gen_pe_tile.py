@@ -122,6 +122,7 @@ def generate_pe_verilog(mod_name, switch_box_mod, sides_to_use, n_sides, n_wires
     mod.add_wire('clb_config_data', False, False, '', 2)
     mod.add_wire_connection('clb_config_data', 'clb_slice', 'out')
 
+    # This address layout info is really what should be programmed
     tile_id_end = 15
     tile_id_begin = 0
     mod_id_end = 31
