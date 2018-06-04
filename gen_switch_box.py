@@ -171,6 +171,11 @@ def build_mod_str(mod_name, sides_to_use, n_sides, n_wires_per_side):
 
     (output_map, input_wires) = build_box_topology(sides_to_use, n_sides, n_wires_per_side)
 
+    print 'SB Output map for ', mod_name
+    for elem in output_map:
+        print '\t', elem
+    
+
     verilog = generate_sb_verilog(mod_name, output_map, input_wires)
     json = generate_sb_json(mod_name, output_map, input_wires)
     return (verilog, json, build_sb_bitstream_json(mod_name, output_map))
