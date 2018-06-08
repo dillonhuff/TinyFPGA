@@ -162,7 +162,17 @@ class VerilogModule():
             port_strings.append('output [' + str(width - 1) + ' : 0] ' + port);
 
         return port_strings
-        
+
+    def topology_json(self):
+        # The json representation is going to be:
+        #   1. A list of module instances
+        #   2. A list of connections from module to module or from
+        #      module port to wire and wire to module?
+
+        json = {}
+
+        return json
+
     def body_string(self):
         body = ''
 

@@ -33,22 +33,12 @@ from verilog import VerilogModule, VerilogModuleInstance
 #    4. Test the application in verilator
 #    5. Fail out if the application crashes or does not do what Im expecting
 
-def generate_pe_tile_json(pe_tile):
+# TODO: Move all individual components json generation to verilog
+def generate_pe_tile_topology_json(pe_tile):
     json_val = {}
 
-    # json_val['mod_name'] = pe_tile.mod_name
-
-    # # json_val['tile_name'] = pe_tile.inst_name
-
-    # # TODO: Need to serialize module names at least
-    # # json_val['modules'] = pe_tile.modules
-    
-    # json_val['switch_box_mod'] = pe_tile.switch_box_mod
-
-    # json_val['input_wires'] = list(pe_tile.input_wires)
-    # json_val['output_wires'] = list(pe_tile.output_wires)
-
-    # json_val['local_output_wires'] = list(pe_tile.local_output_wires)
+    # How to represent topology? Maybe this should be moved to verilog.py and
+    # used for all modules?
 
     return json_val
 
@@ -258,4 +248,4 @@ def generate_pe_tile(mod_name,
     pe_tile_file.write(verilog_str)
     pe_tile_file.close()
 
-    return (generate_pe_bs_json(pe_tile), generate_pe_tile_json(pe_tile))
+    return (generate_pe_bs_json(pe_tile), pe_tile.topology_json()) #generate_pe_tile_topology_json(pe_tile))

@@ -106,7 +106,7 @@ def run_generators(grid_len):
     top_file.close()
 
     top_json = build_top_mod_bitstream_json(top_mod)
-    top_topology_json = build_top_mod_topology_json(top_mod)
+    top_topology_json = top_mod.topology_json() #build_top_mod_topology_json(top_mod)
 
     bitstream_json['top'] = top_json
     topology_json['top'] = top_topology_json
