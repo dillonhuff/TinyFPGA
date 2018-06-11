@@ -1,11 +1,11 @@
 
-//                2
+//                3
 //
 // 
-//  3        switch_box        1
+//  2        switch_box        0
 //
 //                
-//                0
+//                1
 
 module switch_box(input clk,
                   input  rst,
@@ -73,6 +73,42 @@ module switch_box(input clk,
       end else if (config_en) begin
          config_data_reg <= config_data;
       end
+   end
+
+   always @(*) begin
+      case (config_data_reg[1:0])
+        2'b00: side_0_track_0_out = side_2_track_0_in;
+        2'b01: side_0_track_0_out = side_0_track_0_in;
+        2'b10: side_0_track_0_out = side_1_track_0_in;
+        2'b11: side_0_track_0_out = side_0_track_0_in;
+      endcase
+   end
+
+   always @(*) begin
+      case (config_data_reg[2:1])
+        2'b00: side_0_track_1_out = side_2_track_1_in;
+        2'b01: side_0_track_1_out = side_0_track_1_in;
+        2'b10: side_0_track_1_out = side_1_track_1_in;
+        2'b11: side_0_track_1_out = side_0_track_1_in;
+      endcase
+   end
+
+   always @(*) begin
+      case (config_data_reg[2:1])
+        2'b00: side_0_track_2_out = side_2_track_2_in;
+        2'b01: side_0_track_2_out = side_0_track_2_in;
+        2'b10: side_0_track_2_out = side_1_track_2_in;
+        2'b11: side_0_track_2_out = side_0_track_2_in;
+      endcase
+   end
+
+   always @(*) begin
+      case (config_data_reg[2:1])
+        2'b00: side_0_track_3_out = side_2_track_3_in;
+        2'b01: side_0_track_3_out = side_0_track_3_in;
+        2'b10: side_0_track_3_out = side_1_track_3_in;
+        2'b11: side_0_track_3_out = side_0_track_3_in;
+      endcase
    end
    
 endmodule
