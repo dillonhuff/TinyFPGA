@@ -1,3 +1,18 @@
+`ifndef pe_tile_included
+`define pe_tile_included 1
+`include "pe_tile"
+`endif
+
+`ifndef io1in_pad_included
+`define io1in_pad_included 1
+`include "io1in_pad"
+`endif
+
+`ifndef io1out_pad_included
+`define io1out_pad_included 1
+`include "io1out_pad"
+`endif
+
 
 
 module top(
@@ -600,7 +615,7 @@ module top(
 		.in(wire_3)
 	);
 
-	pe_tile pe_tile_1_2(
+	pe_tile_right pe_tile_1_2(
 		.out_wire_3_0(vertical_tile_1_2_to_tile_0_2_0),
 		.out_wire_3_1(vertical_tile_1_2_to_tile_0_2_1),
 		.out_wire_3_2(vertical_tile_1_2_to_tile_0_2_2),
@@ -630,13 +645,13 @@ module top(
 		.in_wire_0_2(pe_tile_1_2_in_wire_0_2_const),
 		.in_wire_0_3(pe_tile_1_2_in_wire_0_3_const),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_1_2_id_wire)
 	);
 
-	pe_tile pe_tile_1_0(
+	pe_tile_left pe_tile_1_0(
 		.out_wire_3_0(vertical_tile_1_0_to_tile_0_0_0),
 		.out_wire_3_1(vertical_tile_1_0_to_tile_0_0_1),
 		.out_wire_3_2(vertical_tile_1_0_to_tile_0_0_2),
@@ -666,7 +681,7 @@ module top(
 		.in_wire_0_2(horizontal_tile_1_1_to_tile_1_0_2),
 		.in_wire_0_3(horizontal_tile_1_1_to_tile_1_0_3),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_1_0_id_wire)
@@ -706,7 +721,7 @@ module top(
 		.in_wire_0_2(horizontal_tile_1_2_to_tile_1_1_2),
 		.in_wire_0_3(horizontal_tile_1_2_to_tile_1_1_3),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_1_1_id_wire)
@@ -800,7 +815,7 @@ module top(
 		.in(wire_49)
 	);
 
-	pe_tile pe_tile_2_0(
+	pe_tile_bottom_left pe_tile_2_0(
 		.out_wire_3_0(vertical_tile_2_0_to_tile_1_0_0),
 		.out_wire_3_1(vertical_tile_2_0_to_tile_1_0_1),
 		.out_wire_3_2(vertical_tile_2_0_to_tile_1_0_2),
@@ -827,7 +842,7 @@ module top(
 		.in_wire_0_2(horizontal_tile_2_1_to_tile_2_0_2),
 		.in_wire_0_3(horizontal_tile_2_1_to_tile_2_0_3),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_2_0_id_wire)
@@ -847,7 +862,7 @@ module top(
 		.out(wire_33)
 	);
 
-	pe_tile pe_tile_2_2(
+	pe_tile_bottom_right pe_tile_2_2(
 		.out_wire_3_0(vertical_tile_2_2_to_tile_1_2_0),
 		.out_wire_3_1(vertical_tile_2_2_to_tile_1_2_1),
 		.out_wire_3_2(vertical_tile_2_2_to_tile_1_2_2),
@@ -874,7 +889,7 @@ module top(
 		.in_wire_0_2(pe_tile_2_2_in_wire_0_2_const),
 		.in_wire_0_3(pe_tile_2_2_in_wire_0_3_const),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_2_2_id_wire)
@@ -908,7 +923,7 @@ module top(
 		.in(wire_28)
 	);
 
-	pe_tile pe_tile_0_2(
+	pe_tile_top_right pe_tile_0_2(
 		.in_wire_3_0(in_pad_2_pin_to_pe_tile_0_2_in_wire_3_0),
 		.in_wire_3_1(pe_tile_0_2_in_wire_3_1_const),
 		.in_wire_3_2(pe_tile_0_2_in_wire_3_2_const),
@@ -934,13 +949,13 @@ module top(
 		.in_wire_0_2(pe_tile_0_2_in_wire_0_2_const),
 		.in_wire_0_3(pe_tile_0_2_in_wire_0_3_const),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_0_2_id_wire)
 	);
 
-	pe_tile pe_tile_0_1(
+	pe_tile_top pe_tile_0_1(
 		.in_wire_3_0(in_pad_1_pin_to_pe_tile_0_1_in_wire_3_0),
 		.in_wire_3_1(pe_tile_0_1_in_wire_3_1_const),
 		.in_wire_3_2(pe_tile_0_1_in_wire_3_2_const),
@@ -970,13 +985,13 @@ module top(
 		.in_wire_0_2(horizontal_tile_0_2_to_tile_0_1_2),
 		.in_wire_0_3(horizontal_tile_0_2_to_tile_0_1_3),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_0_1_id_wire)
 	);
 
-	pe_tile pe_tile_0_0(
+	pe_tile_top_left pe_tile_0_0(
 		.in_wire_3_0(in_pad_0_pin_to_pe_tile_0_0_in_wire_3_0),
 		.in_wire_3_1(pe_tile_0_0_in_wire_3_1_const),
 		.in_wire_3_2(pe_tile_0_0_in_wire_3_2_const),
@@ -1002,7 +1017,7 @@ module top(
 		.in_wire_0_2(horizontal_tile_0_1_to_tile_0_0_2),
 		.in_wire_0_3(horizontal_tile_0_1_to_tile_0_0_3),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_0_0_id_wire)
@@ -1013,7 +1028,7 @@ module top(
 		.in(wire_29)
 	);
 
-	pe_tile pe_tile_2_1(
+	pe_tile_bottom pe_tile_2_1(
 		.out_wire_3_0(vertical_tile_2_1_to_tile_1_1_0),
 		.out_wire_3_1(vertical_tile_2_1_to_tile_1_1_1),
 		.out_wire_3_2(vertical_tile_2_1_to_tile_1_1_2),
@@ -1044,7 +1059,7 @@ module top(
 		.in_wire_0_2(horizontal_tile_2_2_to_tile_2_1_2),
 		.in_wire_0_3(horizontal_tile_2_2_to_tile_2_1_3),
 		.clk(clk),
-		.rst(reset),
+		.reset(reset),
 		.config_addr(config_addr),
 		.config_data(config_data),
 		.tile_id(pe_tile_2_1_id_wire)

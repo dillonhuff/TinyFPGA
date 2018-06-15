@@ -2,8 +2,6 @@ import sys
 sys.path.insert(0, '../')
 
 from sets import Set
-from generator_utils import module_string
-from verilog import VerilogModule, VerilogModuleInstance
 
 def build_top_mod(num_in_ios,
                   num_out_ios,
@@ -255,10 +253,4 @@ def build_verilog_string(top_mod):
     includes = []
     return module_string(includes, top_mod.mod_name, top_mod.get_port_strings(), top_mod.body_string())
 
-grid_len = 3
-top_mod = build_top_mod(grid_len, grid_len, grid_len, grid_len)
-name = 'top'
-top_file = open(name + '.v', 'w')
-top_file.write(build_verilog_string(top_mod))
-top_file.close()
 
