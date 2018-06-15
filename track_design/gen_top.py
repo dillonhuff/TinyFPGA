@@ -1,6 +1,9 @@
 import sys
 sys.path.insert(0, '../')
 
+from generator_utils import module_string
+from verilog import VerilogModule, VerilogModuleInstance
+
 from sets import Set
 
 def build_top_mod(num_in_ios,

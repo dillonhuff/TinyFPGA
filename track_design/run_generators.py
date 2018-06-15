@@ -1,7 +1,8 @@
+from gen_top import build_top_mod, build_verilog_string
+
 import sys
 sys.path.insert(0, '../')
 
-from gen_top import build_top_mod, build_verilog_string
 from testbench_utils import os_cmd
 from generator_utils import module_string
 from verilog import VerilogModule, VerilogModuleInstance
