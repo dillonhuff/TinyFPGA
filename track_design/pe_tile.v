@@ -61,9 +61,12 @@ module pe_tile(input clk,
    
 
    always @(posedge clk) begin
-      $display("running pe");
-   end
-
+      $display("config addr = %b", config_addr);
+      $display("config data = %b", config_data);
+      $display("tile addr   = %b", tile_id);
+      $display("config sb   = %b", config_en_sb);
+   end 
+   
    assign config_this_tile = config_addr[15:0] == tile_id;
    
    assign config_en_cb0 = config_this_tile && (config_addr[31:16] == 4);

@@ -6,9 +6,9 @@
 
 using namespace std;
 
-#define POSEDGE(signal) (signal) = 0; (signal) = 1;
-#define NEGEDGE(signal) (signal) = 1; (signal) = 0;
-#define RESET(signal) POSEDGE((signal)); NEGEDGE((signal));
+#define POSEDGE(signal, val) (signal) = 0; (val)->eval(); (signal) = 1; (val)->eval();
+#define NEGEDGE(signal, val) (signal) = 1; (val)->eval(); (signal) = 0; (val)->eval();
+#define RESET(signal, val) POSEDGE((signal), (val)); NEGEDGE((signal), (val)); POSEDGE((signal), (val));
 
 // In0 In1 In2
 // 1   2   3
@@ -99,7 +99,7 @@ struct config_address_structure {
 int main() {
   Vtop* top = new Vtop();
 
-  RESET(top->reset);
+  RESET(top->reset, top);
 
   config_address_structure addr_gen(32, 16, 31, 0, 15);
   auto addr0 = addr_gen.config_address(1, PE_COMPONENT_SB);
@@ -108,60 +108,55 @@ int main() {
   top->config_addr = addr0;
   top->config_data = data0;
   
-  POSEDGE(top->clk);
+  POSEDGE(top->clk, top);
 
-  auto addr1 = addr_gen.config_address(4, PE_COMPONENT_SB);
+  addr0 = addr_gen.config_address(4, PE_COMPONENT_SB);
 
-  top->config_addr = addr1;
+  top->config_addr = addr0;
   top->config_data = data0;
   
-  POSEDGE(top->clk);
+  POSEDGE(top->clk, top);
 
-  auto addr2 = addr_gen.config_address(7, PE_COMPONENT_SB);
+  addr0 = addr_gen.config_address(7, PE_COMPONENT_SB);
 
-  top->config_addr = addr2;
+  top->config_addr = addr0;
   top->config_data = data0;
   
-  POSEDGE(top->clk);
+  POSEDGE(top->clk, top);
   
-  top->config_addr = 0;
-  top->config_data = 0;
-
-  POSEDGE(top->clk);
-
   top->in_wire_0 = 1;
-  POSEDGE(top->clk);
+  POSEDGE(top->clk, top);
 
   assert(top->out_wire_0 == top->in_wire_0);
   
-  // auto addr2 = addr_gen.config_address(7, PE_COMPONENT_SB);
+  // // auto addr2 = addr_gen.config_address(7, PE_COMPONENT_SB);
   
-  // // IO in 0 -> 1 -> 4 -> 5,
-  // // IO in 1 -> 2 -> 5
-  // // 5 computes XOR
-  // // 5 output -> 8 -> IO out 1
-  // vector<unsigned long> config_datas{};
+  // // // IO in 0 -> 1 -> 4 -> 5,
+  // // // IO in 1 -> 2 -> 5
+  // // // 5 computes XOR
+  // // // 5 output -> 8 -> IO out 1
+  // // vector<unsigned long> config_datas{};
 
-  // top->in_wire_0 = 1;
-  // top->in_wire_1 = 0;
+  // // top->in_wire_0 = 1;
+  // // top->in_wire_1 = 0;
 
-  // POSEDGE(top->clk);
+  // // POSEDGE(top->clk);
 
-  // assert(top->out_wire_1 == 1);
+  // // assert(top->out_wire_1 == 1);
 
-  // top->in_wire_0 = 0;
-  // top->in_wire_1 = 0;
+  // // top->in_wire_0 = 0;
+  // // top->in_wire_1 = 0;
 
-  // POSEDGE(top->clk);
+  // // POSEDGE(top->clk);
 
-  // assert(top->out_wire_1 == 0);
+  // // assert(top->out_wire_1 == 0);
 
-  // top->in_wire_0 = 1;
-  // top->in_wire_1 = 1;
+  // // top->in_wire_0 = 1;
+  // // top->in_wire_1 = 1;
 
-  // POSEDGE(top->clk);
+  // // POSEDGE(top->clk);
 
-  // assert(top->out_wire_1 == 0);
+  // // assert(top->out_wire_1 == 0);
 
-  cout << "$$$ Top tests passed" << endl;
+  // cout << "$$$ Top tests passed" << endl;
 }
