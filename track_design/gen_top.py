@@ -153,20 +153,20 @@ def build_top_mod(num_in_ios,
                     connector = 'vertical_' + tile_above + '_to_' + this_tile + '_' + str(i)
                     top_mod.add_wire_connection(connector, tile_name, out_wire)
                     
-            # ## Wiring up tiles to inputs below them: row (N - 1) connects to output
-            # ## IO pads, all other rows connect to row N + 1
-            # if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
-            #     top_mod.add_instance_connection('out_pad_' + str(grid_col),
-            #                                     'pin',
-            #                                     tile_name,
-            #                                     'out_wire_1_0')
+            ## Wiring up tiles to inputs below them: row (N - 1) connects to output
+            ## IO pads, all other rows connect to row N + 1
+            if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
+                top_mod.add_instance_connection('out_pad_' + str(grid_col),
+                                                'pin',
+                                                tile_name,
+                                                'side_1_track_0_out')
 
-            #     for i in range(0, 4):
-            #         in_wire = 'side_3_track_' + str(i) + '_in'
-            #         in_wire_c = tile_name + '_' + in_wire + '_const'
-            #         top_mod.add_wire(in_wire_c)
-            #         top_mod.add_wire_connection(in_wire_c, tile_name, in_wire)
-            #         top_mod.add_assign(in_wire_c, '1\'b0')
+                for i in range(0, 4):
+                    in_wire = 'side_1_track_' + str(i) + '_in'
+                    in_wire_c = tile_name + '_' + in_wire + '_const'
+                    top_mod.add_wire(in_wire_c)
+                    top_mod.add_wire_connection(in_wire_c, tile_name, in_wire)
+                    top_mod.add_assign(in_wire_c, '1\'b0')
 
             # elif (grid_row != (grid_height - 1)):
             #     for i in range(0, 4):
