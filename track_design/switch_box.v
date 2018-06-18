@@ -89,7 +89,7 @@ module switch_box(input clk,
    // Side 0
    always @(*) begin
       case (config_data_reg[1:0])
-        2'b00: side_0_track_0_out = side_0_track_0_in;
+        2'b00: side_0_track_0_out = clb_result;
         2'b01: side_0_track_0_out = side_1_track_0_in;
         2'b10: side_0_track_0_out = side_2_track_0_in;
         2'b11: side_0_track_0_out = side_3_track_0_in;
@@ -98,7 +98,7 @@ module switch_box(input clk,
 
    always @(*) begin
       case (config_data_reg[3:2])
-        2'b00: side_0_track_1_out = side_0_track_1_in;
+        2'b00: side_0_track_1_out = clb_result;
         2'b01: side_0_track_1_out = side_1_track_1_in;
         2'b10: side_0_track_1_out = side_2_track_1_in;
         2'b11: side_0_track_1_out = side_3_track_1_in;
@@ -107,7 +107,7 @@ module switch_box(input clk,
 
    always @(*) begin
       case (config_data_reg[5:4])
-        2'b00: side_0_track_2_out = side_0_track_2_in;
+        2'b00: side_0_track_2_out = clb_result;
         2'b01: side_0_track_2_out = side_1_track_2_in;
         2'b10: side_0_track_2_out = side_2_track_2_in;
         2'b11: side_0_track_2_out = side_3_track_2_in;
@@ -116,7 +116,7 @@ module switch_box(input clk,
 
    always @(*) begin
       case (config_data_reg[7:6])
-        2'b00: side_0_track_3_out = side_0_track_3_in;
+        2'b00: side_0_track_3_out = clb_result;
         2'b01: side_0_track_3_out = side_1_track_3_in;
         2'b10: side_0_track_3_out = side_2_track_3_in;
         2'b11: side_0_track_3_out = side_3_track_3_in;
@@ -127,7 +127,7 @@ module switch_box(input clk,
    always @(*) begin
       case (config_data_reg[9:8])
         2'b00: side_1_track_0_out = side_0_track_0_in;
-        2'b01: side_1_track_0_out = side_1_track_0_in;
+        2'b01: side_1_track_0_out = clb_result;
         2'b10: side_1_track_0_out = side_2_track_0_in;
         2'b11: side_1_track_0_out = side_3_track_0_in;
       endcase
@@ -136,7 +136,7 @@ module switch_box(input clk,
    always @(*) begin
       case (config_data_reg[11:10])
         2'b00: side_1_track_1_out = side_0_track_1_in;
-        2'b01: side_1_track_1_out = side_1_track_1_in;
+        2'b01: side_1_track_1_out = clb_result;
         2'b10: side_1_track_1_out = side_2_track_1_in;
         2'b11: side_1_track_1_out = side_3_track_1_in;
       endcase
@@ -145,7 +145,7 @@ module switch_box(input clk,
    always @(*) begin
       case (config_data_reg[13:12])
         2'b00: side_1_track_2_out = side_0_track_2_in;
-        2'b01: side_1_track_2_out = side_1_track_2_in;
+        2'b01: side_1_track_2_out = clb_result;
         2'b10: side_1_track_2_out = side_2_track_2_in;
         2'b11: side_1_track_2_out = side_3_track_2_in;
       endcase
@@ -154,7 +154,7 @@ module switch_box(input clk,
    always @(*) begin
       case (config_data_reg[15:14])
         2'b00: side_1_track_3_out = side_0_track_3_in;
-        2'b01: side_1_track_3_out = side_1_track_3_in;
+        2'b01: side_1_track_3_out = clb_result;
         2'b10: side_1_track_3_out = side_2_track_3_in;
         2'b11: side_1_track_3_out = side_3_track_3_in;
       endcase
@@ -165,7 +165,7 @@ module switch_box(input clk,
       case (config_data_reg[17:16])
         2'b00: side_2_track_0_out = side_0_track_0_in;
         2'b01: side_2_track_0_out = side_1_track_0_in;
-        2'b10: side_2_track_0_out = side_2_track_0_in;
+        2'b10: side_2_track_0_out = clb_result;
         2'b11: side_2_track_0_out = side_3_track_0_in;
       endcase
    end
@@ -174,7 +174,7 @@ module switch_box(input clk,
       case (config_data_reg[19:18])
         2'b00: side_2_track_1_out = side_0_track_1_in;
         2'b01: side_2_track_1_out = side_1_track_1_in;
-        2'b10: side_2_track_1_out = side_2_track_1_in;
+        2'b10: side_2_track_1_out = clb_result;
         2'b11: side_2_track_1_out = side_3_track_1_in;
       endcase
    end
@@ -183,7 +183,7 @@ module switch_box(input clk,
       case (config_data_reg[21:20])
         2'b00: side_2_track_2_out = side_0_track_2_in;
         2'b01: side_2_track_2_out = side_1_track_2_in;
-        2'b10: side_2_track_2_out = side_2_track_2_in;
+        2'b10: side_2_track_2_out = clb_result;
         2'b11: side_2_track_2_out = side_3_track_2_in;
       endcase
    end
@@ -192,7 +192,7 @@ module switch_box(input clk,
       case (config_data_reg[23:22])
         2'b00: side_2_track_3_out = side_0_track_3_in;
         2'b01: side_2_track_3_out = side_1_track_3_in;
-        2'b10: side_2_track_3_out = side_2_track_3_in;
+        2'b10: side_2_track_3_out = clb_result;
         2'b11: side_2_track_3_out = side_3_track_3_in;
       endcase
    end
@@ -203,7 +203,7 @@ module switch_box(input clk,
         2'b00: side_3_track_0_out = side_0_track_0_in;
         2'b01: side_3_track_0_out = side_1_track_0_in;
         2'b10: side_3_track_0_out = side_2_track_0_in;
-        2'b11: side_3_track_0_out = side_3_track_0_in;
+        2'b11: side_3_track_0_out = clb_result;
       endcase
    end
 
@@ -212,7 +212,7 @@ module switch_box(input clk,
         2'b00: side_3_track_1_out = side_0_track_1_in;
         2'b01: side_3_track_1_out = side_1_track_1_in;
         2'b10: side_3_track_1_out = side_2_track_1_in;
-        2'b11: side_3_track_1_out = side_3_track_1_in;
+        2'b11: side_3_track_1_out = clb_result;
       endcase
    end
 
@@ -221,7 +221,7 @@ module switch_box(input clk,
         2'b00: side_3_track_2_out = side_0_track_2_in;
         2'b01: side_3_track_2_out = side_1_track_2_in;
         2'b10: side_3_track_2_out = side_2_track_2_in;
-        2'b11: side_3_track_2_out = side_3_track_2_in;
+        2'b11: side_3_track_2_out = clb_result;
       endcase
    end
 
@@ -230,7 +230,7 @@ module switch_box(input clk,
         2'b00: side_3_track_3_out = side_0_track_3_in;
         2'b01: side_3_track_3_out = side_1_track_3_in;
         2'b10: side_3_track_3_out = side_2_track_3_in;
-        2'b11: side_3_track_3_out = side_3_track_3_in;
+        2'b11: side_3_track_3_out = clb_result;
       endcase
    end
    

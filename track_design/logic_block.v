@@ -7,7 +7,8 @@ module logic_block(input clk,
                    input        operand0,
                    input        operand1,
 
-                   output result);
+                   /* verilator lint_off UNOPTFLAT */
+                   output       result);
 
    reg [31:0]                   config_data_reg;
    
