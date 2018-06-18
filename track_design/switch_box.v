@@ -84,6 +84,9 @@ module switch_box(input clk,
       end else if (config_en) begin
          config_data_reg <= config_data;
       end
+
+      $display("config_data_reg = %b", config_data_reg);
+      
    end
 
    // Side 0
