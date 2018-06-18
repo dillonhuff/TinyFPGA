@@ -14,6 +14,8 @@ module top(
 	);
 
 	// Internal wires
+/* verilator lint_off PINMISSING */
+
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_8;
 	/* verilator lint_off UNOPTFLAT */

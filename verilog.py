@@ -177,6 +177,7 @@ class VerilogModule():
         body = ''
 
         body += '\t// Internal wires\n'
+        body += '/* verilator lint_off PINMISSING */\n\n'
         for wire in self.internal_wires:
             if (not (wire in self.inout_wires)) and (not (wire in self.input_wires)) and (not (wire in self.output_wires)):
                 width = self.wire_widths[wire]
