@@ -225,14 +225,15 @@ def build_top_mod(num_in_ios,
                     out_wire = 'side_0_track_' + str(i) + '_in'
                     connector = 'horizontal_' + tile_right + '_to_' + this_tile + '_' + str(i)
                     top_mod.add_wire_connection(connector, tile_name, out_wire)
-            # else:
-            #     for i in range(0, 4):
-            #         out_wire = 'in_wire_0_' + str(i)
-            #         out_wire_c = tile_name + '_in_wire_0_' + str(i) + '_const'
-            #         res = '1\'b0'
-            #         top_mod.add_wire(out_wire_c)
-            #         top_mod.add_wire_connection(out_wire_c, tile_name, out_wire)
-            #         top_mod.add_assign(out_wire_c, '1\'b0')
+            else:
+                for i in range(0, 4):
+                    #out_wire = 'in_wire_0_' + str(i)
+                    out_wire = 'side_0_track_' + str(i) + '_in'
+                    out_wire_c = tile_name + '_in_wire_0_' + str(i) + '_const'
+                    res = '1\'b0'
+                    top_mod.add_wire(out_wire_c)
+                    top_mod.add_wire_connection(out_wire_c, tile_name, out_wire)
+                    top_mod.add_assign(out_wire_c, '1\'b0')
 
             top_mod.add_port_connection('clk', tile_name, 'clk')
             top_mod.add_port_connection('reset', tile_name, 'rst')
