@@ -149,7 +149,9 @@ module pe_tile(input clk,
                  .side_3_track_0_out(side_3_track_0_out),
                  .side_3_track_1_out(side_3_track_1_out),
                  .side_3_track_2_out(side_3_track_2_out),
-                 .side_3_track_3_out(side_3_track_3_out)
+                 .side_3_track_3_out(side_3_track_3_out),
+
+                 .clb_result(clb_result)
                  
                  );
    

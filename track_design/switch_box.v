@@ -33,6 +33,8 @@ module switch_box(input clk,
                   input        side_3_track_2_in,
                   input        side_3_track_3_in,
 
+                  input        clb_result,
+
                   /* verilator lint_off UNOPTFLAT */
                   output       side_0_track_0_out,
                   /* verilator lint_off UNOPTFLAT */
@@ -68,6 +70,7 @@ module switch_box(input clk,
                   output       side_3_track_2_out,
                   /* verilator lint_off UNOPTFLAT */
                   output       side_3_track_3_out
+
                   );
 
    // One switch per output track (16 switches), 4 options (2 bits) per switch
