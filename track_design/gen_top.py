@@ -183,21 +183,23 @@ def build_top_mod(num_in_ios,
                     connector = 'vertical_' + tile_below + '_to_' + this_tile + '_' + str(i)
                     top_mod.add_wire_connection(connector, tile_name, out_wire)
 
-            # # Wiring up horizontal grid
-            # # If this is not column 0 connects to tiles to the left
-            # if (grid_col != 0):
-            #     for i in range(0, 4):
-            #         # Connect this tiles side 2 to the tile to the left
-            #         out_wire = 'out_wire_2_' + str(i)
-            #         connector = 'horizontal_' + this_tile + '_to_' + tile_left + '_' + str(i)
-            #         top_mod.add_wire_connection(connector, tile_name, out_wire)
+            # Wiring up horizontal grid
+            # If this is not column 0 connects to tiles to the left
+            if (grid_col != 0):
+                for i in range(0, 4):
+                    # Connect this tiles side 2 to the tile to the left
+                    #out_wire = 'out_wire_2_' + str(i)
+                    out_wire = 'side_2_track_' + str(i) + '_out'
+                    connector = 'horizontal_' + this_tile + '_to_' + tile_left + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
 
-            #     for i in range(0, 4):
-            #         # Connect this tiles side 3 to the previous rows tile
-            #         # side
-            #         out_wire = 'in_wire_2_' + str(i)
-            #         connector = 'horizontal_' + tile_left + '_to_' + this_tile + '_' + str(i)
-            #         top_mod.add_wire_connection(connector, tile_name, out_wire)
+                for i in range(0, 4):
+                    # Connect this tiles side 3 to the previous rows tile
+                    # side
+                    #out_wire = 'in_wire_2_' + str(i)
+                    out_wire = 'side_2_track_' + str(i) + '_in'
+                    connector = 'horizontal_' + tile_left + '_to_' + this_tile + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
 
             # else:
             #     for i in range(0, 4):
