@@ -6,7 +6,6 @@ module io1in_pad(input clk,
    
    always @(posedge clk) begin
       $display("top_pin = %b", top_pin);
-      //pin <= top_pin;
    end
 
 endmodule
