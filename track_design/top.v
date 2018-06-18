@@ -513,7 +513,7 @@ module top(
 		.out(pe_tile_2_2_side_1_track_3_in_const),
 		.in(wire_48)
 	);
-   /* verilator lint_off PINMISSING */
+
 	pe_tile pe_tile_2_2(
 		.side_3_track_0_out(vertical_tile_2_2_to_tile_1_2_0),
 		.side_3_track_1_out(vertical_tile_2_2_to_tile_1_2_1),
