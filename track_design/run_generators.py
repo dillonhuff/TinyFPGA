@@ -16,4 +16,5 @@ top_file.write(build_verilog_string(top_mod))
 top_file.close()
 
 #os_cmd('verilator --cc top.v -Wall')
+build_module('switch_box')
 build_module('top')
