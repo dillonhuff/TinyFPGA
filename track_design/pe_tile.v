@@ -65,6 +65,8 @@ module pe_tile(input clk,
       $display("config data = %b", config_data);
       $display("tile addr   = %b", tile_id);
       $display("config sb   = %b", config_en_sb);
+      $display("side_3_track_0_in = %b", side_3_track_0_in);
+      $display("side_1_track_0_out = %b", side_1_track_0_out);
    end 
    
    assign config_this_tile = config_addr[15:0] == tile_id;

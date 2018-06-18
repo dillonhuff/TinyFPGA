@@ -2,8 +2,11 @@ module io1in_pad(input clk,
                  input top_pin,
                  output pin);
 
+   assign pin = top_pin;
+   
    always @(posedge clk) begin
-      pin <= top_pin;
+      $display("top_pin = %b", top_pin);
+      //pin <= top_pin;
    end
 
 endmodule
