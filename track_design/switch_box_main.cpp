@@ -10,7 +10,7 @@ using namespace std;
 #define NEGEDGE(signal, val) (signal) = 1; (val)->eval(); (signal) = 0; (val)->eval();
 #define RESET(signal, val) POSEDGE((signal), (val)); NEGEDGE((signal), (val)); POSEDGE((signal), (val));
 
-int main() {
+void handwritten_passthrough_test() {
   Vswitch_box* top = new Vswitch_box();
 
   RESET(top->rst, top);
@@ -30,6 +30,9 @@ int main() {
   POSEDGE(top->clk, top);
 
   assert(top->side_1_track_0_out == top->side_3_track_0_in);
-  
+}
+
+int main() {
+  handwritten_passthrough_test();
   cout << "$$$ Switch box tests passed" << endl;
 }

@@ -35,10 +35,10 @@ module connect_box(input clk,
         32'd2: output_wire_reg = track_2_in;
         32'd3: output_wire_reg = track_3_in;
 
-        32'd0: output_wire_reg = track_0_out;
-        32'd1: output_wire_reg = track_1_out;
-        32'd2: output_wire_reg = track_2_out;
-        32'd3: output_wire_reg = track_3_out;
+        32'd4: output_wire_reg = track_0_out;
+        32'd5: output_wire_reg = track_1_out;
+        32'd6: output_wire_reg = track_2_out;
+        32'd7: output_wire_reg = track_3_out;
       endcase
    end
 
