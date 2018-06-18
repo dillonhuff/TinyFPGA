@@ -102,7 +102,49 @@ module pe_tile(input clk,
                  .rst(rst),
 
                  .config_en(config_en_sb),
-                 .config_data(config_data));
+                 .config_data(config_data),
+
+                 .side_0_track_0_in(side_0_track_0_in),
+                 .side_0_track_1_in(side_0_track_1_in),
+                 .side_0_track_2_in(side_0_track_2_in),
+                 .side_0_track_3_in(side_0_track_3_in),
+
+                 .side_0_track_0_out(side_0_track_0_out),
+                 .side_0_track_1_out(side_0_track_1_out),
+                 .side_0_track_2_out(side_0_track_2_out),
+                 .side_0_track_3_out(side_0_track_3_out),
+
+                 .side_1_track_0_in(side_1_track_0_in),
+                 .side_1_track_1_in(side_1_track_1_in),
+                 .side_1_track_2_in(side_1_track_2_in),
+                 .side_1_track_3_in(side_1_track_3_in),
+
+                 .side_1_track_0_out(side_1_track_0_out),
+                 .side_1_track_1_out(side_1_track_1_out),
+                 .side_1_track_2_out(side_1_track_2_out),
+                 .side_1_track_3_out(side_1_track_3_out),
+
+                 .side_2_track_0_in(side_2_track_0_in),
+                 .side_2_track_1_in(side_2_track_1_in),
+                 .side_2_track_2_in(side_2_track_2_in),
+                 .side_2_track_3_in(side_2_track_3_in),
+
+                 .side_2_track_0_out(side_2_track_0_out),
+                 .side_2_track_1_out(side_2_track_1_out),
+                 .side_2_track_2_out(side_2_track_2_out),
+                 .side_2_track_3_out(side_2_track_3_out),
+
+                 .side_3_track_0_in(side_3_track_0_in),
+                 .side_3_track_1_in(side_3_track_1_in),
+                 .side_3_track_2_in(side_3_track_2_in),
+                 .side_3_track_3_in(side_3_track_3_in),
+
+                 .side_3_track_0_out(side_3_track_0_out),
+                 .side_3_track_1_out(side_3_track_1_out),
+                 .side_3_track_2_out(side_3_track_2_out),
+                 .side_3_track_3_out(side_3_track_3_out)
+                 
+                 );
    
    
 endmodule
