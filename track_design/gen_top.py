@@ -136,22 +136,22 @@ def build_top_mod(num_in_ios,
                     top_mod.add_wire_connection(in_wire, tile_name, 'side_3_track_' + str(i) + '_in')
                     top_mod.add_assign(in_wire, '1\'b0')
 
-            # elif (grid_row != 0):
-            #     # All other rows connect to the row above them
+            elif (grid_row != 0):
+                # All other rows connect to the row above them
 
-            #     for i in range(0, 4):
-            #         # Connect this tiles side 3 to the previous rows tile
-            #         # side
-            #         out_wire = 'side_3_track_' + str(i) + '_out'
-            #         connector = 'vertical_' + this_tile + '_to_' + tile_above + '_' + str(i)
-            #         top_mod.add_wire_connection(connector, tile_name, out_wire)
+                for i in range(0, 4):
+                    # Connect this tiles side 3 to the previous rows tile
+                    # side
+                    out_wire = 'side_3_track_' + str(i) + '_out'
+                    connector = 'vertical_' + this_tile + '_to_' + tile_above + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
 
-            #     for i in range(0, 4):
-            #         # Connect this tiles side 3 to the previous rows tile
-            #         # side
-            #         out_wire = 'side_3_track_' + str(i) + '_in'
-            #         connector = 'vertical_' + tile_above + '_to_' + this_tile + '_' + str(i)
-            #         top_mod.add_wire_connection(connector, tile_name, out_wire)
+                for i in range(0, 4):
+                    # Connect this tiles side 3 to the previous rows tile
+                    # side
+                    out_wire = 'side_3_track_' + str(i) + '_in'
+                    connector = 'vertical_' + tile_above + '_to_' + this_tile + '_' + str(i)
+                    top_mod.add_wire_connection(connector, tile_name, out_wire)
                     
             # ## Wiring up tiles to inputs below them: row (N - 1) connects to output
             # ## IO pads, all other rows connect to row N + 1

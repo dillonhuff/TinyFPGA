@@ -317,6 +317,14 @@ module top(
 	);
 
 	pe_tile pe_tile_1_1(
+		.side_3_track_0_out(vertical_tile_1_1_to_tile_0_1_0),
+		.side_3_track_1_out(vertical_tile_1_1_to_tile_0_1_1),
+		.side_3_track_2_out(vertical_tile_1_1_to_tile_0_1_2),
+		.side_3_track_3_out(vertical_tile_1_1_to_tile_0_1_3),
+		.side_3_track_0_in(vertical_tile_0_1_to_tile_1_1_0),
+		.side_3_track_1_in(vertical_tile_0_1_to_tile_1_1_1),
+		.side_3_track_2_in(vertical_tile_0_1_to_tile_1_1_2),
+		.side_3_track_3_in(vertical_tile_0_1_to_tile_1_1_3),
 		.clk(clk),
 		.rst(reset),
 		.config_addr(config_addr),
@@ -338,6 +346,14 @@ module top(
 	);
 
 	pe_tile pe_tile_1_2(
+		.side_3_track_0_out(vertical_tile_1_2_to_tile_0_2_0),
+		.side_3_track_1_out(vertical_tile_1_2_to_tile_0_2_1),
+		.side_3_track_2_out(vertical_tile_1_2_to_tile_0_2_2),
+		.side_3_track_3_out(vertical_tile_1_2_to_tile_0_2_3),
+		.side_3_track_0_in(vertical_tile_0_2_to_tile_1_2_0),
+		.side_3_track_1_in(vertical_tile_0_2_to_tile_1_2_1),
+		.side_3_track_2_in(vertical_tile_0_2_to_tile_1_2_2),
+		.side_3_track_3_in(vertical_tile_0_2_to_tile_1_2_3),
 		.clk(clk),
 		.rst(reset),
 		.config_addr(config_addr),
@@ -346,6 +362,14 @@ module top(
 	);
 
 	pe_tile pe_tile_1_0(
+		.side_3_track_0_out(vertical_tile_1_0_to_tile_0_0_0),
+		.side_3_track_1_out(vertical_tile_1_0_to_tile_0_0_1),
+		.side_3_track_2_out(vertical_tile_1_0_to_tile_0_0_2),
+		.side_3_track_3_out(vertical_tile_1_0_to_tile_0_0_3),
+		.side_3_track_0_in(vertical_tile_0_0_to_tile_1_0_0),
+		.side_3_track_1_in(vertical_tile_0_0_to_tile_1_0_1),
+		.side_3_track_2_in(vertical_tile_0_0_to_tile_1_0_2),
+		.side_3_track_3_in(vertical_tile_0_0_to_tile_1_0_3),
 		.clk(clk),
 		.rst(reset),
 		.config_addr(config_addr),
@@ -398,6 +422,14 @@ module top(
 	);
 
 	pe_tile pe_tile_2_1(
+		.side_3_track_0_out(vertical_tile_2_1_to_tile_1_1_0),
+		.side_3_track_1_out(vertical_tile_2_1_to_tile_1_1_1),
+		.side_3_track_2_out(vertical_tile_2_1_to_tile_1_1_2),
+		.side_3_track_3_out(vertical_tile_2_1_to_tile_1_1_3),
+		.side_3_track_0_in(vertical_tile_1_1_to_tile_2_1_0),
+		.side_3_track_1_in(vertical_tile_1_1_to_tile_2_1_1),
+		.side_3_track_2_in(vertical_tile_1_1_to_tile_2_1_2),
+		.side_3_track_3_in(vertical_tile_1_1_to_tile_2_1_3),
 		.clk(clk),
 		.rst(reset),
 		.config_addr(config_addr),
@@ -406,6 +438,14 @@ module top(
 	);
 
 	pe_tile pe_tile_2_0(
+		.side_3_track_0_out(vertical_tile_2_0_to_tile_1_0_0),
+		.side_3_track_1_out(vertical_tile_2_0_to_tile_1_0_1),
+		.side_3_track_2_out(vertical_tile_2_0_to_tile_1_0_2),
+		.side_3_track_3_out(vertical_tile_2_0_to_tile_1_0_3),
+		.side_3_track_0_in(vertical_tile_1_0_to_tile_2_0_0),
+		.side_3_track_1_in(vertical_tile_1_0_to_tile_2_0_1),
+		.side_3_track_2_in(vertical_tile_1_0_to_tile_2_0_2),
+		.side_3_track_3_in(vertical_tile_1_0_to_tile_2_0_3),
 		.clk(clk),
 		.rst(reset),
 		.config_addr(config_addr),
@@ -414,6 +454,14 @@ module top(
 	);
 
 	pe_tile pe_tile_2_2(
+		.side_3_track_0_out(vertical_tile_2_2_to_tile_1_2_0),
+		.side_3_track_1_out(vertical_tile_2_2_to_tile_1_2_1),
+		.side_3_track_2_out(vertical_tile_2_2_to_tile_1_2_2),
+		.side_3_track_3_out(vertical_tile_2_2_to_tile_1_2_3),
+		.side_3_track_0_in(vertical_tile_1_2_to_tile_2_2_0),
+		.side_3_track_1_in(vertical_tile_1_2_to_tile_2_2_1),
+		.side_3_track_2_in(vertical_tile_1_2_to_tile_2_2_2),
+		.side_3_track_3_in(vertical_tile_1_2_to_tile_2_2_3),
 		.clk(clk),
 		.rst(reset),
 		.config_addr(config_addr),
