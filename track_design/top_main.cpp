@@ -103,7 +103,7 @@ struct config_address_structure {
     assert(src_side != dest_side);
 
     uint32_t val = 0;
-    uint32_t offset = dest_side*8;
+    uint32_t offset = dest_side*8 + track*2;
     // If the source is the CLB then use dest side
     uint32_t res = (src_side == 4) ? dest_side : src_side;
 
@@ -190,8 +190,9 @@ void route_neg_test() {
 
   RESET(top->reset, top);
 
+  // Route from IO to tile 10 at bottom of design
   config_address_structure addr_gen = default_addr_gen();
-  auto addr0 = addr_gen.config_address(1, PE_COMPONENT_SB);
+  auto addr0 = addr_gen.config_address(4, PE_COMPONENT_SB);
   uint32_t data0 = addr_gen.route_sb(3, 1, 0);
 
   top->config_addr = addr0;
@@ -199,24 +200,57 @@ void route_neg_test() {
   
   POSEDGE(top->clk, top);
 
-  addr0 = addr_gen.config_address(4, PE_COMPONENT_SB);
-
-  top->config_addr = addr0;
-  top->config_data = data0;
+  top->config_addr = addr_gen.config_address(7, PE_COMPONENT_SB);
+  top->config_data = addr_gen.route_sb(3, 1, 0);
   
   POSEDGE(top->clk, top);
 
-  addr0 = addr_gen.config_address(7, PE_COMPONENT_SB);
+  // This is the tile where the operation is done
 
-  top->config_addr = addr0;
-  top->config_data = data0;
+  // -- Route PE tile output to side 1 track 1
+  // -- Route PE tile input side 3, track 0 to output side 0 track 0
+  top->config_addr = addr_gen.config_address(10, PE_COMPONENT_SB);
+  top->config_data = addr_gen.route_sb(4, 1, 1) | addr_gen.route_sb(3, 0, 0);
   
   POSEDGE(top->clk, top);
+
+  // Route output side 0, track 0 to CLB operand 0
+  top->config_addr = addr_gen.config_address(10, PE_COMPONENT_CB0);
+  top->config_data = addr_gen.route_sb_to_cb(0, false);
+  POSEDGE(top->clk, top);
+
+  // Set CLB op to negate operand0
+  top->config_addr = addr_gen.config_address(10, PE_COMPONENT_CLB);
+  top->config_data = addr_gen.clb_op(CLB_OP_NOT);
+  
+  POSEDGE(top->clk, top);
+
+  // CLB does not matter, this is an io tile. TODO: Create IO tile component
+  top->config_addr = addr_gen.config_address(1, PE_COMPONENT_CLB);
+  top->config_data = 1;
+  
+  POSEDGE(top->clk, top);
+
+  top->config_addr = 0;
+  top->config_data = 0;
   
   top->in_wire_0 = 1;
   POSEDGE(top->clk, top);
 
-  assert(top->out_wire_0 == top->in_wire_0);
+  POSEDGE(top->clk, top);
+
+  cout << "top->out_wire_0 = " << (int) top->out_wire_0 << endl;
+  assert(top->out_wire_0 == (~(top->in_wire_0) & 0x01));
+
+  top->in_wire_0 = 0;
+  POSEDGE(top->clk, top);
+
+  cout << "Final neg cycle" << endl;
+  POSEDGE(top->clk, top);
+
+  cout << "top->out_wire_0 = " << (int) top->out_wire_0 << endl;
+  assert(top->out_wire_0 == (~(top->in_wire_0) & 0x01));
+
 }
 
 void generated_and_test() {
@@ -272,7 +306,7 @@ void generated_and_test() {
 
 int main() {
   handwritten_routing_test();
-  //route_neg_test();
+  route_neg_test();
   //generated_and_test();
   cout << "$$$ top tests passed" << endl;
 }

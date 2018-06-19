@@ -20,6 +20,14 @@ module logic_block(input clk,
       end
    end
 
+   always @(posedge clk) begin
+      if (config_data_reg == 32'd3) begin
+         $display("operand0 = %b", operand0);
+         $display("operand1 = %b", operand1);
+         $display("result   = %b", result);
+      end
+   end
+
    reg result_reg;
    always @(*) begin
       case (config_data_reg)

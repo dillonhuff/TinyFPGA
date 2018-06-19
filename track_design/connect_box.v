@@ -40,6 +40,11 @@ module connect_box(input clk,
         32'd6: output_wire_reg = track_2_out;
         32'd7: output_wire_reg = track_3_out;
       endcase
+   end // always @ (*)
+
+   always @(posedge clk) begin
+      $display("cb config data reg = %b", config_data_reg);
+      
    end
 
    assign out = output_wire_reg;

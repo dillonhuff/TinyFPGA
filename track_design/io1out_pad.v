@@ -41,6 +41,12 @@ module io1out_pad(input clk,
    assign top_pin = top_pin_reg;
    
    always @(posedge clk) begin
+      $display("output data reg = %b", config_data_reg);
+      
+      $display("pin_0   = %b", pin_0);
+      $display("pin_1   = %b", pin_1);
+      $display("pin_2   = %b", pin_2);
+      $display("pin_3   = %b", pin_3);
       $display("out pin = %b", top_pin);
    end
 
