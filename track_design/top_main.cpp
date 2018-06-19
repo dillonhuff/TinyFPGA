@@ -172,7 +172,7 @@ void handwritten_routing_test() {
   
   POSEDGE(top->clk, top);
 
-  addr0 = addr_gen.config_address(10, PE_COMPONENT_SB);
+  addr0 = addr_gen.config_address(12, PE_COMPONENT_SB);
 
   top->config_addr = addr0;
   top->config_data = data0;
