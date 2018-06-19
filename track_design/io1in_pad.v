@@ -1,11 +1,20 @@
 module io1in_pad(input clk,
-                 input top_pin,
-                 output pin);
+                 input rst,
 
-   assign pin = top_pin;
-   
-   always @(posedge clk) begin
-      $display("top_pin = %b", top_pin);
+                 input  top_pin,
+
+                 output pin_0,
+                 output pin_1,
+                 output pin_2,
+                 output pin_3);
+
+   assign pin_0 = top_pin;
+   assign pin_1 = top_pin;
+   assign pin_2 = top_pin;
+   assign pin_3 = top_pin;
+
+   always @(posedge clk or negedge rst) begin
+      $display("in pin = %b", top_pin);
    end
-
+   
 endmodule

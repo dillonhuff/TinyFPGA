@@ -124,17 +124,18 @@ def build_top_mod(num_in_ios,
             ## Wiring up tiles to inputs above them: row 0 connects to IOs,
             ## all other rows connect to the row above them
             if ((grid_row == 0) and (grid_col <= (num_in_ios - 1))):
-                top_mod.add_instance_connection('in_pad_' + str(grid_col),
-                                                'pin',
-                                                tile_name,
-                                                'side_3_track_0_in')
+                for track_no in xrange(0, 4):
+                    top_mod.add_instance_connection('in_pad_' + str(grid_col),
+                                                    'pin_' + str(track_no),
+                                                    tile_name,
+                                                    'side_3_track_'+ str(track_no) + '_in')
 
-                # # Q: How do we replace these connections?
-                for i in range(1, 4):
-                    in_wire = tile_name + '_in_wire_3_' + str(i) + '_const'
-                    top_mod.add_wire(in_wire)
-                    top_mod.add_wire_connection(in_wire, tile_name, 'side_3_track_' + str(i) + '_in')
-                    top_mod.add_assign(in_wire, '1\'b0')
+                # # # Q: How do we replace these connections?
+                # for i in range(1, 4):
+                #     in_wire = tile_name + '_in_wire_3_' + str(i) + '_const'
+                #     top_mod.add_wire(in_wire)
+                #     top_mod.add_wire_connection(in_wire, tile_name, 'side_3_track_' + str(i) + '_in')
+                #     top_mod.add_assign(in_wire, '1\'b0')
 
             elif (grid_row != 0):
                 # All other rows connect to the row above them
