@@ -424,6 +424,13 @@ void generated_and_test() {
 
   assert(top->out_wire_1 == (top->in_wire_1 && top->in_wire_2));
 
+  top->in_wire_1 = 0;
+  top->in_wire_2 = 1;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_1 == (top->in_wire_1 && top->in_wire_2));
+  
   delete top;
 }
 
