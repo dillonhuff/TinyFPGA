@@ -1,8 +1,11 @@
 module io1out_pad(input clk,
                   input        rst,
 
-                  input        config_en,
+                  /* verilator lint_off UNUSED */
+                  input [31:0] config_addr,
                   input [31:0] config_data,
+
+                  input [15:0] tile_id,
                   
                   output       top_pin,
 
@@ -13,6 +16,9 @@ module io1out_pad(input clk,
 
 
    reg [31:0]                  config_data_reg;
+
+   wire                        config_en;
+   assign config_en = config_addr[15:0] == tile_id;
 
    always @(posedge clk or negedge rst) begin
       if (~rst) begin
@@ -36,8 +42,6 @@ module io1out_pad(input clk,
    
    always @(posedge clk) begin
       $display("out pin = %b", top_pin);
-      
-      //top_pin <= pin;
    end
 
 endmodule

@@ -146,10 +146,10 @@ config_address_structure default_addr_gen() {
 }
 // First test: passthrough routing In0 -> 1 -> 4 -> 7 -> Ot0 on track 0
 // In0 In1 In2
-// 1   2   3
-// 4   5   6
-// 7   8   9
-// Ot0 Ot1 Ot2
+// 4     5     6
+// 7     8     9
+// 10    11    12
+// Ot1  Ot2  Ot3
 void handwritten_routing_test() {
   Vtop* top = new Vtop();
 
@@ -157,7 +157,7 @@ void handwritten_routing_test() {
 
   config_address_structure addr_gen = default_addr_gen();
   // (32, 16, 31, 0, 15);
-  auto addr0 = addr_gen.config_address(1, PE_COMPONENT_SB);
+  auto addr0 = addr_gen.config_address(4, PE_COMPONENT_SB);
   uint32_t data0 = addr_gen.route_sb(3, 1, 0);
 
   top->config_addr = addr0;
@@ -165,14 +165,14 @@ void handwritten_routing_test() {
   
   POSEDGE(top->clk, top);
 
-  addr0 = addr_gen.config_address(4, PE_COMPONENT_SB);
+  addr0 = addr_gen.config_address(7, PE_COMPONENT_SB);
 
   top->config_addr = addr0;
   top->config_data = data0;
   
   POSEDGE(top->clk, top);
 
-  addr0 = addr_gen.config_address(7, PE_COMPONENT_SB);
+  addr0 = addr_gen.config_address(10, PE_COMPONENT_SB);
 
   top->config_addr = addr0;
   top->config_data = data0;
