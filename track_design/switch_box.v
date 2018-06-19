@@ -82,6 +82,7 @@ module switch_box(input clk,
       if (~rst) begin
          config_data_reg <= 32'h0;
       end else if (config_en) begin
+         $display("config is enabled, config_data = ", config_data);
          config_data_reg <= config_data;
       end
 
