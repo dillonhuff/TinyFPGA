@@ -33,7 +33,8 @@ enum PE_component {
   PE_COMPONENT_CB0,
   PE_COMPONENT_CB1,
   PE_COMPONENT_SB,
-  PE_COMPONENT_CLB
+  PE_COMPONENT_CLB,
+  PE_COMPONENT_IO
 };
 
 enum CLB_op {
@@ -113,6 +114,10 @@ struct config_address_structure {
   }
 
   uint32_t component_address(const PE_component component) {
+    if (component == PE_COMPONENT_IO) {
+      return 0;
+    }
+
     if (component == PE_COMPONENT_CB0) {
       return 4;
     }
@@ -183,6 +188,8 @@ void handwritten_routing_test() {
   POSEDGE(top->clk, top);
 
   assert(top->out_wire_0 == top->in_wire_0);
+
+  delete top;
 }
 
 void route_neg_test() {
@@ -226,7 +233,7 @@ void route_neg_test() {
   POSEDGE(top->clk, top);
 
   // CLB does not matter, this is an io tile. TODO: Create IO tile component
-  top->config_addr = addr_gen.config_address(1, PE_COMPONENT_CLB);
+  top->config_addr = addr_gen.config_address(1, PE_COMPONENT_IO);
   top->config_data = 1;
   
   POSEDGE(top->clk, top);
@@ -251,62 +258,66 @@ void route_neg_test() {
   cout << "top->out_wire_0 = " << (int) top->out_wire_0 << endl;
   assert(top->out_wire_0 == (~(top->in_wire_0) & 0x01));
 
+  delete top;
+}
+
+enum PnR_cmd_type {
+  PNR_CMD_CB,
+  PNR_CMD_SB,
+  PNR_CMD_CLB,
+  PNR_CMD_IO,
+  PNR_CMD_DUMMY
+};
+
+struct PnR_cmd {
+  uint32_t tile_id;
+  PE_component comp;
+
+  PnR_cmd_type tp;
+
+  uint32_t in_side;
+  uint32_t out_side;
+
+  uint32_t track;
+  bool take_from_input;
+};
+
+void load_pnr_commands(const vector<PnR_cmd>& commands,
+                       Vtop* top) {
+
+  RESET(top->reset, top);
+
+  for (auto cmd : commands) {
+    POSEDGE(top->clk, top);
+  }
+  
+  top->config_addr = 0;
+  top->config_data = 0;
+  POSEDGE(top->clk, top);
 }
 
 void generated_and_test() {
   auto addr_gen = default_addr_gen();
 
   Vtop* top = new Vtop();
-  RESET(top->reset, top);
 
-  top->config_addr = addr_gen.config_address(2, PE_COMPONENT_SB);
-  top->config_data = addr_gen.route_sb(3, 1, 0);
-  POSEDGE(top->clk, top);
+  vector<PnR_cmd> and_cmds;
+  load_pnr_commands(and_cmds, top);
 
-  top->config_addr = addr_gen.config_address(5, PE_COMPONENT_SB);
-  top->config_data = addr_gen.route_sb(3, 1, 0);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(5, PE_COMPONENT_CB1);
-  top->config_data = addr_gen.route_sb_to_cb(0, false);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(3, PE_COMPONENT_SB);
-  top->config_data = addr_gen.route_sb(3, 1, 0);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(6, PE_COMPONENT_SB);
-  top->config_data = addr_gen.route_sb(3, 2, 0);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(5, PE_COMPONENT_CB0);
-  top->config_data = addr_gen.route_sb_to_cb(0, true);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(5, PE_COMPONENT_SB);
-  top->config_data = addr_gen.route_sb(4, 1, 1);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(8, PE_COMPONENT_SB);
-  top->config_data = addr_gen.route_sb(3, 1, 1);
-  POSEDGE(top->clk, top);
-
-  top->config_addr = addr_gen.config_address(5, PE_COMPONENT_CLB);
-  top->config_data = addr_gen.clb_op(CLB_OP_AND);
-  POSEDGE(top->clk, top);
-  
-  top->in_wire_0 = 1;
   top->in_wire_1 = 1;
   top->in_wire_2 = 1;
-  POSEDGE(top->clk, top);
+
   POSEDGE(top->clk, top);
 
   assert(top->out_wire_1 == (top->in_wire_1 && top->in_wire_2));
+
+  delete top;
 }
 
 int main() {
+  generated_and_test();
   handwritten_routing_test();
   route_neg_test();
-  //generated_and_test();
+  
   cout << "$$$ top tests passed" << endl;
 }

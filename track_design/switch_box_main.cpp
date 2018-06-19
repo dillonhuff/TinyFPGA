@@ -30,6 +30,8 @@ void handwritten_passthrough_test() {
   POSEDGE(top->clk, top);
 
   assert(top->side_1_track_0_out == top->side_3_track_0_in);
+
+  delete top;
 }
 
 int main() {
