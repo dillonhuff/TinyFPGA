@@ -43,8 +43,6 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_7;
 	/* verilator lint_off UNOPTFLAT */
-	wire [1 - 1 : 0] out_pad_0_pin_to_pe_tile_2_0_side_1_track_0_out;
-	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] horizontal_tile_0_1_to_tile_0_0_1;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] horizontal_tile_0_1_to_tile_0_0_0;
@@ -83,6 +81,8 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_2_2_side_1_track_0_in_const;
 	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] pe_tile_2_0_side_1_track_0_in_const;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_0_2_in_wire_0_0_const;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_1_1_to_tile_2_1_3;
@@ -95,7 +95,13 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [16 - 1 : 0] pe_tile_0_2_id_wire;
 	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_0_pin_1_to_pe_tile_2_0_side_1_track_1_out;
+	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_0_pin_3_to_pe_tile_2_0_side_1_track_3_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] in_pad_1_pin_1_to_pe_tile_0_1_side_3_track_1_in;
+	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] wire_23;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_2_1_side_1_track_0_in_const;
 	/* verilator lint_off UNOPTFLAT */
@@ -165,8 +171,6 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] horizontal_tile_2_1_to_tile_2_2_0;
 	/* verilator lint_off UNOPTFLAT */
-	wire [1 - 1 : 0] out_pad_1_pin_to_pe_tile_2_1_side_1_track_0_out;
-	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_1_0_to_tile_0_0_1;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_1_0_to_tile_0_0_0;
@@ -187,6 +191,10 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_1_0side_2_track_3_in_const;
 	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_2_pin_1_to_pe_tile_2_2_side_1_track_1_out;
+	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_1_pin_3_to_pe_tile_2_1_side_1_track_3_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_2_1_side_1_track_2_in_const;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_2_2_side_1_track_3_in_const;
@@ -194,6 +202,8 @@ module top(
 	wire [1 - 1 : 0] pe_tile_2_2_in_wire_0_0_const;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] in_pad_0_pin_0_to_pe_tile_0_0_side_3_track_0_in;
+	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_1_pin_1_to_pe_tile_2_1_side_1_track_1_out;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_1_2_to_tile_2_2_3;
 	/* verilator lint_off UNOPTFLAT */
@@ -203,11 +213,11 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_1_2_to_tile_2_2_0;
 	/* verilator lint_off UNOPTFLAT */
-	wire [1 - 1 : 0] pe_tile_2_0_side_1_track_0_in_const;
+	wire [1 - 1 : 0] out_pad_0_pin_2_to_pe_tile_2_0_side_1_track_2_out;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_0_2_in_wire_0_3_const;
 	/* verilator lint_off UNOPTFLAT */
-	wire [1 - 1 : 0] wire_23;
+	wire [1 - 1 : 0] out_pad_0_pin_0_to_pe_tile_2_0_side_1_track_0_out;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_12;
 	/* verilator lint_off UNOPTFLAT */
@@ -223,6 +233,8 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_13;
 	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_2_pin_2_to_pe_tile_2_2_side_1_track_2_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_0_0side_2_track_0_in_const;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_29;
@@ -230,6 +242,8 @@ module top(
 	wire [1 - 1 : 0] pe_tile_2_0_side_1_track_3_in_const;
 	/* verilator lint_off UNOPTFLAT */
 	wire [16 - 1 : 0] wire_10;
+	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_1_pin_0_to_pe_tile_2_1_side_1_track_0_out;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_11;
 	/* verilator lint_off UNOPTFLAT */
@@ -277,6 +291,8 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_0_0side_2_track_1_in_const;
 	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_1_pin_2_to_pe_tile_2_1_side_1_track_2_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_0_2_to_tile_1_2_1;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] vertical_tile_0_2_to_tile_1_2_0;
@@ -298,8 +314,6 @@ module top(
 	wire [1 - 1 : 0] horizontal_tile_2_2_to_tile_2_1_1;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] horizontal_tile_2_2_to_tile_2_1_0;
-	/* verilator lint_off UNOPTFLAT */
-	wire [1 - 1 : 0] out_pad_2_pin_to_pe_tile_2_2_side_1_track_0_out;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] in_pad_1_pin_0_to_pe_tile_0_1_side_3_track_0_in;
 	/* verilator lint_off UNOPTFLAT */
@@ -337,6 +351,8 @@ module top(
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_2_0side_2_track_0_in_const;
 	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_2_pin_3_to_pe_tile_2_2_side_1_track_3_out;
+	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_41;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] pe_tile_2_1_side_1_track_1_in_const;
@@ -366,6 +382,8 @@ module top(
 	wire [16 - 1 : 0] pe_tile_1_0_id_wire;
 	/* verilator lint_off UNOPTFLAT */
 	wire [1 - 1 : 0] wire_32;
+	/* verilator lint_off UNOPTFLAT */
+	wire [1 - 1 : 0] out_pad_2_pin_0_to_pe_tile_2_2_side_1_track_0_out;
 	/* verilator lint_off UNOPTFLAT */
 	wire [16 - 1 : 0] pe_tile_1_2_id_wire;
 	/* verilator lint_off UNOPTFLAT */
@@ -423,19 +441,28 @@ module top(
 	io1out_pad out_pad_2(
 		.top_pin(out_wire_2),
 		.clk(clk),
-		.pin(out_pad_2_pin_to_pe_tile_2_2_side_1_track_0_out)
+		.pin_0(out_pad_2_pin_0_to_pe_tile_2_2_side_1_track_0_out),
+		.pin_1(out_pad_2_pin_1_to_pe_tile_2_2_side_1_track_1_out),
+		.pin_2(out_pad_2_pin_2_to_pe_tile_2_2_side_1_track_2_out),
+		.pin_3(out_pad_2_pin_3_to_pe_tile_2_2_side_1_track_3_out)
 	);
 
 	io1out_pad out_pad_0(
 		.top_pin(out_wire_0),
 		.clk(clk),
-		.pin(out_pad_0_pin_to_pe_tile_2_0_side_1_track_0_out)
+		.pin_0(out_pad_0_pin_0_to_pe_tile_2_0_side_1_track_0_out),
+		.pin_1(out_pad_0_pin_1_to_pe_tile_2_0_side_1_track_1_out),
+		.pin_2(out_pad_0_pin_2_to_pe_tile_2_0_side_1_track_2_out),
+		.pin_3(out_pad_0_pin_3_to_pe_tile_2_0_side_1_track_3_out)
 	);
 
 	io1out_pad out_pad_1(
 		.top_pin(out_wire_1),
 		.clk(clk),
-		.pin(out_pad_1_pin_to_pe_tile_2_1_side_1_track_0_out)
+		.pin_0(out_pad_1_pin_0_to_pe_tile_2_1_side_1_track_0_out),
+		.pin_1(out_pad_1_pin_1_to_pe_tile_2_1_side_1_track_1_out),
+		.pin_2(out_pad_1_pin_2_to_pe_tile_2_1_side_1_track_2_out),
+		.pin_3(out_pad_1_pin_3_to_pe_tile_2_1_side_1_track_3_out)
 	);
 
 	const_mod #(.width(16), .value(1))  assign_pe_tile_0_0_id_wire_4_const(
@@ -777,7 +804,10 @@ module top(
 		.side_3_track_1_in(vertical_tile_1_2_to_tile_2_2_1),
 		.side_3_track_2_in(vertical_tile_1_2_to_tile_2_2_2),
 		.side_3_track_3_in(vertical_tile_1_2_to_tile_2_2_3),
-		.side_1_track_0_out(out_pad_2_pin_to_pe_tile_2_2_side_1_track_0_out),
+		.side_1_track_0_out(out_pad_2_pin_0_to_pe_tile_2_2_side_1_track_0_out),
+		.side_1_track_1_out(out_pad_2_pin_1_to_pe_tile_2_2_side_1_track_1_out),
+		.side_1_track_2_out(out_pad_2_pin_2_to_pe_tile_2_2_side_1_track_2_out),
+		.side_1_track_3_out(out_pad_2_pin_3_to_pe_tile_2_2_side_1_track_3_out),
 		.side_1_track_0_in(pe_tile_2_2_side_1_track_0_in_const),
 		.side_1_track_1_in(pe_tile_2_2_side_1_track_1_in_const),
 		.side_1_track_2_in(pe_tile_2_2_side_1_track_2_in_const),
@@ -927,7 +957,10 @@ module top(
 		.side_3_track_1_in(vertical_tile_1_1_to_tile_2_1_1),
 		.side_3_track_2_in(vertical_tile_1_1_to_tile_2_1_2),
 		.side_3_track_3_in(vertical_tile_1_1_to_tile_2_1_3),
-		.side_1_track_0_out(out_pad_1_pin_to_pe_tile_2_1_side_1_track_0_out),
+		.side_1_track_0_out(out_pad_1_pin_0_to_pe_tile_2_1_side_1_track_0_out),
+		.side_1_track_1_out(out_pad_1_pin_1_to_pe_tile_2_1_side_1_track_1_out),
+		.side_1_track_2_out(out_pad_1_pin_2_to_pe_tile_2_1_side_1_track_2_out),
+		.side_1_track_3_out(out_pad_1_pin_3_to_pe_tile_2_1_side_1_track_3_out),
 		.side_1_track_0_in(pe_tile_2_1_side_1_track_0_in_const),
 		.side_1_track_1_in(pe_tile_2_1_side_1_track_1_in_const),
 		.side_1_track_2_in(pe_tile_2_1_side_1_track_2_in_const),
@@ -964,7 +997,10 @@ module top(
 		.side_3_track_1_in(vertical_tile_1_0_to_tile_2_0_1),
 		.side_3_track_2_in(vertical_tile_1_0_to_tile_2_0_2),
 		.side_3_track_3_in(vertical_tile_1_0_to_tile_2_0_3),
-		.side_1_track_0_out(out_pad_0_pin_to_pe_tile_2_0_side_1_track_0_out),
+		.side_1_track_0_out(out_pad_0_pin_0_to_pe_tile_2_0_side_1_track_0_out),
+		.side_1_track_1_out(out_pad_0_pin_1_to_pe_tile_2_0_side_1_track_1_out),
+		.side_1_track_2_out(out_pad_0_pin_2_to_pe_tile_2_0_side_1_track_2_out),
+		.side_1_track_3_out(out_pad_0_pin_3_to_pe_tile_2_0_side_1_track_3_out),
 		.side_1_track_0_in(pe_tile_2_0_side_1_track_0_in_const),
 		.side_1_track_1_in(pe_tile_2_0_side_1_track_1_in_const),
 		.side_1_track_2_in(pe_tile_2_0_side_1_track_2_in_const),

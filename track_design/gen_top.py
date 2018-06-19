@@ -157,10 +157,11 @@ def build_top_mod(num_in_ios,
             ## Wiring up tiles to inputs below them: row (N - 1) connects to output
             ## IO pads, all other rows connect to row N + 1
             if ((grid_row == (grid_height - 1)) and (grid_col <= (num_out_ios - 1))):
-                top_mod.add_instance_connection('out_pad_' + str(grid_col),
-                                                'pin',
-                                                tile_name,
-                                                'side_1_track_0_out')
+                for track_no in xrange(0, 4):
+                    top_mod.add_instance_connection('out_pad_' + str(grid_col),
+                                                    'pin_' + str(track_no),
+                                                    tile_name,
+                                                    'side_1_track_' + str(track_no) + '_out')
 
                 for i in range(0, 4):
                     in_wire = 'side_1_track_' + str(i) + '_in'
