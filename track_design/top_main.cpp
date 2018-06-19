@@ -44,6 +44,46 @@ enum CLB_op {
   CLB_OP_NOT
 };
 
+enum CB_dir {
+  CB_INPUT,
+  CB_OUTPUT
+};
+
+enum PnR_cmd_type {
+  PNR_CMD_CB,
+  PNR_CMD_SB,
+  PNR_CMD_CLB,
+  PNR_CMD_IO,
+  PNR_CMD_DUMMY
+};
+
+struct SB_cmd {
+  uint32_t in_side;
+  uint32_t out_side;
+  uint32_t track;
+};
+
+struct PnR_cmd {
+  uint32_t tile_id;
+  PE_component comp;
+
+  PnR_cmd_type tp;
+
+  // SB command
+  vector<SB_cmd> sb_cmds;
+
+  // CB command
+  uint32_t cb_num;
+  bool take_from_input;
+  uint32_t track_num;
+
+  // CLB command
+  CLB_op op;
+
+  // IO command
+  uint32_t input_track;
+};
+
 struct config_address_structure {
   const int width;
   const int mod_id_begin;
@@ -65,6 +105,31 @@ struct config_address_structure {
     // Only support width 32 addresses for now
     assert(width == 32);
     assert((mod_id_end - mod_id_begin) == (tile_id_end - tile_id_begin));
+  }
+
+  uint32_t config_data_for(const PnR_cmd cmd) {
+    if (cmd.tp == PNR_CMD_CLB) {
+      return clb_op(cmd.op);
+    }
+
+    if (cmd.tp == PNR_CMD_IO) {
+      return cmd.input_track;
+    }
+
+    if (cmd.tp == PNR_CMD_SB) {
+      uint32_t val = 0;
+
+      for (auto sb_cmd : cmd.sb_cmds) {
+        val |= route_sb(sb_cmd.in_side, sb_cmd.out_side, sb_cmd.track);
+      }
+      return val;
+    }
+
+    if (cmd.tp == PNR_CMD_CB) {
+      return route_sb_to_cb(cmd.track_num, cmd.take_from_input);
+    }
+    
+    assert(false);
   }
 
   uint32_t clb_op(const CLB_op op) {
@@ -261,33 +326,15 @@ void route_neg_test() {
   delete top;
 }
 
-enum PnR_cmd_type {
-  PNR_CMD_CB,
-  PNR_CMD_SB,
-  PNR_CMD_CLB,
-  PNR_CMD_IO,
-  PNR_CMD_DUMMY
-};
-
-struct PnR_cmd {
-  uint32_t tile_id;
-  PE_component comp;
-
-  PnR_cmd_type tp;
-
-  uint32_t in_side;
-  uint32_t out_side;
-
-  uint32_t track;
-  bool take_from_input;
-};
-
 void load_pnr_commands(const vector<PnR_cmd>& commands,
                        Vtop* top) {
 
   RESET(top->reset, top);
 
+  auto addr_gen = default_addr_gen();
   for (auto cmd : commands) {
+    top->config_addr = addr_gen.config_address(cmd.tile_id, cmd.comp);
+    top->config_data = addr_gen.config_data_for(cmd);
     POSEDGE(top->clk, top);
   }
   
@@ -296,12 +343,78 @@ void load_pnr_commands(const vector<PnR_cmd>& commands,
   POSEDGE(top->clk, top);
 }
 
+PnR_cmd make_io_cmd(const uint32_t tile_no,
+                    const uint32_t input_track) {
+  PnR_cmd cmd;
+  cmd.comp = PE_COMPONENT_IO;
+  cmd.tp = PNR_CMD_IO;
+  cmd.tile_id = tile_no;
+  cmd.input_track = input_track;
+
+  return cmd;
+}
+
+PnR_cmd make_cb_cmd(const uint32_t tile_no,
+                    const uint32_t cb_num,
+                    const uint32_t track_num,
+                    const CB_dir dir) {
+  assert((cb_num == 0) || (cb_num == 1));
+
+  PnR_cmd cmd;
+  cmd.comp = cb_num == 0 ? PE_COMPONENT_CB0 : PE_COMPONENT_CB1;
+  cmd.tp = PNR_CMD_CB;
+  cmd.tile_id = tile_no;
+  cmd.take_from_input = dir == CB_INPUT;
+  cmd.track_num = track_num;
+
+  return cmd;
+}
+
+PnR_cmd make_clb_cmd(const uint32_t tile_no,
+                    const CLB_op op) {
+  PnR_cmd cmd;
+  cmd.comp = PE_COMPONENT_CLB;
+  cmd.tp = PNR_CMD_CLB;
+  cmd.tile_id = tile_no;
+  cmd.op = op;
+
+  return cmd;
+}
+
+PnR_cmd make_sb_cmd(const uint32_t tile_no,
+                    const vector<SB_cmd>& sb_cmds) {
+  PnR_cmd cmd;
+  cmd.comp = PE_COMPONENT_SB;
+  cmd.tp = PNR_CMD_SB;
+  cmd.tile_id = tile_no;
+  cmd.sb_cmds = sb_cmds;
+
+  return cmd;
+}
+
 void generated_and_test() {
-  auto addr_gen = default_addr_gen();
+  cout << "Starting and test" << endl;
 
   Vtop* top = new Vtop();
 
   vector<PnR_cmd> and_cmds;
+  and_cmds.push_back(make_sb_cmd(5, {{3, 1, 0}}));
+
+  and_cmds.push_back(make_sb_cmd(6, {{3, 1, 0}}));
+  and_cmds.push_back(make_sb_cmd(9, {{3, 2, 0}}));
+
+  and_cmds.push_back(make_sb_cmd(8, {{3, 1, 0}, {4, 1, 1}}));
+
+  // side 0 track 0 out -> operand0
+  // side 1 track 1 out -> operand1
+  and_cmds.push_back(make_cb_cmd(8, 0, 0, CB_INPUT));
+  and_cmds.push_back(make_cb_cmd(8, 1, 0, CB_OUTPUT));
+  and_cmds.push_back(make_clb_cmd(8, CLB_OP_AND));
+
+  // Route result down on track 1
+  and_cmds.push_back(make_sb_cmd(11, {{3, 1, 1}}));
+  and_cmds.push_back(make_io_cmd(2, 1));
+
   load_pnr_commands(and_cmds, top);
 
   top->in_wire_1 = 1;
