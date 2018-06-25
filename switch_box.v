@@ -41,6 +41,8 @@ module switch_box(
 	);
 
 	// Internal wires
+/* verilator lint_off PINMISSING */
+
 	/* verilator lint_off UNOPTFLAT */
 	wire [2 - 1 : 0] slice_out_wire_3_0_sel_out;
 	/* verilator lint_off UNOPTFLAT */

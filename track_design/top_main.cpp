@@ -34,14 +34,16 @@ enum PE_component {
   PE_COMPONENT_CB1,
   PE_COMPONENT_SB,
   PE_COMPONENT_CLB,
-  PE_COMPONENT_IO
+  PE_COMPONENT_IO,
 };
 
 enum CLB_op {
   CLB_OP_AND,
   CLB_OP_OR,
   CLB_OP_XOR,
-  CLB_OP_NOT
+  CLB_OP_NOT,
+  CLB_OP_IN,
+  CLB_OP_OUT,
 };
 
 enum CB_dir {
@@ -434,10 +436,33 @@ void generated_and_test() {
   delete top;
 }
 
+void placed_and_test() {
+  Vtop* top = new Vtop();
+
+  // TODO: Create placement, then route the placed application
+  // Q: What is a placement?
+  // A: I guess it is a map from operations (ins, outs, ops) to tile numbers
+
+  //  map<CLB_op, int> placement{{CLB_OP_IN, 0}, {CLB_OP_IN, 0}, {CLB_OP_OUT, 12}, {CLB_OP_AND, 5}};
+
+  
+  // Routing takes in:
+  // 1. List of pairs of sources and destinations.
+  //    Sources are: IO in pads, pe outputs,
+  //    Destinations are: IO out pads, PE inputs
+  // Each source and destination is associated with a tile number (inputs will need
+  // tiles as well)
+  
+  assert(false);
+
+  delete top;
+}
+
 int main() {
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
+  placed_and_test();
   
   cout << "$$$ top tests passed" << endl;
 }

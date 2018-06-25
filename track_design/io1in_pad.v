@@ -1,12 +1,15 @@
 module io1in_pad(input clk,
-                 input rst,
+                 input        rst,
 
-                 input  top_pin,
+                 input        top_pin,
 
-                 output pin_0,
-                 output pin_1,
-                 output pin_2,
-                 output pin_3);
+                 /* verilator lint_off UNUSED */
+                 input [15:0] tile_id,
+
+                 output       pin_0,
+                 output       pin_1,
+                 output       pin_2,
+                 output       pin_3);
 
    assign pin_0 = top_pin;
    assign pin_1 = top_pin;
