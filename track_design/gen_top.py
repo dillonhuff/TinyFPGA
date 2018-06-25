@@ -29,6 +29,8 @@ def build_top_mod(num_in_ios,
     top_mod.add_wire('config_addr', False, True, 'input', 32);
     top_mod.add_wire('config_data', False, True, 'input', 32);
 
+    tile_id = 1;
+    
     for pad_no in range(0, num_in_ios):
         pad_name = 'in_pad_' + str(pad_no)
 
@@ -36,7 +38,11 @@ def build_top_mod(num_in_ios,
         top_mod.add_port_connection('clk', pad_name, 'clk')
         top_mod.add_port_connection('in_wire_' + str(pad_no), pad_name, 'top_pin')
 
-    tile_id = 1;
+        tile_id_wire = pad_name + '_id_wire'
+        top_mod.add_wire(tile_id_wire, False, False, '', 16)
+        top_mod.add_assign(tile_id_wire, str(tile_id))
+        top_mod.add_port_connection(tile_id_wire, pad_name, 'tile_id')
+        tile_id += 1
     
     for pad_no in range(0, num_out_ios):
         pad_name = 'out_pad_' + str(pad_no)
