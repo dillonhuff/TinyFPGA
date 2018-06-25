@@ -2,6 +2,7 @@
 #include "verilated.h"
 
 #include <iostream>
+#include <map>
 #include <vector>
 
 using namespace std;
@@ -436,6 +437,28 @@ void generated_and_test() {
   delete top;
 }
 
+enum place_source_type {
+  PLACE_SOURCE_IO,
+  PLACE_SOURCE_CLB
+};
+
+struct place_source {
+  int tile_id;
+  place_source_type type;
+};
+
+enum place_dest_type {
+  PLACE_DEST_IO,
+  PLACE_DEST_CLB_OPERAND_0,
+  PLACE_DEST_CLB_OPERAND_1,
+};
+
+struct place_dest {
+  int tile_id;
+  place_dest_type type;
+};
+
+
 void placed_and_test() {
   Vtop* top = new Vtop();
 
@@ -443,7 +466,7 @@ void placed_and_test() {
   // Q: What is a placement?
   // A: I guess it is a map from operations (ins, outs, ops) to tile numbers
 
-  //  map<CLB_op, int> placement{{CLB_OP_IN, 0}, {CLB_OP_IN, 0}, {CLB_OP_OUT, 12}, {CLB_OP_AND, 5}};
+  map<CLB_op, int> placement{{CLB_OP_IN, 1}, {CLB_OP_IN, 2}, {CLB_OP_OUT, 6}, {CLB_OP_AND, 11}};
 
   
   // Routing takes in:
@@ -452,8 +475,14 @@ void placed_and_test() {
   //    Destinations are: IO out pads, PE inputs
   // Each source and destination is associated with a tile number (inputs will need
   // tiles as well)
-  
-  //assert(false);
+
+  vector<pair<place_source, place_dest> > paths;
+  paths.push_back({{1, PLACE_SOURCE_IO}, {11, PLACE_DEST_CLB_OPERAND_0}});
+  paths.push_back({{2, PLACE_SOURCE_IO}, {11, PLACE_DEST_CLB_OPERAND_1}});
+  paths.push_back({{11, PLACE_SOURCE_CLB}, {6, PLACE_DEST_IO}});
+
+  // TODO: Create primitive router that can run this application
+  assert(false);
 
   delete top;
 }
