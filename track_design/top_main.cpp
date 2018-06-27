@@ -465,7 +465,12 @@ route_application(const std::vector<pair<place_source, place_dest>>& paths) {
 
 std::vector<PnR_cmd>
 placement_commands(const std::map<CLB_op, int>& placement) {
-  return {};
+  vector<PnR_cmd> cmds;
+  auto cfa = default_addr_gen();
+  for (auto pl : placement) {
+    
+  }
+  return cmds;
 }
 
 void placed_and_test() {
