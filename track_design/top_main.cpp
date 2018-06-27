@@ -466,9 +466,10 @@ route_application(const std::vector<pair<place_source, place_dest>>& paths) {
 std::vector<PnR_cmd>
 placement_commands(const std::map<CLB_op, int>& placement) {
   vector<PnR_cmd> cmds;
-  auto cfa = default_addr_gen();
   for (auto pl : placement) {
-    
+    if (pl.first == CLB_OP_OUT) {
+      cmds.push_back(make_io_cmd(pl.second, pl.first));
+    }
   }
   return cmds;
 }
@@ -478,6 +479,7 @@ void placed_and_test() {
   // Q: What is a placement?
   // A: I guess it is a map from operations (ins, outs, ops) to tile numbers
 
+  // NOTE: To program output pads we will need to build
   map<CLB_op, int> placement{{CLB_OP_IN, 1}, {CLB_OP_IN, 2}, {CLB_OP_OUT, 6}, {CLB_OP_AND, 11}};
 
   
