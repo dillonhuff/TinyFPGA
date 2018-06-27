@@ -458,10 +458,17 @@ struct place_dest {
   place_dest_type type;
 };
 
+std::vector<PnR_cmd>
+route_application(const std::vector<pair<place_source, place_dest>>& paths) {
+  return {};
+}
+
+std::vector<PnR_cmd>
+placement_commands(const std::map<CLB_op, int>& placement) {
+  return {};
+}
 
 void placed_and_test() {
-  Vtop* top = new Vtop();
-
   // TODO: Create placement, then route the placed application
   // Q: What is a placement?
   // A: I guess it is a map from operations (ins, outs, ops) to tile numbers
@@ -482,8 +489,23 @@ void placed_and_test() {
   paths.push_back({{11, PLACE_SOURCE_CLB}, {6, PLACE_DEST_IO}});
 
   // TODO: Create primitive router that can run this application
-  assert(false);
+  vector<PnR_cmd> routes =
+    route_application(paths);
 
+  for (auto cmd : placement_commands(placement)) {
+    routes.push_back(cmd);
+  }
+
+  Vtop* top = new Vtop();
+  load_pnr_commands(routes, top);
+
+  top->in_wire_1 = 1;
+  top->in_wire_2 = 1;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_2 == (top->in_wire_1 && top->in_wire_2));
+  
   delete top;
 }
 
