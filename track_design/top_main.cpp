@@ -467,8 +467,10 @@ std::vector<PnR_cmd>
 placement_commands(const std::map<CLB_op, int>& placement) {
   vector<PnR_cmd> cmds;
   for (auto pl : placement) {
-    if (pl.first == CLB_OP_OUT) {
-      cmds.push_back(make_io_cmd(pl.second, pl.first));
+    if (pl.first == CLB_OP_AND) {
+      cmds.push_back(make_clb_cmd(pl.second, pl.first));
+    } else if (pl.first == CLB_OP_IN) {
+    } else if (pl.first == CLB_OP_OUT) {
     }
   }
   return cmds;
