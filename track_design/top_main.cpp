@@ -458,9 +458,87 @@ struct place_dest {
   place_dest_type type;
 };
 
+struct tile_info {
+  int tile_no;
+  bool is_placed;
+};
+
+std::pair<int, int> tile_position(const int tile_position, int grid_len) {
+  // Tile is an input IO
+  if (tile_position <= grid_len) {
+    return {0, tile_position - 1};
+  }
+
+  // Tile is an output IO
+  if (tile_position <= 2*grid_len) {
+    return {grid_len - 1, (tile_position / 2) - 1};
+  }
+
+  // PE tile
+  int adjusted_position = tile_position - grid_len - 1;
+  int row_num = (adjusted_position) / grid_len;
+  int col_num = (adjusted_position) % grid_len;
+  return {row_num, col_num};
+}
+
+// Assumes the grid is 3 x 3
+std::vector<PnR_cmd>
+route_path(pair<place_source, place_dest>& path,
+           map<int, tile_info>& tiles) {
+  place_source src = path.first;
+  place_dest dest = path.second;
+
+  assert(src.tile_id != dest.tile_id);
+
+  // If the source is an IO we can start any track on side 3
+  // If the source is a CLB I suppose we can start on any track
+  // from side i, track i
+  vector<int> viable_tracks;
+  if (src.type == PLACE_SOURCE_IO) {
+    viable_tracks = {0, 1, 2, 3};
+  } else {
+    cout << "Unsupported source type " << src.type << endl;
+    assert(false);
+  }
+
+  for (auto track : viable_tracks) {
+    // Find a diagonal route
+    cout << "Routing from tile " << src.tile_id << " to " << dest.tile_id << endl;
+    // Note: Need a more intuitive labeling of tiles by x, y position
+    pair<int, int> src_pos = tile_position(src.tile_id, 3);
+    pair<int, int> dst_pos = tile_position(dest.tile_id, 3);
+
+    // Now need to get the destination side and source side
+    int src_side = src.type == PLACE_SOURCE_IO ? 3 : 4;
+    
+    int dst_side;
+    if (dest.type == PLACE_DEST_CLB_OPERAND_0) {
+      dst_side = 0;
+    } else if (dest.type == PLACE_DEST_CLB_OPERAND_1) {
+      dst_side = 1;
+    } else {
+      assert(dest.type == PLACE_DEST_IO);
+      dst_side = 1;
+    }
+
+    //assert(false);
+  }
+
+  cout << "Could not route from tile " << src.tile_id << " to tile " << dest.tile_id << endl;
+  assert(false);
+}
+
 std::vector<PnR_cmd>
 route_application(const std::vector<pair<place_source, place_dest>>& paths) {
-  return {};
+  vector<PnR_cmd> route_commands;
+  map<int, tile_info> tiles{};
+
+  for (auto path : paths) {
+    for (auto cmd : route_path(path, tiles)) {
+      route_commands.push_back(cmd);
+    }
+  }
+  return route_commands;
 }
 
 std::vector<PnR_cmd>
@@ -518,7 +596,15 @@ void placed_and_test() {
   delete top;
 }
 
+void tile_positions_test() {
+  auto p = tile_position(7, 3);
+  // Row 1 column 0
+  assert(p.first == 1);
+  assert(p.second == 0);
+}
+
 int main() {
+  tile_positions_test();
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
