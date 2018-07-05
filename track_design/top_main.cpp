@@ -481,6 +481,12 @@ std::pair<int, int> tile_position(const int tile_position, int grid_len) {
   return {row_num, col_num};
 }
 
+int complement(int side) {
+  assert(side < 4);
+
+  return (side + 2) % 4;
+}
+
 // Assumes the grid is 3 x 3
 std::vector<PnR_cmd>
 route_path(pair<place_source, place_dest>& path,
@@ -515,12 +521,57 @@ route_path(pair<place_source, place_dest>& path,
     dst_side = 3;
   }
 
+  // Stages:
+  // 1. Convert to main tile grid routing
+  // 2. For each track try to go from start (tile, side) to end (tile, side)
+  // 3. If one succeeds try to route from destination global to PE tile
+
+  // Im getting snagged on all the little details of place and route. Special
+  // cases for each input / output.
+
+  // Really the routing is:
+  // source -> global position (input tile track)
+  // dest -> global position
+  // global -> global
+
   // Find a diagonal route
   cout << "Routing from tile " << src.tile_id << " to " << dest.tile_id << endl;
   // Note: Need a more intuitive labeling of tiles by x, y position
   pair<int, int> src_pos = tile_position(src.tile_id, 3);
   pair<int, int> dst_pos = tile_position(dest.tile_id, 3);
+
   int row_dist = dst_pos.first - src_pos.first;
+  int last_output_side = src_side;
+  pair<int, int> current_pos = {src_pos.first, src_pos.second};
+
+  int input_side = 3;
+  int output_side = 1;
+
+  cout << "--- Vertical routing" << endl;
+
+  int last_in_side = 3;
+  int last_out_side = 1;
+  while ((current_pos.first - dst_pos.first) != 0) {
+    // Route down
+    assert(last_output_side == 1);
+    current_pos.first = current_pos.first + 1;
+    
+    cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
+  }
+
+  cout << "--- Horizontal routing" << endl;
+
+  last_in_side = complement(last_out_side);
+  last_out_side = 0;
+
+  while ((current_pos.second - dst_pos.second) != 0) {
+    // Route down
+    current_pos.second = current_pos.second + 1;
+    cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
+    input_side = complement(output_side);
+  }
+  
+  assert(false);
   int col_dist = dst_pos.second - src_pos.second;
 
   cout << "row_dist = " << row_dist << endl;
