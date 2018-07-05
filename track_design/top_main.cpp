@@ -549,27 +549,31 @@ route_path(pair<place_source, place_dest>& path,
 
   cout << "--- Vertical routing" << endl;
 
+  // Maybe the thing to do is generate the tile sequence, then
+  // generate the sides that you want, then pick a track
+
   int last_in_side = 3;
   int last_out_side = 1;
-  while ((current_pos.first - dst_pos.first) != 1) {
+  while ((current_pos.first - dst_pos.first) != -1) {
     // Route down
     assert(last_output_side == 1);
 
+    current_pos.first = current_pos.first + 1;
 
     cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
 
-    current_pos.first = current_pos.first + 1;
   }
 
   cout << "--- Horizontal routing" << endl;
 
-  last_in_side = complement(last_out_side);
+  last_in_side = 3;  
+  last_out_side = 0;
 
   while ((current_pos.second - dst_pos.second) != 0) {
     // Route down
     current_pos.second = current_pos.second + 1;
     cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
-    input_side = complement(output_side);
+    //input_side = complement(output_side);
   }
   
   assert(false);
