@@ -551,18 +551,19 @@ route_path(pair<place_source, place_dest>& path,
 
   int last_in_side = 3;
   int last_out_side = 1;
-  while ((current_pos.first - dst_pos.first) != 0) {
+  while ((current_pos.first - dst_pos.first) != 1) {
     // Route down
     assert(last_output_side == 1);
-    current_pos.first = current_pos.first + 1;
-    
+
+
     cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
+
+    current_pos.first = current_pos.first + 1;
   }
 
   cout << "--- Horizontal routing" << endl;
 
   last_in_side = complement(last_out_side);
-  last_out_side = 0;
 
   while ((current_pos.second - dst_pos.second) != 0) {
     // Route down
