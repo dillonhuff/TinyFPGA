@@ -501,31 +501,58 @@ route_path(pair<place_source, place_dest>& path,
     assert(false);
   }
 
+  int src_side = src.type == PLACE_SOURCE_IO ? 1 : 4;
+  assert((src.type == PLACE_SOURCE_IO) ||
+         (src.type == PLACE_SOURCE_CLB));
+
+  int dst_side;
+  if (dest.type == PLACE_DEST_CLB_OPERAND_0) {
+    dst_side = 0;
+  } else if (dest.type == PLACE_DEST_CLB_OPERAND_1) {
+    dst_side = 1;
+  } else {
+    assert(dest.type == PLACE_DEST_IO);
+    dst_side = 3;
+  }
+
+  // Find a diagonal route
+  cout << "Routing from tile " << src.tile_id << " to " << dest.tile_id << endl;
+  // Note: Need a more intuitive labeling of tiles by x, y position
+  pair<int, int> src_pos = tile_position(src.tile_id, 3);
+  pair<int, int> dst_pos = tile_position(dest.tile_id, 3);
+  int row_dist = dst_pos.first - src_pos.first;
+  int col_dist = dst_pos.second - src_pos.second;
+
+  cout << "row_dist = " << row_dist << endl;
+  cout << "col_dist = " << col_dist << endl;
+
+  // If row distance is positive then route side 3 -> side 1
+  // If col distance is positve then route from side 2 -> side 0
+  assert(row_dist > 0);
+  assert(col_dist > 0);
+
+  // IDEA: Recursive routing: move horizontally, then vertically
+  // Handle base cases (IO tile to main grid), (CLB to main grid),
+  // (Final side to connect box) as one offs?
+
+  pair<int, int> vert_sides{0, 0};
+  if (row_dist > 0) {
+    vert_sides = {3, 1};
+  } else {
+    assert(false);
+  }
+  
+  vector<PnR_cmd> cmds;
+
   for (auto track : viable_tracks) {
-    // Find a diagonal route
-    cout << "Routing from tile " << src.tile_id << " to " << dest.tile_id << endl;
-    // Note: Need a more intuitive labeling of tiles by x, y position
-    pair<int, int> src_pos = tile_position(src.tile_id, 3);
-    pair<int, int> dst_pos = tile_position(dest.tile_id, 3);
-
-    // Now need to get the destination side and source side
-    int src_side = src.type == PLACE_SOURCE_IO ? 3 : 4;
-    
-    int dst_side;
-    if (dest.type == PLACE_DEST_CLB_OPERAND_0) {
-      dst_side = 0;
-    } else if (dest.type == PLACE_DEST_CLB_OPERAND_1) {
-      dst_side = 1;
-    } else {
-      assert(dest.type == PLACE_DEST_IO);
-      dst_side = 1;
-    }
-
     //assert(false);
   }
 
-  cout << "Could not route from tile " << src.tile_id << " to tile " << dest.tile_id << endl;
+  cout << "Could not route from tile " << src.tile_id << ", side " << src_side
+       << " to tile " << dest.tile_id << ", side " << dst_side << endl;
   assert(false);
+
+  return cmds;
 }
 
 std::vector<PnR_cmd>
