@@ -554,6 +554,7 @@ route_path(pair<place_source, place_dest>& path,
 
   int last_in_side = 3;
   int last_out_side = 1;
+  vector<pair<int, int> > tiles_in_route;
   while ((current_pos.first - dst_pos.first) != -1) {
     // Route down
     assert(last_output_side == 1);
@@ -561,10 +562,17 @@ route_path(pair<place_source, place_dest>& path,
     current_pos.first = current_pos.first + 1;
 
     cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
+    tiles_in_route.push_back({current_pos.first, current_pos.second});
 
   }
 
   cout << "--- Horizontal routing" << endl;
+
+  // Routing process:
+  // 1. Find tile route diagonally (find the tile sequence that gets from source to destination)
+  // 2. Within the destination pick the side you want to end on. Maybe that
+  //    should be this route?
+  // 3. Check if we can get to that side?
 
   last_in_side = 3;  
   last_out_side = 0;
@@ -573,7 +581,13 @@ route_path(pair<place_source, place_dest>& path,
     // Route down
     current_pos.second = current_pos.second + 1;
     cout << "Route from t(" << current_pos.first << ", " << current_pos.second << ")s" << last_in_side << " -> s" << last_out_side << endl;
+    tiles_in_route.push_back({current_pos.first, current_pos.second});
     //input_side = complement(output_side);
+  }
+
+  cout << "Tiles in the route" << endl;
+  for (auto t : tiles_in_route) {
+    cout << "\t(" << t.first << ", " << t.second << ")" << endl;
   }
   
   assert(false);
