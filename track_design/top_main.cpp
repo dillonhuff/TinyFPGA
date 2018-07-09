@@ -702,6 +702,7 @@ void tile_positions_test() {
 
 int main() {
   tile_positions_test();
+  column_path_test();
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
