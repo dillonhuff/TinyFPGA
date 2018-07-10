@@ -703,8 +703,17 @@ void tile_positions_test() {
 vector<pair<int, int> > find_path(const std::pair<int, int>& start,
                                   const std::pair<int, int>& end) {
   vector<pair<int, int> > path{start};
+  
+  // Horizontal portion of the move
+  assert(start.second <= end.second);
 
-  assert(start.second == end.second);
+  int current_col_pos = start.second;
+  while (current_col_pos < end.second) {
+    current_col_pos++;
+    path.push_back({start.first, current_col_pos});
+  }
+
+  assert(current_col_pos == end.second);
 
   // Vertical portion of the move
   assert(start.first <= end.first);
@@ -744,6 +753,15 @@ void column_path_test() {
 
   assert(path.size() == 3);
 
+  path = find_path({1, 0}, {1, 5});
+
+  cout << "Path" << endl;
+  for (auto p : path) {
+    cout << "\t" << "(" << p.first << ", " << p.second << ")" << endl;
+  }
+
+  assert(path.size() == 6);
+  
 }
 
 int main() {
