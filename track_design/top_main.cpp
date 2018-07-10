@@ -700,6 +700,52 @@ void tile_positions_test() {
   assert(p.second == 0);
 }
 
+vector<pair<int, int> > find_path(const std::pair<int, int>& start,
+                                  const std::pair<int, int>& end) {
+  vector<pair<int, int> > path{start};
+
+  assert(start.second == end.second);
+
+  // Vertical portion of the move
+  assert(start.first <= end.first);
+  int current_pos = start.first;
+
+  while (current_pos < end.first) {
+    current_pos++;
+    path.push_back({current_pos, start.second});
+  }
+
+  assert(current_pos == end.first);
+
+  return path;
+}
+
+// 1   2   3
+// 7   8   9
+// 10  11  12
+// 4   5   6
+void column_path_test() {
+  // Q: Do I want paths to be inclusive or exclusive?
+  vector<pair<int, int> > path = find_path({0, 0}, {1, 0});
+
+  cout << "Path" << endl;
+  for (auto p : path) {
+    cout << "\t" << "(" << p.first << ", " << p.second << ")" << endl;
+  }
+  
+  assert(path.size() == 2);
+
+  path = find_path({0, 0}, {2, 0});
+
+  cout << "Path" << endl;
+  for (auto p : path) {
+    cout << "\t" << "(" << p.first << ", " << p.second << ")" << endl;
+  }
+
+  assert(path.size() == 3);
+
+}
+
 int main() {
   tile_positions_test();
   column_path_test();
