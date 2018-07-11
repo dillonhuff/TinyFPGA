@@ -774,12 +774,49 @@ void column_path_test() {
 
   assert(path.size() == 8);
   assert(path.back().second == 5);
-  
+}
+
+vector<int> annotate_sides(const std::vector<pair<int, int> >& path,
+                           const int in_side) {
+  vector<int> sides{in_side};
+  for (int i = 0; i < (int) path.size() - 1; i++) {
+    int row_diff = path[i].first - path[i + 1].first;
+    int col_diff = path[i].second - path[i + 1].second;
+
+    assert(abs(row_diff) <= 1);
+    assert(abs(col_diff) <= 1);
+
+    if (abs(row_diff) > 0) {
+      assert(col_diff == 0);
+    }
+
+    if (abs(col_diff) > 0) {
+      assert(row_diff == 0);
+    }
+
+    if (col_diff == -1) {
+      sides.push_back(2);
+    } else {
+      assert(false);
+    }
+  }
+  return sides;
+}
+
+void side_annotations_test() {
+  auto path = find_path({1, 0}, {1, 1});
+
+  auto sides = annotate_sides(path, 3);
+
+  assert(sides.size() == path.size());
+
+  assert(sides.back() == 2);
 }
 
 int main() {
   tile_positions_test();
   column_path_test();
+  side_annotations_test();
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
