@@ -833,10 +833,18 @@ void side_annotations_test() {
   assert(sides.back() == 0);
 }
 
+// Create real route test by finding a route from
+// one IO input tile to one IO output tile.
+void find_route_test() {
+  pair<int, int> start{};
+  assert(false);
+}
+
 int main() {
   tile_positions_test();
   column_path_test();
   side_annotations_test();
+  find_route_test();
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
