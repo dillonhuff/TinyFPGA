@@ -706,12 +706,20 @@ vector<pair<int, int> > find_path(const std::pair<int, int>& start_tile,
   vector<pair<int, int> > path{start};
   
   // Horizontal portion of the move
-  assert(start.second <= end.second);
+
 
   int current_col_pos = start.second;
-  while (current_col_pos < end.second) {
-    current_col_pos++;
-    path.push_back({start.first, current_col_pos});
+
+  if (start.second <= end.second) {
+    while (current_col_pos < end.second) {
+      current_col_pos++;
+      path.push_back({start.first, current_col_pos});
+    }
+  } else {
+    while (current_col_pos > end.second) {
+      current_col_pos--;
+      path.push_back({start.first, current_col_pos});
+    }
   }
 
   assert(current_col_pos == end.second);
@@ -796,6 +804,8 @@ vector<int> annotate_sides(const std::vector<pair<int, int> >& path,
 
     if (col_diff == -1) {
       sides.push_back(2);
+    } else if (col_diff == 1) {
+      sides.push_back(0);
     } else {
       assert(false);
     }
