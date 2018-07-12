@@ -810,6 +810,7 @@ void side_annotations_test() {
 
   assert(sides.size() == path.size());
 
+  assert(sides[0] == 3);
   assert(sides.back() == 2);
 }
 
