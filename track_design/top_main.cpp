@@ -812,6 +812,15 @@ void side_annotations_test() {
 
   assert(sides[0] == 3);
   assert(sides.back() == 2);
+
+  path = find_path({1, 1}, {1, 0});
+
+  sides = annotate_sides(path, 1);
+
+  assert(sides.size() == path.size());
+
+  assert(sides[0] == 1);
+  assert(sides.back() == 0);
 }
 
 int main() {
