@@ -471,7 +471,7 @@ std::pair<int, int> tile_position(const int tile_position, int grid_len) {
 
   // Tile is an output IO
   if (tile_position <= 2*grid_len) {
-    return {grid_len - 1, (tile_position - grid_len) - 1};
+    return {grid_len + 1, (tile_position - grid_len) - 1};
   }
 
   // PE tile
@@ -806,6 +806,10 @@ vector<int> annotate_sides(const std::vector<pair<int, int> >& path,
       sides.push_back(2);
     } else if (col_diff == 1) {
       sides.push_back(0);
+    } else if (row_diff == 1) {
+      sides.push_back(1);
+    } else if (row_diff == -1) {
+      sides.push_back(3);
     } else {
       assert(false);
     }
@@ -838,15 +842,27 @@ std::ostream& operator<<(std::ostream& out, const std::pair<int, int> pos) {
   return out;
 }
 
+int tile_position_to_tile_id(const std::pair<int, int> pos, int grid_len) {
+  // Input tile
+  if (pos.first == 0) {
+    return 1 + pos.second;
+  }
+
+  // Output tile
+  if (pos.first == (grid_len + 1)) {
+    return grid_len + pos.second;
+  }
+
+  // Interior tile
+
+  int tile_id = 2*grid_len + 1 + (pos.first - 1)*grid_len + pos.second;
+
+  return tile_id;
+}
 // Create real route test by finding a route from
 // one IO input tile to one IO output tile.
 void find_route_test() {
 
-  // TODO: Create placement, then route the placed application
-  // Q: What is a placement?
-  // A: I guess it is a map from operations (ins, outs, ops) to tile numbers
-
-  // NOTE: To program output pads we will need to build
   map<CLB_op, int> placement{{CLB_OP_IN, 1}, {CLB_OP_IN, 2}, {CLB_OP_OUT, 6}, {CLB_OP_AND, 11}};
   
   vector<pair<place_source, place_dest> > paths;
@@ -859,28 +875,56 @@ void find_route_test() {
   cout << "src pos = " << src_pos << endl;
   cout << "dst pos = " << dst_pos << endl;
 
-  // TODO: Create primitive router that can run this application
-  vector<PnR_cmd> routes; // =
-    //    route_application(paths);
+  auto path = find_path(src_pos, dst_pos);
+  auto sides = annotate_sides(path, 3);
 
-  // for (auto cmd : placement_commands(placement)) {
-  //   routes.push_back(cmd);
-  // }
+  int track_no = 0;
+  cout << "track_no = " << track_no << endl;
+  
+  assert(path.size() == sides.size());
+
+  vector<PnR_cmd> routes;
+  cout << "path = " << endl;
+  for (int i = 0; i < (int) path.size(); i++) {
+    int side = sides[i];
+    int exit_side = complement(side);
+    auto p = path[i];
+    
+    cout << "\t" << p << ", entry side: " << side << ", exit side " << exit_side << ", track: " << track_no << endl;
+
+    if (i == 0) {
+      // Input needs no programming
+    } else if (i < (int) (path.size() - 1)) {
+
+      PnR_cmd cmd;
+      int id = tile_position_to_tile_id(p, 3);
+      cout << "tile id = " << id << endl;
+      cmd.tile_id = tile_position_to_tile_id(p, 3);
+      cmd.comp = PE_COMPONENT_SB;
+      cmd.tp = PNR_CMD_SB;
+      cmd.sb_cmds = {{(uint32_t) side, (uint32_t) exit_side, (uint32_t) track_no}};
+      routes.push_back(cmd);
+
+    } else {
+      // Program output pad
+      
+    }
+  }
 
   Vtop* top = new Vtop();
   load_pnr_commands(routes, top);
 
-  top->in_wire_1 = 1;
+  top->in_wire_0 = 1;
 
   POSEDGE(top->clk, top);
 
-  assert(top->out_wire_1 == 1);
+  assert(top->out_wire_0 == 1);
 
-  top->in_wire_1 = 0;
+  top->in_wire_0 = 0;
 
   POSEDGE(top->clk, top);
 
-  assert(top->out_wire_1 == 0);
+  assert(top->out_wire_0 == 0);
   
   delete top;
 
@@ -894,7 +938,7 @@ int main() {
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
-  placed_and_test();
+  //placed_and_test();
   
   cout << "$$$ top tests passed" << endl;
 }
