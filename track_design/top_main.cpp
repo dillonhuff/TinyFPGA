@@ -471,7 +471,7 @@ std::pair<int, int> tile_position(const int tile_position, int grid_len) {
 
   // Tile is an output IO
   if (tile_position <= 2*grid_len) {
-    return {grid_len - 1, (tile_position / 2) - 1};
+    return {grid_len - 1, (tile_position - grid_len) - 1};
   }
 
   // PE tile
@@ -833,11 +833,57 @@ void side_annotations_test() {
   assert(sides.back() == 0);
 }
 
+std::ostream& operator<<(std::ostream& out, const std::pair<int, int> pos) {
+  out << "(" << pos.first << ", " << pos.second << ")";
+  return out;
+}
+
 // Create real route test by finding a route from
 // one IO input tile to one IO output tile.
 void find_route_test() {
-  pair<int, int> start{};
-  assert(false);
+
+  // TODO: Create placement, then route the placed application
+  // Q: What is a placement?
+  // A: I guess it is a map from operations (ins, outs, ops) to tile numbers
+
+  // NOTE: To program output pads we will need to build
+  map<CLB_op, int> placement{{CLB_OP_IN, 1}, {CLB_OP_IN, 2}, {CLB_OP_OUT, 6}, {CLB_OP_AND, 11}};
+  
+  vector<pair<place_source, place_dest> > paths;
+  paths.push_back({{1, PLACE_SOURCE_IO}, {4, PLACE_DEST_IO}});
+
+  int grid_len = 3;
+  pair<int, int> src_pos = tile_position(paths[0].first.tile_id, grid_len);
+  pair<int, int> dst_pos = tile_position(paths[0].second.tile_id, grid_len);
+
+  cout << "src pos = " << src_pos << endl;
+  cout << "dst pos = " << dst_pos << endl;
+
+  // TODO: Create primitive router that can run this application
+  vector<PnR_cmd> routes; // =
+    //    route_application(paths);
+
+  // for (auto cmd : placement_commands(placement)) {
+  //   routes.push_back(cmd);
+  // }
+
+  Vtop* top = new Vtop();
+  load_pnr_commands(routes, top);
+
+  top->in_wire_1 = 1;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_1 == 1);
+
+  top->in_wire_1 = 0;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_1 == 0);
+  
+  delete top;
+
 }
 
 int main() {
