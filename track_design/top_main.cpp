@@ -863,8 +863,6 @@ int tile_position_to_tile_id(const std::pair<int, int> pos, int grid_len) {
 // one IO input tile to one IO output tile.
 void find_route_test() {
 
-  map<CLB_op, int> placement{{CLB_OP_IN, 1}, {CLB_OP_IN, 2}, {CLB_OP_OUT, 6}, {CLB_OP_AND, 11}};
-  
   vector<pair<place_source, place_dest> > paths;
   paths.push_back({{1, PLACE_SOURCE_IO}, {4, PLACE_DEST_IO}});
 
@@ -930,11 +928,85 @@ void find_route_test() {
 
 }
 
+class application_graph {
+public:
+  
+};
+
+void pnr_passthrough() {
+  application_graph pt_app;
+  
+  vector<pair<place_source, place_dest> > paths =
+    place_app(pt_app);
+  //paths.push_back({{1, PLACE_SOURCE_IO}, {4, PLACE_DEST_IO}});
+
+  int grid_len = 3;
+  pair<int, int> src_pos = tile_position(paths[0].first.tile_id, grid_len);
+  pair<int, int> dst_pos = tile_position(paths[0].second.tile_id, grid_len);
+
+  cout << "src pos = " << src_pos << endl;
+  cout << "dst pos = " << dst_pos << endl;
+
+  auto path = find_path(src_pos, dst_pos);
+  auto sides = annotate_sides(path, 3);
+
+  int track_no = 0;
+  cout << "track_no = " << track_no << endl;
+  
+  assert(path.size() == sides.size());
+
+  vector<PnR_cmd> routes;
+  cout << "path = " << endl;
+  for (int i = 0; i < (int) path.size(); i++) {
+    int side = sides[i];
+    int exit_side = complement(side);
+    auto p = path[i];
+    
+    cout << "\t" << p << ", entry side: " << side << ", exit side " << exit_side << ", track: " << track_no << endl;
+
+    if (i == 0) {
+      // Input needs no programming
+    } else if (i < (int) (path.size() - 1)) {
+
+      PnR_cmd cmd;
+      int id = tile_position_to_tile_id(p, 3);
+      cout << "tile id = " << id << endl;
+      cmd.tile_id = tile_position_to_tile_id(p, 3);
+      cmd.comp = PE_COMPONENT_SB;
+      cmd.tp = PNR_CMD_SB;
+      cmd.sb_cmds = {{(uint32_t) side, (uint32_t) exit_side, (uint32_t) track_no}};
+      routes.push_back(cmd);
+
+    } else {
+      // Program output pad
+      
+    }
+  }
+
+  Vtop* top = new Vtop();
+  load_pnr_commands(routes, top);
+
+  top->in_wire_0 = 1;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_0 == 1);
+
+  top->in_wire_0 = 0;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_0 == 0);
+  
+  delete top;
+}
+
 int main() {
   tile_positions_test();
   column_path_test();
   side_annotations_test();
   find_route_test();
+  pnr_passthrough();
   generated_and_test();
   handwritten_routing_test();
   route_neg_test();
