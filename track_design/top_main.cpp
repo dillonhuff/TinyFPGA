@@ -893,10 +893,13 @@ void find_route_test() {
   vector<pair<place_source, place_dest> > paths;
   paths.push_back({{1, PLACE_SOURCE_IO}, {4, PLACE_DEST_IO}});
 
-
   int grid_len = 3;  
 
   route rt = build_route(paths[0], grid_len);
+
+  // The next problem is: how do we deal
+  // with configuring the start and end of a route?
+  // Maybe do it with one offs first?
 
   vector<PnR_cmd> routes;
   cout << "path = " << endl;
@@ -942,6 +945,32 @@ void find_route_test() {
   POSEDGE(top->clk, top);
 
   assert(top->out_wire_0 == 0);
+  
+  delete top;
+}
+
+void auto_route_neg_test() {
+  vector<pair<place_source, place_dest> > paths;
+  paths.push_back({{1, PLACE_SOURCE_IO}, {7, PLACE_DEST_CLB_OPERAND_0}});
+  paths.push_back({{7, PLACE_SOURCE_CLB}, {4, PLACE_DEST_IO}});
+  // Also add configuration of clb to be a negation tile
+
+  vector<PnR_cmd> routes;
+
+  Vtop* top = new Vtop();
+  load_pnr_commands(routes, top);
+
+  top->in_wire_0 = 1;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_0 == 0);
+
+  top->in_wire_0 = 0;
+
+  POSEDGE(top->clk, top);
+
+  assert(top->out_wire_0 == 1);
   
   delete top;
 
@@ -1025,6 +1054,7 @@ int main() {
   column_path_test();
   side_annotations_test();
   find_route_test();
+  auto_route_neg_test();
   //pnr_passthrough();
   generated_and_test();
   handwritten_routing_test();
