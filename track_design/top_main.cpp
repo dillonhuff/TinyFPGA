@@ -861,6 +861,8 @@ int tile_position_to_tile_id(const std::pair<int, int> pos, int grid_len) {
 }
 
 struct route {
+  place_source_type src_tp;
+  place_dest_type dst_tp;
   vector<pair<int, int> > path;
   vector<int> sides;
   int track_no;
@@ -883,24 +885,10 @@ route build_route(const pair<place_source, place_dest> src_dst,
   assert(path.size() == sides.size());
 
 
-  return route{path, sides, track_no};
+  return route{src_dst.first.type, src_dst.second.type, path, sides, track_no};
 }
 
-// Create real route test by finding a route from
-// one IO input tile to one IO output tile.
-void find_route_test() {
-
-  vector<pair<place_source, place_dest> > paths;
-  paths.push_back({{1, PLACE_SOURCE_IO}, {4, PLACE_DEST_IO}});
-
-  int grid_len = 3;  
-
-  route rt = build_route(paths[0], grid_len);
-
-  // The next problem is: how do we deal
-  // with configuring the start and end of a route?
-  // Maybe do it with one offs first?
-
+vector<PnR_cmd> route_cmds(const route& rt) {
   vector<PnR_cmd> routes;
   cout << "path = " << endl;
   for (int i = 0; i < (int) rt.path.size(); i++) {
@@ -931,6 +919,26 @@ void find_route_test() {
     }
   }
 
+
+  return routes;
+}
+
+// Create real route test by finding a route from
+// one IO input tile to one IO output tile.
+void find_route_test() {
+
+  vector<pair<place_source, place_dest> > paths;
+  paths.push_back({{1, PLACE_SOURCE_IO}, {4, PLACE_DEST_IO}});
+
+  int grid_len = 3;  
+
+  route rt = build_route(paths[0], grid_len);
+
+  // The next problem is: how do we deal
+  // with configuring the start and end of a route?
+  // Maybe do it with one offs first?
+
+  auto routes = route_cmds(rt);
   Vtop* top = new Vtop();
   load_pnr_commands(routes, top);
 
@@ -955,9 +963,26 @@ void auto_route_neg_test() {
   paths.push_back({{7, PLACE_SOURCE_CLB}, {4, PLACE_DEST_IO}});
   // Also add configuration of clb to be a negation tile
 
-  vector<PnR_cmd> routes;
+  int grid_len = 3;
+  route r1 = build_route(paths[0], grid_len);
+  route r2 = build_route(paths[1], grid_len);
 
+  int entry_track = r1.track_no;
+  int exit_track = r2.track_no;
+
+  // These really should be different?
+  cout << "Entry track = " << entry_track << endl;
+  cout << "Exit track  = " << exit_track << endl;
+
+  // Add switch box command to move from PE tile
+  // 
+
+  vector<PnR_cmd> routes;
+  routes.push_back();
+  // Set tile 7 to negate its inputs
+  
   Vtop* top = new Vtop();
+
   load_pnr_commands(routes, top);
 
   top->in_wire_0 = 1;
@@ -973,7 +998,6 @@ void auto_route_neg_test() {
   assert(top->out_wire_0 == 1);
   
   delete top;
-
 }
 
 class application_graph {
